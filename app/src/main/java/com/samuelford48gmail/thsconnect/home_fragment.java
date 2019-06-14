@@ -1,8 +1,13 @@
 package com.samuelford48gmail.thsconnect;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +16,27 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class home_fragment extends Fragment implements View.OnClickListener {
-     Button button;
-    DatabaseReference dref;
-    ListView listview2;
-    ArrayList<String> list=new ArrayList<>();
+    private Button button;
+    //DatabaseReference dref;
+    //ListView listview2;
+    //ArrayList<String> list=new ArrayList<>();
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private List<Listdata> list;
+    private RecyclerView recyclerview;
     public home_fragment() {
 
     }
@@ -33,41 +45,71 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+        //FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
+       // startActivity(intent);}
+
         button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(this);
-        listview2 = (ListView) view.findViewById(R.id.list_view2);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list);
-
-        listview2.setAdapter(adapter);
-        listview2.setStackFromBottom(true);
-        dref = FirebaseDatabase.getInstance().getReference("Announcements");
-        dref.addChildEventListener(new ChildEventListener() {
-
+        recyclerview = (RecyclerView) view.findViewById(R.id.rview);
+        database = FirebaseDatabase.getInstance();
+       myRef = database.getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+       System.out.println(myRef);
+    //.child("Classes");
+        //myRef = database.getReference("Users").child(uid);
+        //Adding data manually creates data type of long and I am trying to return the data as a string which creates and error
+        //Manual data was entered under first Uid for samuelford48@gmail.com
+        //Need to make data less nested
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                list.add(dataSnapshot.getValue(String.class));
-                adapter.notifyDataSetChanged();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                list = new ArrayList<>();
+                // StringBuffer stringbuffer = new StringBuffer();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                   // String key = dataSnapshot1.getKey();
+                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
+                   String nameofclass = new_class.getDate_clasname();
+                    String teacherofclass = new_class.getTeacher();
+                    String roomnumberofclass = new_class.getRoom_number();
+                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass);
+                    //String name = userdetails.getName();
+                    //String email = userdetails.getEmail();
+                    //String address = userdetails.getAddress();
+                    listdata.setDate_class(nameofclass);
+                    listdata.setTeacher(teacherofclass);
+                    listdata.setRnumber(roomnumberofclass);
+                    list.add(listdata);
+                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+
+                }
+
+                RecyclerviewAdapter recycler = new RecyclerviewAdapter(list);
+                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
+                recyclerview.setLayoutManager(layoutmanager);
+                recyclerview.setItemAnimator(new DefaultItemAnimator());
+                recyclerview.setAdapter(recycler);
+
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onCancelled(DatabaseError error) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("Check your connection! If, problem persists please try signing out and trying again. Also, email svhsdev@vigoschools.org if you are still having problems!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                // Failed to read value
+                //  Log.w(TAG, "Failed to read value.", error.toException());
             }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                list.remove(dataSnapshot.getValue(String.class));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
         });
+
+
         return view;
     }
     @Override

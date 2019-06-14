@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/room_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Teacher"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="Room Number" />
+
+    <EditText
+        android:id="@+id/Teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Date_class"
+        android:layout_centerHorizontal="true"
+
+
+        android:hint="Teacher" />
+
+    <EditText
+        android:id="@+id/Date_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject"
+        android:layout_centerHorizontal="true"
+        android:hint="Date-Class" />
+
+    <Button
+        android:id="@+id/create_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_number"
+        android:layout_centerHorizontal="true"
+        android:text="Create class" />
+
+</RelativeLayout>

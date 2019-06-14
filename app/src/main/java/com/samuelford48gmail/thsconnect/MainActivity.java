@@ -1,29 +1,25 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private Button signout2;
     private TextView mTextMessage;
     private FirebaseAuth auth;
     final Fragment fragment1 = new home_fragment();
-    final Fragment fragment2 = new show_class();
+    final Fragment fragment2 = new show_class_fragment();
     final Fragment fragment3 = new page_fragment3();
+    final Fragment fragment4 = new Admin_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
 
@@ -38,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit();
         fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit();
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
@@ -66,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
                     //mTextMessage.setText(R.string.title_notifications);
                     fm.beginTransaction().hide(active).show(fragment3).commit();
                     active = fragment3;
+                    return true;
+                case R.id.admin:
+                    fm.beginTransaction().hide(active).show(fragment4).commit();
+                    active = fragment4;
                     return true;
             }
             return false;

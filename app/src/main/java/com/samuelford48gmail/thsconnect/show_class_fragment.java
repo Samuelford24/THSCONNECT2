@@ -18,13 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class show_class extends Fragment implements View.OnClickListener {
+public class show_class_fragment extends Fragment implements View.OnClickListener {
 private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, other_cv;
     private DatabaseReference myRef ;
-    //List<show_class> list;
+    //List<show_class_fragment> list;
    // private RecyclerView recycle;
    // Button view;
-    public show_class() {
+    public show_class_fragment() {
 
     }
 
@@ -59,7 +59,7 @@ private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, ot
         Intent i;
         switch (v.getId()) {
             case R.id.science:
-                i = new Intent(getContext(), Science_classes.class);
+                i = new Intent(getContext(), Science_classes.class);startActivity(i);break;
             case R.id.math: i = new Intent(getContext(), Math_classes.class);startActivity(i);break;
             case R.id.social_studies: i = new Intent(getContext(), Social_studies_classes.class);startActivity(i);break;
             case R.id.English: i = new Intent(getContext(), English_classes.class);startActivity(i);break;
