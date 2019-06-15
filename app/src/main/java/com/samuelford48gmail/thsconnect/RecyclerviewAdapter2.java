@@ -12,10 +12,10 @@ import java.util.List;
 
 public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapter2.MyHolder>{
 
-    List<Listdata2> listdata2;
+    List<Listdata> listdata;
 
-    public RecyclerviewAdapter2(List<Listdata2> listdata) {
-        this.listdata2 = listdata;
+    public RecyclerviewAdapter2(List<Listdata> listdata) {
+        this.listdata = listdata;
     }
 
     @Override
@@ -28,21 +28,21 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
 
     public void onBindViewHolder(RecyclerviewAdapter2.MyHolder holder, final int position) {
-        final Listdata2 data = listdata2.get(position);
-        holder.vdate_class.setText(data.getDate_class2());
-        holder.vteacher.setText(data.getTeacher2());
-        holder.vrnumber.setText(data.getRnumber2());
-        System.out.println(data.getDate_class2());
+        final Listdata data = listdata.get(position);
+        holder.vdate_class.setText(data.getDate_class());
+        holder.vteacher.setText(data.getTeacher());
+        holder.vrnumber.setText(data.getRnumber());
+        //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick( final View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, test_for_science_add_class.class);
-                intent.putExtra("date_class", listdata2.get(position).getDate_class2());
-                intent.putExtra("teacher", listdata2.get(position).getTeacher2());
-                intent.putExtra("room_number", listdata2.get(position).getRnumber2());
-                intent.putExtra("post_key", listdata2.get(position).getUid2());
+                intent.putExtra("date_class", listdata.get(position).getDate_class());
+                intent.putExtra("teacher", listdata.get(position).getTeacher());
+                intent.putExtra("room_number", listdata.get(position).getRnumber());
+                intent.putExtra("post_key", listdata.get(position).getUid());
                 context.startActivity(intent);
             }
         });
@@ -51,7 +51,7 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
     @Override
     public int getItemCount() {
-        return listdata2.size();
+        return listdata.size();
     }
 
 

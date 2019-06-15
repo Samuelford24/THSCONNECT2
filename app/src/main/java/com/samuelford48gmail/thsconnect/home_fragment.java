@@ -53,26 +53,20 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         button.setOnClickListener(this);
         recyclerview = (RecyclerView) view.findViewById(R.id.rview);
         database = FirebaseDatabase.getInstance();
-       myRef = database.getReference("Users")
+        myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
-       System.out.println(myRef);
-    //.child("Classes");
-        //myRef = database.getReference("Users").child(uid);
-        //Adding data manually creates data type of long and I am trying to return the data as a string which creates and error
-        //Manual data was entered under first Uid for samuelford48@gmail.com
-        //Need to make data less nested
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list = new ArrayList<>();
                 // StringBuffer stringbuffer = new StringBuffer();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                   // String key = dataSnapshot1.getKey();
                     Class_model new_class = dataSnapshot1.getValue(Class_model.class);
-                   String nameofclass = new_class.getDate_clasname();
+                    String nameofclass = new_class.getDate_clasname();
                     String teacherofclass = new_class.getTeacher();
                     String roomnumberofclass = new_class.getRoom_number();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass);
+                    String class_key = new_class.getUid();
+                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();
                     //String address = userdetails.getAddress();
@@ -84,7 +78,87 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
                 }
 
-                RecyclerviewAdapter recycler = new RecyclerviewAdapter(list);
+                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
+                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
+                recyclerview.setLayoutManager(layoutmanager);
+                recyclerview.setItemAnimator(new DefaultItemAnimator());
+                recyclerview.setAdapter(recycler);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                // Failed to read value
+                //  Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+return view;
+    }
+    @Override
+    public void onClick(View view) {
+        signout();
+
+
+
+        //startActivity(new Intent(home_fragment.this, LoginActivity.class));
+
+    }
+    public void signout(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+
+
+    }
+}
+    //});
+
+
+
+        /*recyclerview = (RecyclerView) view.findViewById(R.id.rview);
+        database = FirebaseDatabase.getInstance();
+       myRef = database.getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+      // System.out.println(myRef);
+    //.child("Classes");
+        //myRef = database.getReference("Users").child(uid);
+        //Adding data manually creates data type of long and I am trying to return the data as a string which creates and error
+        //Manual data was entered under first Uid for samuelford48@gmail.com
+        //Need to make data less nested
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                list = new ArrayList<>();
+                // StringBuffer stringbuffer = new StringBuffer();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
+                    String nameofclass = new_class.getDate_clasname();
+                    String teacherofclass = new_class.getTeacher();
+                    String roomnumberofclass = new_class.getRoom_number();
+                    String class_key = new_class.getUid();
+                    Listdata2 listdata = new Listdata2(nameofclass, teacherofclass, roomnumberofclass, class_key);
+                    //String name = userdetails.getName();
+                    //String email = userdetails.getEmail();
+                    //String address = userdetails.getAddress();
+                    listdata.setDate_class2(nameofclass);
+                    listdata.setTeacher2(teacherofclass);
+                    listdata.setRnumber2(roomnumberofclass);
+                    list.add(listdata);
+                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+
+                }
+
+                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
@@ -129,6 +203,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
     }
 }
-
+*/
 
 

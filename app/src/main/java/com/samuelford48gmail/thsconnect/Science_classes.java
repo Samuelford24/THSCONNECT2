@@ -27,7 +27,7 @@ public class Science_classes extends AppCompatActivity {
 
     private FirebaseDatabase database;
    private  DatabaseReference myRef;
-   private List<Listdata2> list;
+   private List<Listdata> list;
    private RecyclerView recyclerview;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,13 +47,13 @@ public class Science_classes extends AppCompatActivity {
                     String teacherofclass = new_class.getTeacher();
                     String roomnumberofclass = new_class.getRoom_number();
                     String class_key = new_class.getUid();
-                    Listdata2 listdata = new Listdata2(nameofclass, teacherofclass, roomnumberofclass, class_key);
+                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();
                     //String address = userdetails.getAddress();
-                    listdata.setDate_class2(nameofclass);
-                    listdata.setTeacher2(teacherofclass);
-                    listdata.setRnumber2(roomnumberofclass);
+                    listdata.setDate_class(nameofclass);
+                    listdata.setTeacher(teacherofclass);
+                    listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 

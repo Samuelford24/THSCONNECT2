@@ -1,10 +1,10 @@
 package com.samuelford48gmail.thsconnect;
 
 public class Listdata2{
-    public String date_class2;
-        public String teacher2;
-        public String rnumber2;
-        public String uid2;
+     String date_class2;
+         String teacher2;
+        String rnumber2;
+         String uid2;
     public Listdata2(String date_class, String teacher, String rnumber, String uid) {
            date_class2 = date_class;
            teacher2 = teacher;

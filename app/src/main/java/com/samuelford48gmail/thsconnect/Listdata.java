@@ -2,14 +2,18 @@ package com.samuelford48gmail.thsconnect;
 
 public class Listdata {
 
-    public String date_class;
-    public String teacher;
-    public String rnumber;
+    String date_class;
+     String teacher;
+     String rnumber;
+     String uid;
 
-    public Listdata(String date_class, String teacher, String rnumber) {
+
+
+    public Listdata(String date_class, String teacher, String rnumber, String uid) {
         this.date_class = date_class;
         this.teacher = teacher;
         this.rnumber = rnumber;
+        this.uid = uid;
     }
 
     public String getDate_class() {
@@ -34,6 +38,13 @@ public class Listdata {
 
     public void setRnumber(String rnumber) {
         this.rnumber = rnumber;
+    }
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
 

@@ -23,9 +23,10 @@ public class Add_class_to_user extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_to_user);
-     /*   final String date_class2 = getIntent().getStringExtra("date_class");
+        final String date_class2 = getIntent().getStringExtra("date_class");
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number  = getIntent().getStringExtra("room_number");
+        final String post_key = getIntent().getStringExtra("post_key");
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         //String name = getIntent().getExtra("date_class");
@@ -37,13 +38,15 @@ public class Add_class_to_user extends AppCompatActivity {
         display_teacher.setText(teacher);
         TextView display_room_number = (TextView) findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
-         add_class = (Button) findViewById(R.id.add_class);
+         add_class = (Button) findViewById(R.id.add_class_2);
          add_class.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-               Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number);
-               myRef.push().setValue(new_class_to_user_uid);
+                 Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
+                 myRef.push().setValue(new_class_to_user_uid);
 
+                // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
+               //myRef.child(new_class_to_user_uid.).removeValue();
 
                  Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
 
@@ -52,7 +55,7 @@ public class Add_class_to_user extends AppCompatActivity {
     }
 
 
-    }*/
+
 
     }
-}
+

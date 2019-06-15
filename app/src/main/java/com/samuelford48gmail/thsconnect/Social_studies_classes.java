@@ -40,7 +40,8 @@ public class Social_studies_classes extends AppCompatActivity {
                     String nameofclass = new_class.getDate_clasname();
                     String teacherofclass = new_class.getTeacher();
                     String roomnumberofclass = new_class.getRoom_number();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass);
+                    String class_key = new_class.getUid();
+                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();
                     //String address = userdetails.getAddress();
@@ -52,7 +53,7 @@ public class Social_studies_classes extends AppCompatActivity {
 
                 }
 
-                RecyclerviewAdapter recycler = new RecyclerviewAdapter(list);
+                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Social_studies_classes.this);
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());

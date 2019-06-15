@@ -18,9 +18,9 @@ import java.util.List;
 
 public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.MyHolder>{
 
-    List<Listdata> listdata;
+    List<Listdata2> listdata;
 
-    public RecyclerviewAdapter(List<Listdata> listdata) {
+    public RecyclerviewAdapter(List<Listdata2> listdata) {
         this.listdata = listdata;
     }
 
@@ -34,19 +34,19 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
 
     public void onBindViewHolder(MyHolder holder, final int position) {
-        final Listdata data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_class());
-        holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRnumber());
-
+        final Listdata2 data = listdata.get(position);
+        holder.vdate_class.setText(data.getDate_class2());
+        holder.vteacher.setText(data.getTeacher2());
+        holder.vrnumber.setText(data.getRnumber2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( final View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, Add_class_to_user.class);
-                intent.putExtra("date_class", listdata.get(position).getDate_class());
-                intent.putExtra("teacher", listdata.get(position).getTeacher());
-                intent.putExtra("room_number", listdata.get(position).getRnumber());
+                intent.putExtra("date_class", listdata.get(position).getDate_class2());
+                intent.putExtra("teacher", listdata.get(position).getTeacher2());
+                intent.putExtra("room_number", listdata.get(position).getRnumber2());
+                intent.putExtra("post_key", listdata.get(position).getUid2());
                 context.startActivity(intent);
             }
         });
