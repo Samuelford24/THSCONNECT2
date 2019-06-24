@@ -50,7 +50,7 @@ public class test_for_science_add_class extends AppCompatActivity {
                 myRef.push().setValue(new_class_to_user_uid);
                 //new...testing
                 myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                myRef.addValueEventListener(new ValueEventListener() {
+                /*myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // list = new ArrayList<>();
@@ -64,28 +64,32 @@ public class test_for_science_add_class extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
 
                         }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        AlertDialog alertDialog = new AlertDialog.Builder(test_for_science_add_class.this).create();
-                        alertDialog.setTitle("Error");
-                        alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.show();
-                        // Failed to read value
-                        //  Log.w(TAG, "Failed to read value.", error.toException());
-                    }
-                });
-
 
             }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+                AlertDialog alertDialog = new AlertDialog.Builder(test_for_science_add_class.this).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                // Failed to read value
+                //  Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+*/
+
+            }
         });
     }
 }
+
+
+
 

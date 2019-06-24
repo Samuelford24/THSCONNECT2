@@ -26,6 +26,7 @@ public class admin_activity extends AppCompatActivity {
         arrayList.add("Create Class");
         arrayList.add("Remove User");
         arrayList.add("Add class to user");
+        arrayList.add("View students in classes");
 
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -59,6 +60,11 @@ public class admin_activity extends AppCompatActivity {
 
                 if(item.equals("Add class to user")){
                     Intent intent = new Intent(admin_activity.this, admin_add_class_to_user.class);
+                    startActivity(intent
+                    );
+                }
+                if(item.equals("View students in classes")){
+                    Intent intent = new Intent(admin_activity.this, admin_classes_with_students.class);
                     startActivity(intent
                     );
                 }

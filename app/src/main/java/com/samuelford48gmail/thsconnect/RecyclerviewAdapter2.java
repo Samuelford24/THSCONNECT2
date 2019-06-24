@@ -38,7 +38,7 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
             @Override
             public void onClick( final View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, test_for_science_add_class.class);
+                Intent intent = new Intent(context, Add_class_to_user.class);
                 intent.putExtra("date_class", listdata.get(position).getDate_class());
                 intent.putExtra("teacher", listdata.get(position).getTeacher());
                 intent.putExtra("room_number", listdata.get(position).getRnumber());
