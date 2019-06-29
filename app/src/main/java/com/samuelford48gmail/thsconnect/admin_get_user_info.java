@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class admin_show_students_uid extends AppCompatActivity {
+public class admin_get_user_info extends AppCompatActivity {
    // private TextView txt;
    private FirebaseDatabase database;
    private DatabaseReference myRef;
@@ -38,7 +38,7 @@ public class admin_show_students_uid extends AppCompatActivity {
         TextView display_class_name = (TextView) findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Science").child(post_key).child("Students");
+        myRef = database.getReference("Classes").child(post_key).child("Students");
 
        // System.out.println(post_key);
        // txt = (TextView) findViewById(R.id.textView3);
@@ -50,26 +50,7 @@ public class admin_show_students_uid extends AppCompatActivity {
                // name = name.trim().toString();
           myRef = database.getReference("Users").child(name).child("User_info");
           System.out.println(myRef);
-               // DatabaseReference studentRef = database.getReference("Users").child(name);
-        // list.add(getusersinfo());
-                //getusersinfo();
-                //list.add(user_info);
-             /*   myRef.addValueEventListener(new ValueEventListener()) {
-                    @Override
-                    public void onDataChange (DataSnapshot dataSnapshot){
 
-                        User post = dataSnapshot.getValue(User.class);
-                        // ...
-                    }
-                    @Override
-                    public void onCancelled (DatabaseError error){
-
-                    }
-
-                }*/
-           //  System.out.println(user_info);
-             //getusersinfo();
-             //   list.add(user_info);
 
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

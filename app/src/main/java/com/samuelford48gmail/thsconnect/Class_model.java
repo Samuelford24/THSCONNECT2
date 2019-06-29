@@ -6,13 +6,15 @@ public class Class_model {
     String  teacher;
     String room_number;
     String uid;
+    String subject;
     public Class_model(){};
-    public Class_model(String date_classname, String teacher, String room_number, String uid){
+    public Class_model(String date_classname, String teacher, String room_number, String uid, String subject){
         //subject = subject2;
         this.date_clasname = date_classname;
         this.teacher = teacher;
         this.room_number = room_number;
         this.uid = uid;
+        this.subject = subject;
 
     }
     /*public String getSubject() {
@@ -23,6 +25,14 @@ public class Class_model {
         this.subject = subject;
     }
 */
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     public String getDate_clasname() {
         return date_clasname;
     }
@@ -46,6 +56,7 @@ public class Class_model {
     public void setRoom_number(String room_number) {
         this.room_number = room_number;
     }
+
     public String getUid() {
         return uid;
     }

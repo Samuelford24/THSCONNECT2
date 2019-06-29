@@ -12,31 +12,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class admin_create_class extends AppCompatActivity {
-private EditText subject1, date_class1, teacher_name1, room_number1;
-private Button submit;
-private FirebaseDatabase database;
-private DatabaseReference myRef;
+    private EditText subject1, date_class1, teacher_name1, room_number1;
+    private Button submit;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_create_class);
-    subject1 = (EditText) findViewById(R.id.subject);
-    date_class1 = (EditText) findViewById(R.id.Date_class);
-    teacher_name1 = (EditText) findViewById(R.id.Teacher);
-    room_number1 = (EditText) findViewById(R.id.room_number);
-    submit = (Button) findViewById(R.id.create_class);
+        subject1 = (EditText) findViewById(R.id.subject);
+        date_class1 = (EditText) findViewById(R.id.Date_class);
+        teacher_name1 = (EditText) findViewById(R.id.Teacher);
+        room_number1 = (EditText) findViewById(R.id.room_number);
+        submit = (Button) findViewById(R.id.create_class);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
-    submit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String subject = subject1.getText().toString().trim();
-            String date_class = date_class1.getText().toString().trim();
-            String teacher_name = teacher_name1.getText().toString().trim();
-            String room_number = room_number1.getText().toString().trim();
-            String key = myRef.push().getKey();
-            Class_model new_class = new Class_model(date_class, teacher_name, room_number, key);
-            //myRef = database.getReference(subject);
+        myRef = database.getReference("Classes");
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String subject = subject1.getText().toString().trim();
+                String date_class = date_class1.getText().toString().trim();
+                String teacher_name = teacher_name1.getText().toString().trim();
+                String room_number = room_number1.getText().toString().trim();
+                String key = myRef.push().getKey();
+                Class_model new_class = new Class_model(date_class, teacher_name, room_number, key, subject);
+                myRef.child(key).child("class_info").setValue(new_class);
+                //myRef = database.getReference(subject);
+        /*
             //String key = myRef.push().getKey();
             if (subject.equals("Math")) {
                 myRef = database.getReference(subject);
@@ -77,5 +80,8 @@ private DatabaseReference myRef;
         }
     });
     }
-
+*/
+            }
+        });
+    }
 }

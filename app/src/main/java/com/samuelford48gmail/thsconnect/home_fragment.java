@@ -3,6 +3,8 @@ package com.samuelford48gmail.thsconnect;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -40,14 +43,13 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     public home_fragment() {
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         //FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
-       // startActivity(intent);}
+        // startActivity(intent);}
 
         button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -55,37 +57,81 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+
                 list = new ArrayList<>();
+                final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
+              //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
+//String postkey2 = dataSnapshot.getKey();
+
+                String class_id = dataSnapshot.getValue(String.class);
+
+                myRef = database.getReference("Classes").child(class_id).child("class_info");
                 // StringBuffer stringbuffer = new StringBuffer();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
-                    String nameofclass = new_class.getDate_clasname();
-                    String teacherofclass = new_class.getTeacher();
-                    String roomnumberofclass = new_class.getRoom_number();
-                    String class_key = new_class.getUid();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
-                    //String name = userdetails.getName();
-                    //String email = userdetails.getEmail();
-                    //String address = userdetails.getAddress();
-                    listdata.setDate_class(nameofclass);
-                    listdata.setTeacher(teacherofclass);
-                    listdata.setRnumber(roomnumberofclass);
-                    list.add(listdata);
-                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                myRef.addValueEventListener(new ValueEventListener() {
 
-                }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
+                            Class_model new_class = dataSnapshot.getValue(Class_model.class);
+                            assert new_class != null;
+                            String nameofclass = new_class.getDate_clasname();
+                            String teacherofclass = new_class.getTeacher();
+                            String roomnumberofclass = new_class.getRoom_number();
+                            String class_key = new_class.getUid();
+                            Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
+                            //String name = userdetails.getName();
+                            //String email = userdetails.getEmail();
+                            //String address = userdetails.getAddress();
+                            listdata.setDate_class(nameofclass);
+                            listdata.setTeacher(teacherofclass);
+                            listdata.setRnumber(roomnumberofclass);
+                       // recycler.notifyDataSetChanged();
+                            list.add(listdata);
+                        recycler.notifyDataSetChanged();
+                            //recycler.notifyDataSetChanged();// Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setTitle("Error");
+                        alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    }
+
+                });
+
+
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
 
             }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+}
 
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
             @Override
             public void onCancelled(DatabaseError error) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -98,11 +144,10 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                             }
                         });
                 alertDialog.show();
-                // Failed to read value
-                //  Log.w(TAG, "Failed to read value.", error.toException());
             }
+
         });
-return view;
+        return view;
     }
     @Override
     public void onClick(View view) {
@@ -121,7 +166,7 @@ return view;
 
     }
 }
-    //});
+//});
 
 
 
@@ -155,17 +200,13 @@ return view;
                     listdata.setRnumber2(roomnumberofclass);
                     list.add(listdata);
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
-
                 }
-
                 RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
-
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -182,27 +223,17 @@ return view;
                 //  Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-
         return view;
     }
     @Override
     public void onClick(View view) {
         signout();
-
-
-
         //startActivity(new Intent(home_fragment.this, LoginActivity.class));
-
     }
     public void signout(){
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
-
-
     }
 }
 */
-
-

@@ -27,7 +27,7 @@ public class test_for_science_add_class extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_for_science_addd_class);
-        final String date_class = getIntent().getStringExtra("date_class");
+     /*   final String date_class = getIntent().getStringExtra("date_class");
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
@@ -83,10 +83,12 @@ public class test_for_science_add_class extends AppCompatActivity {
                 //  Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-*/
+
 
             }
         });
+    }
+    */
     }
 }
 

@@ -20,6 +20,7 @@ import java.util.List;
 
 public class show_class_fragment extends Fragment implements View.OnClickListener {
 private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, other_cv;
+String class_name;
     private DatabaseReference myRef ;
     //List<show_class_fragment> list;
    // private RecyclerView recycle;
@@ -59,12 +60,29 @@ private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, ot
         Intent i;
         switch (v.getId()) {
             case R.id.science:
-                i = new Intent(getContext(), Science_classes.class);startActivity(i);break;
-            case R.id.math: i = new Intent(getContext(), Math_classes.class);startActivity(i);break;
-            case R.id.social_studies: i = new Intent(getContext(), Social_studies_classes.class);startActivity(i);break;
-            case R.id.English: i = new Intent(getContext(), English_classes.class);startActivity(i);break;
-            case R.id.tech: i = new Intent(getContext(), Technology_classes.class);startActivity(i);break;
-            case R.id.other: i = new Intent(getContext(), Other_classes.class);startActivity(i);break;
+                i = new Intent(getContext(), Math_classes.class);
+                class_name = "Science";
+                i.putExtra("class_type", class_name);
+                startActivity(i);break;
+            case R.id.math: i = new Intent(getContext(), Math_classes.class);
+            class_name = "Math";
+                i.putExtra("class_type", class_name);
+            startActivity(i);break;
+            case R.id.social_studies: i = new Intent(getContext(), Math_classes.class);
+                class_name = "Social Studies";
+                i.putExtra("class_type", class_name);
+            startActivity(i);break;
+            case R.id.English: i = new Intent(getContext(), Math_classes.class);
+                class_name = "English";
+                i.putExtra("class_type", class_name);
+            startActivity(i);break;
+            case R.id.tech: i = new Intent(getContext(),Math_classes.class);
+                class_name = "Technology";
+                i.putExtra("class_type", class_name);startActivity(i);break;
+            case R.id.other: i = new Intent(getContext(), Math_classes.class);
+                class_name = "Other";
+                i.putExtra("class_type", class_name);
+                startActivity(i);break;
             default:break;
         }
     }

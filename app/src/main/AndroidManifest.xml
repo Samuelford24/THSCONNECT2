@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin_classes_with_students"></activity>
-        <activity android:name=".Add_class_to_user"></activity>
+        <activity android:name=".user_remove_class"></activity>
+        <activity android:name=".admin_classes_with_students" />
+        <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />
         <activity android:name=".admin_create_class" />
         <activity android:name=".admin_activity" />
@@ -37,8 +38,8 @@
         <activity android:name=".Reset_password" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".admin_science"/>
-        <activity android:name=".admin_show_students_uid"/>
+        <activity android:name=".admin_science" />
+        <activity android:name=".admin_get_user_info" />
     </application>
 
 </manifest>

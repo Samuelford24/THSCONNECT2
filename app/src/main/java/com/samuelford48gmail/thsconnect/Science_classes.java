@@ -1,6 +1,8 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -26,66 +30,107 @@ public class Science_classes extends AppCompatActivity {
 
 
     private FirebaseDatabase database;
-   private  DatabaseReference myRef;
+   private  DatabaseReference myRef, newmf;
    private List<Listdata> list;
    private RecyclerView recyclerview;
+   String class_value = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_science_classes);
         recyclerview = (RecyclerView) findViewById(R.id.rview);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Science");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef = database.getReference("Classes");
+final String class_type = getIntent().getStringExtra("class_type");
+Toast.makeText(this,class_type,Toast.LENGTH_LONG).show();
+        // myRef = database.getReference("Classes").child(key).child("class_info");
+        //Query query = myRef.orderByChild("subject").equalTo("Science");
+       // System.out.println(query);
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list = new ArrayList<>();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+             //   String id = dataSnapshot.getKey();
+              //    System.out.println(id);
+                   //// class_value = snapshot.getValue(String.class);
+
+                //System.out.println(class_value);
                 // StringBuffer stringbuffer = new StringBuffer();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
-                    String nameofclass = new_class.getDate_clasname();
-                    String teacherofclass = new_class.getTeacher();
-                    String roomnumberofclass = new_class.getRoom_number();
-                    String class_key = new_class.getUid();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
-                    //String name = userdetails.getName();
-                    //String email = userdetails.getEmail();
-                    //String address = userdetails.getAddress();
-                    listdata.setDate_class(nameofclass);
-                    listdata.setTeacher(teacherofclass);
-                    listdata.setRnumber(roomnumberofclass);
-                    list.add(listdata);
-                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                //myRef = database.getReference("Classes").child(class_value).child("class_info");
+                Query query = myRef.orderByChild("class_info/subject").equalTo("Science");
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        list = new ArrayList<>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
-                }
+                            Class_model new_class = dataSnapshot1.getValue(Class_model.class);
+                            String nameofclass = new_class.getDate_clasname();
+                            String teacherofclass = new_class.getTeacher();
+                            String roomnumberofclass = new_class.getRoom_number();
+                            String class_key = new_class.getUid();
+                            Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
+                            //String name = userdetails.getName();
+                            //String email = userdetails.getEmail();
+                            //String address = userdetails.getAddress();
+                            listdata.setDate_class(nameofclass);
+                            listdata.setTeacher(teacherofclass);
+                            listdata.setRnumber(roomnumberofclass);
+                            list.add(listdata);
+                        }
+                        RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
+                        RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Science_classes.this);
+                        recyclerview.setLayoutManager(layoutmanager);
+                        recyclerview.setItemAnimator(new DefaultItemAnimator());
+                        recyclerview.setAdapter(recycler);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
-                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Science_classes.this);
-                recyclerview.setLayoutManager(layoutmanager);
-                recyclerview.setItemAnimator(new DefaultItemAnimator());
-                recyclerview.setAdapter(recycler);
+                    }
+                });
+            }
+
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                AlertDialog alertDialog = new AlertDialog.Builder(Science_classes.this).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-                // Failed to read value
-                //  Log.w(TAG, "Failed to read value.", error.toException());
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
+
+                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+
+
+
+
+
+
+
+
     }
+
+
+        }
+
+
     //});
 
 
-}

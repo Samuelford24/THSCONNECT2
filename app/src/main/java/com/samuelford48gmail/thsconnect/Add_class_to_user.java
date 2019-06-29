@@ -50,8 +50,8 @@ public class Add_class_to_user extends AppCompatActivity {
         add_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
-                myRef.push().setValue(new_class_to_user_uid);
+               // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
+                myRef.push().setValue(post_key);
 add_student_to_class();
                 // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
                 //myRef.child(new_class_to_user_uid.).removeValue();
@@ -67,7 +67,7 @@ add_student_to_class();
         final String post_key = getIntent().getStringExtra("post_key");
         String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
        // String key2 = myRef.push().getKey();
-        myRef2 = database.getReference().child("Science").child(post_key).child("Students");
+        myRef2 = database.getReference().child("Classes").child(post_key).child("Students");
         myRef2.push().setValue(key);
 
 

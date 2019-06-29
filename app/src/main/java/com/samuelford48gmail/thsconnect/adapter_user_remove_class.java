@@ -2,38 +2,34 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 import java.util.List;
-//uses admin show students activities
-public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.MyHolder>{
+
+public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user_remove_class.MyHolder>{
 
     List<Listdata> listdata;
 
-    public RecyclerviewAdapter(List<Listdata> listdata) {
+    public adapter_user_remove_class(List<Listdata> listdata) {
         this.listdata = listdata;
     }
 
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public adapter_user_remove_class.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model,parent,false);
 
-        MyHolder myHolder = new MyHolder(view);
+        adapter_user_remove_class.MyHolder myHolder = new adapter_user_remove_class.MyHolder(view);
         return myHolder;
     }
 
 
-    public void onBindViewHolder(MyHolder holder, final int position) {
+    public void onBindViewHolder(adapter_user_remove_class.MyHolder holder, final int position) {
+
         final Listdata data = listdata.get(position);
         holder.vdate_class.setText(data.getDate_class());
         holder.vteacher.setText(data.getTeacher());
@@ -42,10 +38,10 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             @Override
             public void onClick( final View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, admin_show_students_uid.class);
-                //intent.putExtra("date_class", listdata.get(position).getDate_class2());
-               // intent.putExtra("teacher", listdata.get(position).getTeacher2());
-               // intent.putExtra("room_number", listdata.get(position).getRnumber2());
+                Intent intent = new Intent(context, user_remove_class.class);
+                intent.putExtra("date_class", listdata.get(position).getDate_class());
+                 intent.putExtra("teacher", listdata.get(position).getTeacher());
+                 intent.putExtra("room_number", listdata.get(position).getRnumber());
                 intent.putExtra("post_key", listdata.get(position).getUid());
                 context.startActivity(intent);
             }
@@ -66,14 +62,12 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             super(itemView);
             vdate_class = (TextView) itemView.findViewById(R.id.date_class_name);
             vteacher = (TextView) itemView.findViewById(R.id.teacher);
-           vrnumber = (TextView) itemView.findViewById(R.id.room_number);
-
-               }
-           }
+            vrnumber = (TextView) itemView.findViewById(R.id.room_number);
 
         }
+    }
 
-
+}
 
 
 

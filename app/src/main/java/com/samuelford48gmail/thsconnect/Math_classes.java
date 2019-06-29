@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.BaseAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -30,14 +32,18 @@ public class Math_classes extends AppCompatActivity {
         setContentView(R.layout.activity_math_classes);
         recyclerview = (RecyclerView) findViewById(R.id.rview);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Math");
-        myRef.addValueEventListener(new ValueEventListener() {
+final String class_type = getIntent().getStringExtra("class_type");
+         myRef = database.getReference("Classes");
+
+        Query query = myRef.orderByChild("class_info/subject").equalTo(class_type);
+      //  Query query = myRef.child("Class_info").orderByChild("subject").equalTo("Math");
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list = new ArrayList<>();
                 // StringBuffer stringbuffer = new StringBuffer();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
+                    Class_model new_class = dataSnapshot1.child("class_info").getValue(Class_model.class);
                     String nameofclass = new_class.getDate_clasname();
                     String teacherofclass = new_class.getTeacher();
                     String roomnumberofclass = new_class.getRoom_number();
@@ -50,6 +56,7 @@ public class Math_classes extends AppCompatActivity {
                     listdata.setTeacher(teacherofclass);
                     listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
+
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
                 }
