@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user_remove_class"></activity>
+        <activity android:name=".user_edit_classes"></activity>
+        <activity android:name=".user_remove_class" />
         <activity android:name=".admin_classes_with_students" />
         <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />

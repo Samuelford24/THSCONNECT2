@@ -57,11 +57,13 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+        list = new ArrayList<>();
         myRef.addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
-                list = new ArrayList<>();
+                //list = new ArrayList<>();
                 final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
 //String postkey2 = dataSnapshot.getKey();
@@ -125,6 +127,8 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+String key = dataSnapshot.getKey();
+
 
             }
 

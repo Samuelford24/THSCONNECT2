@@ -31,7 +31,7 @@ public class user_remove_class extends AppCompatActivity {
         TextView display_room_number = (TextView) findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+        //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
 
         remove_class = (Button) findViewById(R.id.add_class_2);
       //  final Query query = myRef.orderByChild("classes").equalTo(post_key);
@@ -39,8 +39,18 @@ public class user_remove_class extends AppCompatActivity {
         remove_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+               String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                myRef = database.getReference("Classes").child(post_key).child("Students").child(key);
+                System.out.println(myRef);
+                myRef.removeValue();
+                remove_class_from_student();
             }
         });
+    }
+    public void remove_class_from_student(){
+        String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String post_key = getIntent().getStringExtra("post_key");
+        myRef = database.getReference("Users").child(key).child("Classes").child(post_key);
+        myRef.removeValue();
     }
 }

@@ -9,12 +9,12 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="Classes" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications"/>
+        android:icon="@drawable/settings_black_25"
+        android:title="Settings"/>
     <item
         android:id="@+id/admin"
         android:icon="@drawable/ic_notifications_black_24dp"
