@@ -31,8 +31,8 @@ import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class home_fragment extends Fragment implements View.OnClickListener {
-    private Button button;
+public class home_fragment extends Fragment /*implements View.OnClickListener */{
+   // private Button button;
     //DatabaseReference dref;
     //ListView listview2;
     //ArrayList<String> list=new ArrayList<>();
@@ -51,8 +51,8 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
         // startActivity(intent);}
 
-        button = (Button) view.findViewById(R.id.button);
-        button.setOnClickListener(this);
+       // button = (Button) view.findViewById(R.id.button);
+       // button.setOnClickListener(this);
         recyclerview = (RecyclerView) view.findViewById(R.id.rview);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users")
@@ -113,12 +113,12 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                     }
 
                 });
-
-
-                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
+               RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
+
+
 
             }
             @Override
@@ -153,7 +153,7 @@ String key = dataSnapshot.getKey();
         });
         return view;
     }
-    @Override
+   /* @Override
     public void onClick(View view) {
         signout();
 
@@ -168,7 +168,7 @@ String key = dataSnapshot.getKey();
         startActivity(intent);
 
 
-    }
+    }*/
 }
 //});
 

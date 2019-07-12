@@ -2,7 +2,6 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +37,7 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
             @Override
             public void onClick( final View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, user_remove_class.class);
+                Intent intent = new Intent(context, admin_user_remove_class.class);
                 intent.putExtra("date_class", listdata.get(position).getDate_class());
                  intent.putExtra("teacher", listdata.get(position).getTeacher());
                  intent.putExtra("room_number", listdata.get(position).getRnumber());

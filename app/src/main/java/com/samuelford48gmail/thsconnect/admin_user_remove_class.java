@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class user_remove_class extends AppCompatActivity {
+public class admin_user_remove_class extends AppCompatActivity {
     private Button remove_class;
     private FirebaseDatabase database;
     private DatabaseReference myRef, myRef2;

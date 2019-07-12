@@ -1,9 +1,14 @@
 package com.samuelford48gmail.thsconnect;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +39,7 @@ public class admin_get_user_info extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.lv_science_students);
         final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
         lv.setAdapter(adapter);
+
         lv.setStackFromBottom(true);
         TextView display_class_name = (TextView) findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
@@ -60,6 +66,12 @@ public class admin_get_user_info extends AppCompatActivity {
                         assert user != null;
                         String name2 = user.getName();
                         String grade = user.getGrade();
+                        String uid = user.getUid();
+
+
+                        //intent.putExtra("date_class", listdata.get(position).getDate_class2());
+                        // intent.putExtra("teacher", listdata.get(position).getTeacher2());
+                        // intent.putExtra("room_number", listdata.get(position).getRnumber2());
 
                         //String grade = user.getGrade();
                         //String email = user.getEmail();
@@ -67,6 +79,8 @@ public class admin_get_user_info extends AppCompatActivity {
                         user_info = ("Name: " + name2 + "Grade: " + grade);
                         assert user_info != "info";
                         list.add(user_info);
+
+
                         // System.out.println(user_info);
 
 adapter.notifyDataSetChanged();
@@ -103,6 +117,18 @@ adapter.notifyDataSetChanged();
 
             }
         });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+              list.get(position);
+
+                Toast.makeText(getApplicationContext(),
+                        "t"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void useValue(String yourValue) {
+
     }
 /*
     public void getusersinfo(){

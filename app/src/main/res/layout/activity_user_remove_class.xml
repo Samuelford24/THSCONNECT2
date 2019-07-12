@@ -47,7 +47,7 @@
         android:layout_below="@id/rn_tv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Add Class" />
+        android:text="Remove Class" />
 
 
 </RelativeLayout>

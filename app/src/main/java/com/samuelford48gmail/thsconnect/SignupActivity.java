@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.onesignal.OneSignal;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -96,14 +97,16 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    String create_uid = FirebaseAuth.getInstance().getUid();
                                     User user = new User(
                                             name,
                                             email,
-                                            grade
+                                            grade,
+                                            create_uid
                                     );
-
+                                    OneSignal.setEmail(email);
                                     FirebaseDatabase.getInstance().getReference("Users")
-                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("User_info")
+                                            .child(create_uid).child("User_info")
                                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-//uses admin show students activities
+//uses lock show students activities
 public class adapter_show_students extends RecyclerView.Adapter<adapter_show_students.MyHolder>{
 
     List<Listdata> listdata;
