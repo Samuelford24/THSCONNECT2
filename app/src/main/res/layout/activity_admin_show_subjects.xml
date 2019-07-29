@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/Science"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Science" />
+
+    <Button
+        android:layout_below="@id/Science"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/eng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English" />
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/eng"
+        android:id="@+id/mat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Math" />
+
+    <Button
+        android:layout_below="@id/mat"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Social Studies" />
+
+    <Button
+        android:layout_below="@id/ss"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/oth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other" />
+
+    <Button
+        android:layout_below="@id/oth"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Technology" />
+</RelativeLayout>

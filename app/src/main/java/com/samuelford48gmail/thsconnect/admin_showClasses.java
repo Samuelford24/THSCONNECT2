@@ -12,31 +12,37 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Technology_classes extends AppCompatActivity {
+public class admin_showClasses extends AppCompatActivity {
 
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, newmf;
     private List<Listdata> list;
     private RecyclerView recyclerview;
+    String class_value = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_technology_classes);
+        setContentView(R.layout.activity_admin_show_classes);
         recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Technology");
-        myRef.addValueEventListener(new ValueEventListener() {
+        final String class_type = getIntent().getStringExtra("class_type");
+        myRef = database.getReference("Classes");
+
+        Query query = myRef.orderByChild("class_info/subject").equalTo(class_type);
+        //  Query query = myRef.child("Class_info").orderByChild("subject").equalTo("Math");
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list = new ArrayList<>();
                 // StringBuffer stringbuffer = new StringBuffer();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Class_model new_class = dataSnapshot1.getValue(Class_model.class);
+                    Class_model new_class = dataSnapshot1.child("class_info").getValue(Class_model.class);
                     String nameofclass = new_class.getDate_clasname();
                     String teacherofclass = new_class.getTeacher();
                     String roomnumberofclass = new_class.getRoom_number();
@@ -49,12 +55,13 @@ public class Technology_classes extends AppCompatActivity {
                     listdata.setTeacher(teacherofclass);
                     listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
+
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
                 }
 
                 RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
-                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Technology_classes.this);
+                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_showClasses.this);
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
@@ -63,7 +70,7 @@ public class Technology_classes extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                AlertDialog alertDialog = new AlertDialog.Builder(Technology_classes.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(admin_showClasses.this).create();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

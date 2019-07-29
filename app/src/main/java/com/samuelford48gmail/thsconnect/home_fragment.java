@@ -1,7 +1,6 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,16 +9,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +32,8 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     //ArrayList<String> list=new ArrayList<>();
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    List<String> keyList = new ArrayList<String>();
+
     private List<Listdata> list;
     private RecyclerView recyclerview;
     public home_fragment() {
@@ -46,37 +42,43 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+
+
         //FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
         // startActivity(intent);}
 
        // button = (Button) view.findViewById(R.id.button);
        // button.setOnClickListener(this);
-        recyclerview = (RecyclerView) view.findViewById(R.id.rview);
+       final List<String> keyList = new ArrayList<String>();
+        recyclerview = (RecyclerView) view.findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         list = new ArrayList<>();
         myRef.addChildEventListener(new ChildEventListener() {
-
+            final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
                 //list = new ArrayList<>();
-                final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
+               // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
 //String postkey2 = dataSnapshot.getKey();
 
-                String class_id = dataSnapshot.getValue(String.class);
-
+                final String class_id = dataSnapshot.getValue(String.class);
+                Log.d("home", "class_idf" + class_id);
                 myRef = database.getReference("Classes").child(class_id).child("class_info");
-                // StringBuffer stringbuffer = new StringBuffer();
+                Log.d("home", "myref" + myRef);
+
                 myRef.addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                        //keyList.add(dataSnapshot.getKey());
+                        if (dataSnapshot.exists()) {
                             Class_model new_class = dataSnapshot.getValue(Class_model.class);
                             assert new_class != null;
                             String nameofclass = new_class.getDate_clasname();
@@ -90,11 +92,15 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                             listdata.setDate_class(nameofclass);
                             listdata.setTeacher(teacherofclass);
                             listdata.setRnumber(roomnumberofclass);
-                       // recycler.notifyDataSetChanged();
+                            // recycler.notifyDataSetChanged();
+                            keyList.add(listdata.getUid());
+                            Log.d("home","keylist"+ keyList);
                             list.add(listdata);
-                        recycler.notifyDataSetChanged();
+                            recycler.notifyDataSetChanged();
                             //recycler.notifyDataSetChanged();// Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
-
+                        }
+                        else {myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes").child(class_id);
+                        myRef.removeValue();}
                     }
 
 
@@ -113,10 +119,12 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                     }
 
                 });
-               RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
-                recyclerview.setLayoutManager(layoutmanager);
-                recyclerview.setItemAnimator(new DefaultItemAnimator());
-                recyclerview.setAdapter(recycler);
+
+//was originally here
+        RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
+           recyclerview.setLayoutManager(layoutmanager);
+               recyclerview.setItemAnimator(new DefaultItemAnimator());
+               recyclerview.setAdapter(recycler);
 
 
 
@@ -127,8 +135,23 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-String key = dataSnapshot.getKey();
 
+                Log.d("home", "ff" +dataSnapshot);
+                int index = keyList.indexOf(dataSnapshot.getKey());
+                Log.d("home", "indexofkL"+ index
+                );
+                keyList.remove(index);
+                list.remove(index);
+
+                // recycler.notifyDataSetChanged();
+
+                recycler.notifyDataSetChanged();
+                //int index = keyList.indexOf(dataSnapshot.getKey());
+
+               //     list.remove(index);
+                 //  keyList.remove(index);
+
+               // recycler.notifyDataSetChanged();
 
             }
 
@@ -136,6 +159,7 @@ String key = dataSnapshot.getKey();
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -150,7 +174,9 @@ String key = dataSnapshot.getKey();
                 alertDialog.show();
             }
 
+
         });
+
         return view;
     }
    /* @Override

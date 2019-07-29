@@ -4,12 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin_remove_class_from_user">
+    tools:context=".admin_showClasses">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvieww"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
 </RelativeLayout>

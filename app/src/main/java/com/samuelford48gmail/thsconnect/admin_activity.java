@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,10 @@ public class admin_activity extends AppCompatActivity {
         ListView lv = (ListView) findViewById(R.id.listview_admin);
 
         List<String> arrayList = new ArrayList<String>();
-        arrayList.add("Users/edit classes");
         arrayList.add("Create Class");
         arrayList.add("View students in classes");
-
+        arrayList.add("Remove/Add Classes to Users");
+        arrayList.add("Delete Class");
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -39,8 +38,11 @@ public class admin_activity extends AppCompatActivity {
                                     long id) {
 
                 String item = ((TextView)view).getText().toString();
-                if(item.equals("Users/edit classes")){
-                    Toast.makeText(admin_activity.this,"Not working yet!", Toast.LENGTH_SHORT).show();
+                if(item.equals("Remove/Add Classes to Users")){
+
+                    Intent intent = new Intent(admin_activity.this
+                    , admin_user_edit_classes.class);
+                    startActivity(intent);
 
                    // Intent intent = new Intent(admin_activity.this, admin_user_edit_classes.class
                    // );
@@ -53,8 +55,11 @@ public class admin_activity extends AppCompatActivity {
                 }
                 if(item.equals("View students in classes")){
                     Intent intent = new Intent(admin_activity.this, admin_classes_with_students.class);
-                    startActivity(intent
-                    );
+                    startActivity(intent);
+                }
+                if (item.equals("Delete Class")){
+                    Intent intent = new Intent(admin_activity.this, admin_show_subjects.class);
+                    startActivity(intent);
                 }
             }
 

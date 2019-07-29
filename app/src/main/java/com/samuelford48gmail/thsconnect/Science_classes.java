@@ -1,19 +1,14 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseError;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +33,7 @@ public class Science_classes extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_science_classes);
-        recyclerview = (RecyclerView) findViewById(R.id.rview);
+        recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Classes");
 final String class_type = getIntent().getStringExtra("class_type");

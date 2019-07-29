@@ -7,17 +7,19 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".ONEsignal_notifications"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".ONEsignal_notifications"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".admin_remove_class"></activity>
+        <activity android:name=".admin_show_class_detail"></activity>
+        <activity android:name=".admin_showClasses" />
+        <activity android:name=".admin_show_subjects" />
+        <activity android:name=".admin_remove_class_from_user" />
         <activity android:name=".admin_user_edit_classes" />
-        <activity android:name=".admin_user_remove_class" />
+        <activity android:name=".user_remove_class" />
         <activity android:name=".admin_classes_with_students" />
         <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />

@@ -27,7 +27,7 @@ public class English_classes extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_english_classes);
-        recyclerview = (RecyclerView) findViewById(R.id.rview);
+        recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("English");
         myRef.addValueEventListener(new ValueEventListener() {

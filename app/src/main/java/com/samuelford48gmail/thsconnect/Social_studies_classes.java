@@ -27,7 +27,7 @@ public class Social_studies_classes extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_studies_classes);
-        recyclerview = (RecyclerView) findViewById(R.id.rview);
+        recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Social Studies");
         myRef.addValueEventListener(new ValueEventListener() {
