@@ -36,7 +36,7 @@ public class admin_user_edit_classes extends AppCompatActivity {
             public void onClick(View view) {
                 String studentname = edt1.getText().toString().trim();
                 Context context = view.getContext();
-                Intent intent = new Intent(context, admin_add_class_to_user.class);
+                Intent intent = new Intent(context, admin_subject_for_add_classes_to_user.class);
                 intent.putExtra("studentname", studentname);
                 context.startActivity(intent);
             }

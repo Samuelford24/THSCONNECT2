@@ -1,18 +1,13 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class admin_add_class_to_user extends AppCompatActivity {
+public class admin_classes extends AppCompatActivity {
+
     private FirebaseDatabase database;
     private DatabaseReference myRef, newmf;
     private List<Listdata> list;
@@ -32,7 +28,7 @@ public class admin_add_class_to_user extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_add_class_to_user);
+        setContentView(R.layout.activity_admin_classes);
         recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
         final String class_type = getIntent().getStringExtra("class_type");
@@ -64,8 +60,8 @@ public class admin_add_class_to_user extends AppCompatActivity {
 
                 }
 
-                admin_adapter_add_class_to_user recycler = new admin_adapter_add_class_to_user(list);
-                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_add_class_to_user.this);
+                admin_adapter_delete_class_from_list recycler = new admin_adapter_delete_class_from_list(list);
+                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_classes.this);
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
@@ -74,7 +70,7 @@ public class admin_add_class_to_user extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                AlertDialog alertDialog = new AlertDialog.Builder(admin_add_class_to_user.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(admin_classes.this).create();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

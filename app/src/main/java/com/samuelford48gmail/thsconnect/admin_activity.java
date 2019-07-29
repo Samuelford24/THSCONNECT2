@@ -58,7 +58,7 @@ public class admin_activity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if (item.equals("Delete Class")){
-                    Intent intent = new Intent(admin_activity.this, admin_show_subjects.class);
+                    Intent intent = new Intent(admin_activity.this, admin_subjects.class);
                     startActivity(intent);
                 }
             }
