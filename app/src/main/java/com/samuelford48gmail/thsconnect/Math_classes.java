@@ -79,7 +79,7 @@ final String class_type = getIntent().getStringExtra("class_type");
                                 dialog.dismiss();
                             }
                         });
-                alertDialog.show();
+                 alertDialog.show();
                 // Failed to read value
                 //  Log.w(TAG, "Failed to read value.", error.toException());
             }

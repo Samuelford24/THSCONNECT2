@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin_add_class_to_user_detail"></activity>
+        <activity android:name=".your_info"></activity>
+        <activity android:name=".admin_add_class_to_user_detail" />
         <activity android:name=".admin_subject_for_add_classes_to_user" />
         <activity android:name=".admin_subjects" />
         <activity android:name=".admin_delete_class_detail_page" />

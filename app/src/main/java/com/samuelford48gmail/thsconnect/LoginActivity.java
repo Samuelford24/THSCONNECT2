@@ -3,6 +3,7 @@ package com.samuelford48gmail.thsconnect;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -19,7 +20,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,7 +38,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
+import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +55,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
@@ -85,16 +95,15 @@ public class LoginActivity extends AppCompatActivity {
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
-           public void onClick(View v) {
-               startActivity(new Intent(LoginActivity.this, Reset_password.class));
-           }
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, Reset_password.class));
+            }
         });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
-
                 final String password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
@@ -139,4 +148,3 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
-

@@ -62,28 +62,36 @@ public class admin_get_user_info extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()) {
-                        User user = dataSnapshot.getValue(User.class);
-                        assert user != null;
-                        String name2 = user.getName();
-                        String grade = user.getGrade();
-                        String uid = user.getUid();
+                        if (dataSnapshot.exists()) {
+                            User user = dataSnapshot.getValue(User.class);
+                            assert user != null;
+                            String name2 = user.getName();
+                            String grade = user.getGrade();
+                            String uid = user.getUid();
 
 
-                        //intent.putExtra("date_class", listdata.get(position).getDate_class2());
-                        // intent.putExtra("teacher", listdata.get(position).getTeacher2());
-                        // intent.putExtra("room_number", listdata.get(position).getRnumber2());
+                            //intent.putExtra("date_class", listdata.get(position).getDate_class2());
+                            // intent.putExtra("teacher", listdata.get(position).getTeacher2());
+                            // intent.putExtra("room_number", listdata.get(position).getRnumber2());
 
-                        //String grade = user.getGrade();
-                        //String email = user.getEmail();
-                        // System.out.println(user);
-                        user_info = ("Name: " + name2 + "Grade: " + grade);
-                        assert user_info != "info";
-                        list.add(user_info);
+                            //String grade = user.getGrade();
+                            //String email = user.getEmail();
+                            // System.out.println(user);
+                            user_info = ("Name: " + name2 + "Grade: " + grade);
+                            assert user_info != "info";
+                            list.add(user_info);
 
 
-                        // System.out.println(user_info);
+                            // System.out.println(user_info);
 
-adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
+                        }
+                        else {
+                            myRef = database.getReference("Classes").child("Students").child(name);
+                            myRef.removeValue();
+                        }
+
+
                     }
 
 
