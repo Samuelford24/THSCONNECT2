@@ -1,6 +1,7 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,9 +38,63 @@ public class admin_create_class extends AppCompatActivity {
                 String date_class = date_class1.getText().toString().trim();
                 String teacher_name = teacher_name1.getText().toString().trim();
                 String room_number = room_number1.getText().toString().trim();
-                String key = myRef.push().getKey();
-                Class_model new_class = new Class_model(date_class, teacher_name, room_number, key, subject);
-                myRef.child(key).child("class_info").setValue(new_class);
+                if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other")) {
+                    String key = myRef.push().getKey();
+                    Class_model new_class = new Class_model(date_class, teacher_name, room_number, key, subject);
+
+                    myRef.child(key).child("class_info").setValue(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                AlertDialog.Builder builder;
+                                builder = new AlertDialog.Builder(admin_create_class.this);
+                                //builder.setIcon(R.drawable.open_browser);
+                                builder.setTitle("      Class Created!");
+                                builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                                builder.setCancelable(true);
+                                builder.show();
+                            } else {
+                                AlertDialog.Builder builder;
+                                builder = new AlertDialog.Builder(admin_create_class.this);
+                                //builder.setIcon(R.drawable.open_browser);
+                                builder.setTitle("Error Creating Class!");
+                                builder.setMessage("Please check your wifi/data connection and try again");
+                                builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.setCancelable(true);
+                                builder.show();
+                            }
+                        }
+
+
+                    });
+
+
+
+                }
+                else{
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(admin_create_class.this);
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("Wrong Subject!");
+                    builder.setMessage("Please make sure you have entered the correct subject");
+                    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
+                }
+
                 //myRef = database.getReference(subject);
         /*
             //String key = myRef.push().getKey();

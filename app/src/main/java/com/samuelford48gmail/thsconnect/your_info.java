@@ -26,18 +26,20 @@ public class your_info extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.child("User_info/name").getValue(String.class);
-                Log.d("setting", "name" + name);
-                String grade = dataSnapshot.child("User_info/grade").getValue(String.class);
-                Log.d("setting", "grade" + grade);
-                String email = dataSnapshot.child("User_info/email").getValue(String.class);
-                Log.d("setting", "email" + email);
-                TextView user_name = (TextView) findViewById(R.id.date_tv);
-                user_name.setText(name);
-                TextView user_grade = (TextView) findViewById(R.id.teacher_tv);
-                user_grade.setText(grade);
-                TextView user_email = (TextView) findViewById(R.id.rn_tv);
-                user_email.setText(email);
 
+                String grade = dataSnapshot.child("User_info/grade").getValue(String.class);
+
+                String studentid = dataSnapshot.child("User_info/studentID").getValue(String.class);
+
+                String email = dataSnapshot.child("User_info/email").getValue(String.class);
+                TextView user_name = (TextView) findViewById(R.id.name);
+                user_name.setText("Name: " + name);
+                TextView user_grade = (TextView) findViewById(R.id.grade);
+                user_grade.setText("Grade: " + grade);
+                TextView user_email = (TextView) findViewById(R.id.email);
+                user_email.setText("Email: " + email);
+TextView user_id = findViewById(R.id.studentID);
+user_id.setText("ID: " + studentid);
 
             }
 

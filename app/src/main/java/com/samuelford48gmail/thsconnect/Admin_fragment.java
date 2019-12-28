@@ -1,10 +1,12 @@
 package com.samuelford48gmail.thsconnect;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,7 @@ public Admin_fragment(){}
 
                         }
                         else{
-
+IncorrectPassword();
 
                         }
                     }
@@ -138,6 +140,20 @@ public Admin_fragment(){}
 */
         return view;
 }
+public void IncorrectPassword(){
+    AlertDialog.Builder builder;
+    builder = new AlertDialog.Builder(getContext());
+    //builder.setIcon(R.drawable.open_browser);
+    builder.setTitle("Wrong Password!");
 
-
+    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+            dialog.dismiss();
+        }
+    });
+    builder.setCancelable(true);
+    builder.show();
 }
+}
+
+

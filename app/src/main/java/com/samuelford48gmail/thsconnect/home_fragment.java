@@ -58,11 +58,14 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
         myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         list = new ArrayList<>();
+
         myRef.addChildEventListener(new ChildEventListener() {
+
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-
+           int i = (int) dataSnapshot.getChildrenCount();
+           System.out.println();
                 //list = new ArrayList<>();
                // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);

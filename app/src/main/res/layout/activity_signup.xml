@@ -49,6 +49,15 @@
             android:textColor="@android:color/white" />
 
         <EditText
+            android:id="@+id/studentID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Student ID"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textColor="@android:color/white" />
+
+        <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

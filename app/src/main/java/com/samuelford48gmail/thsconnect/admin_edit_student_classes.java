@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class admin_user_edit_classes extends AppCompatActivity {
+public class admin_edit_student_classes extends AppCompatActivity {
     private Button btn1, btn2;
     private EditText edt1;
 
@@ -22,11 +22,11 @@ public class admin_user_edit_classes extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String studentname = edt1.getText().toString().trim();
-                System.out.println(studentname);
+                String studentid = edt1.getText().toString().trim();
+                System.out.println(studentid);
                 Context context = view.getContext();
-                Intent intent = new Intent(context, admin_remove_class_from_user.class);
-                intent.putExtra("studentname", studentname);
+                Intent intent = new Intent(context, adminRemoveClassFromStudent.class);
+                intent.putExtra("studentid", studentid);
 
                 context.startActivity(intent);
             }
@@ -34,10 +34,10 @@ public class admin_user_edit_classes extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String studentname = edt1.getText().toString().trim();
+                String studentid = edt1.getText().toString().trim();
                 Context context = view.getContext();
-                Intent intent = new Intent(context, admin_subject_for_add_classes_to_user.class);
-                intent.putExtra("studentname", studentname);
+                Intent intent = new Intent(context, adminAddClassStudent_subject.class);
+                intent.putExtra("studentid", studentid);
                 context.startActivity(intent);
             }
         });

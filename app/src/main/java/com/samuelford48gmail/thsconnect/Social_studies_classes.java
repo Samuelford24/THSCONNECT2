@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class Social_studies_classes extends AppCompatActivity {
 
     private FirebaseDatabase database;
@@ -83,3 +83,4 @@ public class Social_studies_classes extends AppCompatActivity {
 
 
 }
+*/

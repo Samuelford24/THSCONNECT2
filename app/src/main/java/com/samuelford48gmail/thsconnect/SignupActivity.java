@@ -21,7 +21,7 @@ import com.onesignal.OneSignal;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputGrade, inputName;     //hit option + enter if you on mac , for windows hit ctrl + enter
+    private EditText inputEmail, inputPassword, inputGrade, inputName, inputID;     //hit option + enter if you on mac , for windows hit ctrl + enter
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
         inputGrade = (EditText) findViewById(R.id.grade);
         inputName = (EditText) findViewById(R.id.name);
-
+        inputID = (EditText) findViewById(R.id.studentID);
 
 
       /*  btnResetPassword.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +67,7 @@ public class SignupActivity extends AppCompatActivity {
                final String password = inputPassword.getText().toString().trim();
                 final String name = inputName.getText().toString().trim();
                 final String grade = inputGrade.getText().toString().trim();
+                final String studentID = inputID.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
                     return;
@@ -102,9 +103,10 @@ public class SignupActivity extends AppCompatActivity {
                                             name,
                                             email,
                                             grade,
-                                            create_uid
+                                            create_uid,
+                                            studentID
                                     );
-                                    OneSignal.setEmail(email);
+                                   // OneSignal.setEmail(email);
                                     FirebaseDatabase.getInstance().getReference("Users")
                                             .child(create_uid).child("User_info")
                                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

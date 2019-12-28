@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private FirebaseAuth auth;
     final Fragment fragment1 = new home_fragment();
-    final Fragment fragment2 = new show_class_fragment();
-    final Fragment fragment3 = new page_fragment3();
+    final Fragment fragment2 = new Classes_fragment();
+    final Fragment fragment3 = new Settings();
     final Fragment fragment4 = new Admin_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;

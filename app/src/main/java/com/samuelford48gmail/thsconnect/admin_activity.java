@@ -41,10 +41,10 @@ public class admin_activity extends AppCompatActivity {
                 if(item.equals("Remove/Add Classes to Users")){
 
                     Intent intent = new Intent(admin_activity.this
-                    , admin_user_edit_classes.class);
+                    , admin_edit_student_classes.class);
                     startActivity(intent);
 
-                   // Intent intent = new Intent(admin_activity.this, admin_user_edit_classes.class
+                   // Intent intent = new Intent(admin_activity.this, admin_edit_student_classes.class
                    // );
                     //startActivity(intent);
                 }
@@ -54,7 +54,7 @@ public class admin_activity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if(item.equals("View students in classes")){
-                    Intent intent = new Intent(admin_activity.this, admin_classes_with_students.class);
+                    Intent intent = new Intent(admin_activity.this, adminClassesWithStudents_subjects.class);
                     startActivity(intent);
                 }
                 if (item.equals("Delete Class")){

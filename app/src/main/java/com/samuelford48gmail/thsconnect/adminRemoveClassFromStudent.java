@@ -14,20 +14,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class admin_remove_class_from_user extends AppCompatActivity {
+public class adminRemoveClassFromStudent extends AppCompatActivity {
     private RecyclerView recyclerview;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -38,8 +35,8 @@ public class admin_remove_class_from_user extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_remove_class);
-        final String student_name = getIntent().getStringExtra("studentname");
-        System.out.println(student_name);
+        final String studentid = getIntent().getStringExtra("studentid");
+        System.out.println(studentid);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
@@ -49,9 +46,9 @@ public class admin_remove_class_from_user extends AppCompatActivity {
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String student = (String)dataSnapshot.child("User_info/name").getValue();
-                if (student.equals(student_name)) {
-                    Log.d("admin", "Found student");
+                String student = (String)dataSnapshot.child("User_info/studentID").getValue();
+                if (student.equals(studentid)) {
+                   studentFound();
                     String user_uid = (String) dataSnapshot.child("User_info/uid").getValue();
                     SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = mySharedPreferences.edit();
@@ -111,7 +108,7 @@ public class admin_remove_class_from_user extends AppCompatActivity {
 
                                     @Override
                                     public void onCancelled(DatabaseError error) {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(admin_remove_class_from_user.this).create();
+                                        AlertDialog alertDialog = new AlertDialog.Builder(adminRemoveClassFromStudent.this).create();
                                         alertDialog.setTitle("Error");
                                         alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
                                         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -126,7 +123,7 @@ public class admin_remove_class_from_user extends AppCompatActivity {
                                 });
 
 //was originally here
-                                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_remove_class_from_user.this);
+                                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminRemoveClassFromStudent.this);
                                 recyclerview.setLayoutManager(layoutmanager);
                                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                                 recyclerview.setAdapter(recycler);
@@ -156,7 +153,7 @@ public class admin_remove_class_from_user extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(DatabaseError error) {
-                                AlertDialog alertDialog = new AlertDialog.Builder(admin_remove_class_from_user.this).create();
+                                AlertDialog alertDialog = new AlertDialog.Builder(adminRemoveClassFromStudent.this).create();
                                 alertDialog.setTitle("Error");
                                 alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -173,7 +170,10 @@ public class admin_remove_class_from_user extends AppCompatActivity {
 // Map<String, String> class_list = (Map<String, String>) dataSnapshot.child("Classes").getValue();
                         //Log.d("admin", "classes" + class_list);
                     }
-                    RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_remove_class_from_user.this);
+                else {
+                    studentNotFound(studentid);
+                }
+                    RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminRemoveClassFromStudent.this);
                     recyclerview.setLayoutManager(layoutmanager);
                     recyclerview.setItemAnimator(new DefaultItemAnimator());
                     recyclerview.setAdapter(recycler);
@@ -203,6 +203,38 @@ public class admin_remove_class_from_user extends AppCompatActivity {
 
         });
 
+    }
+    public void studentFound(){
+        Log.d("adminAddClassStudent","student Found");
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(adminRemoveClassFromStudent.this);
+        //builder.setIcon(R.drawable.open_browser);
+        builder.setTitle("Student Found");
+        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(true);
+        builder.show();
+    }
+    public void studentNotFound(String studentid){
+        Log.d("adminAddClassStudent","student not found");
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(adminRemoveClassFromStudent.this);
+        //builder.setIcon(R.drawable.open_browser);
+        builder.setTitle("Student Not Found");
+        builder.setMessage("The studentID " + studentid + " does not match any on file");
+        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(adminRemoveClassFromStudent.this, admin_edit_student_classes.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
     }
 }
 

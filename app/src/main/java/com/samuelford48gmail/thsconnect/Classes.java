@@ -1,10 +1,9 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,25 +18,24 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class admin_science extends AppCompatActivity {
+public class Classes extends AppCompatActivity {
+
 
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    private  DatabaseReference myRef;
     private List<Listdata> list;
     private RecyclerView recyclerview;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_science);
-        recyclerview = (RecyclerView) findViewById(R.id.rview_admin_science);
+        setContentView(R.layout.activity_math_classes);
+        recyclerview = (RecyclerView) findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Classes");
-        final String class_type = getIntent().getStringExtra("class_type");
-        myRef = database.getReference("Classes");
+final String class_type = getIntent().getStringExtra("class_type");
+         myRef = database.getReference("Classes");
 
         Query query = myRef.orderByChild("class_info/subject").equalTo(class_type);
-        //  Query query = myRef.child("Class_info").orderByChild("subject").equalTo("Math");
+      //  Query query = myRef.child("Class_info").orderByChild("subject").equalTo("Math");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -57,12 +55,13 @@ public class admin_science extends AppCompatActivity {
                     listdata.setTeacher(teacherofclass);
                     listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
+
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
                 }
 
-                adapter_show_students recycler = new adapter_show_students(list);
-                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_science.this);
+                RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
+                RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Classes.this);
                 recyclerview.setLayoutManager(layoutmanager);
                 recyclerview.setItemAnimator(new DefaultItemAnimator());
                 recyclerview.setAdapter(recycler);
@@ -71,7 +70,7 @@ public class admin_science extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                AlertDialog alertDialog = new AlertDialog.Builder(admin_science.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(Classes.this).create();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -80,14 +79,14 @@ public class admin_science extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-                alertDialog.show();
+                 alertDialog.show();
                 // Failed to read value
                 //  Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
 
     }
-//});
+    //});
 
 
 }

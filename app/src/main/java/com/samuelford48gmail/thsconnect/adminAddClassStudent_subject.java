@@ -1,16 +1,19 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class admin_subject_for_add_classes_to_user extends AppCompatActivity implements View.OnClickListener{
+public class adminAddClassStudent_subject extends AppCompatActivity implements View.OnClickListener{
 
     private Button btn, btn2, btn3, btn4, btn5, btn6;
     private String class_name;
@@ -30,8 +33,8 @@ public class admin_subject_for_add_classes_to_user extends AppCompatActivity imp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_subject_for_add_classes_to_user);
-        final String student_name = getIntent().getStringExtra("studentname");
-        System.out.println(student_name);
+        final String studentid = getIntent().getStringExtra("studentid");
+        System.out.println(studentid);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
@@ -39,15 +42,20 @@ public class admin_subject_for_add_classes_to_user extends AppCompatActivity imp
         myRef.addChildEventListener(new ChildEventListener() {
 
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String student = (String) dataSnapshot.child("User_info/name").getValue();
-                if (student.equals(student_name)) {
+                //must match path in Firebase
+                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
+                if (student.equals(studentid)) {
                     Log.d("admin", "Found student");
+                    studentFound();
                     String user_uid = (String) dataSnapshot.child("User_info/uid").getValue();
                     SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid2", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = mySharedPreferences.edit();
                     editor.putString("Uid2", user_uid);
                     editor.apply();
                     Log.d("admin", "Got uid" + user_uid);
+                }
+                else {
+                    studentNotFound(studentid);
                 }
             }
 
@@ -68,7 +76,27 @@ public class admin_subject_for_add_classes_to_user extends AppCompatActivity imp
 
                 @Override
                 public void onCancelled (@NonNull DatabaseError databaseError){
+                    Log.d("adminAddClassStudent","onCancelled");
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(adminAddClassStudent_subject.this);
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("Error Finding student");
+                    builder.setMessage("Check your connection");
+                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
+                            Intent intent = new Intent(adminAddClassStudent_subject.this, admin_edit_student_classes.class);
+                            startActivity(intent);
+
+                        }
+                    });
+                    builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
                 }
             });
         btn = (Button) findViewById(R.id.Science);
@@ -83,6 +111,38 @@ public class admin_subject_for_add_classes_to_user extends AppCompatActivity imp
         btn4.setOnClickListener(this);
         btn5.setOnClickListener(this);
         btn6.setOnClickListener(this);
+    }
+    public void studentFound(){
+        Log.d("adminAddClassStudent","student Found");
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(adminAddClassStudent_subject.this);
+        //builder.setIcon(R.drawable.open_browser);
+        builder.setTitle("Student Found");
+        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(true);
+        builder.show();
+    }
+    public void studentNotFound(String studentid){
+        Log.d("adminAddClassStudent","student not found");
+        final AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(adminAddClassStudent_subject.this);
+        //builder.setIcon(R.drawable.open_browser);
+        builder.setTitle("Student Not Found");
+        builder.setMessage("The studentID " + studentid + " does not match any on file");
+        builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(adminAddClassStudent_subject.this, admin_edit_student_classes.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
     }
     @Override
     public void onClick(View v) {

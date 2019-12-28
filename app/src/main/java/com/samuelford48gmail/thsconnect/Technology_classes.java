@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class Technology_classes extends AppCompatActivity {
 
     private FirebaseDatabase database;
@@ -82,4 +82,4 @@ public class Technology_classes extends AppCompatActivity {
     //});
 
 
-}
+}*/

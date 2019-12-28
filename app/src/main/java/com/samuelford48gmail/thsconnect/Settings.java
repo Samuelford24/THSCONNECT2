@@ -2,6 +2,7 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -31,10 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class page_fragment3 extends Fragment {
+public class Settings extends Fragment {
     private FirebaseDatabase database;
     private  DatabaseReference myRef;
-    public page_fragment3() {
+    public Settings() {
 
     }
 
@@ -49,13 +50,13 @@ public class page_fragment3 extends Fragment {
         ListView lv = (ListView) view.findViewById(R.id.listview);
         final List<String> arrayList = new ArrayList<String>();
 
-        arrayList.add("Help?");
-        arrayList.add("Problems with the app?");
+
+        arrayList.add("Report a bug/Support");
         arrayList.add("Questions?");
         arrayList.add("Signout");
         arrayList.add("Your info");
         arrayList.add("Delete Account");
-
+        arrayList.add("Privacy Policy");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
@@ -68,22 +69,39 @@ public class page_fragment3 extends Fragment {
                                     long id) {
 
                 String item = ((TextView) view).getText().toString();
-                if (item.equals("Help?")) {
-                    Toast.makeText(getContext(), "fgdg", Toast.LENGTH_SHORT).show();
+
+                if (item.equals("Report a bug/Support")) {
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(getContext());
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("Report a problem/Support");
+                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            goToUrl("https://forms.gle/kqBEcPDD8axhevcj8");
+                        }
+                    });
+                    builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
                 }
-                if (item.equals("Problems with the app?")) {
-                    Toast.makeText(getContext(), "fgdg", Toast.LENGTH_SHORT).show();
-                }
+
                 if (item.equals("Questions?")) {
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(getContext());
-                    // builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("          Email svhsdev@vigoschools.org!");
-                  builder.setCancelable(true);
-                  builder.show();
-
-
-                    }
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("Email us at svhsdev@vigoschools.org");
+                    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
+                }
 
 
                 if (item.equals("Signout")) {
@@ -96,8 +114,29 @@ public class page_fragment3 extends Fragment {
                     Intent intent = new Intent(getContext(), your_info.class);
                     startActivity(intent);
                 }
+                if (item.equals("Privacy Policy/ Terms and Conditions")){
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(getContext());
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("Report a problem/Support");
+                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            goToUrl("https://forms.gle/8B4Vs2LHqrsriSkv7");
+                        }
+                    });
+                    builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
+
+                }
                 if (item.equals("Delete Account")){
                     final String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    myRef = database.getReference("Users").child(key);
+                    myRef.removeValue();
                     final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     AuthCredential authCredential = EmailAuthProvider.getCredential("user@example.com", "password1234");
 
@@ -108,8 +147,7 @@ public class page_fragment3 extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        myRef = database.getReference("Users").child(key);
-                                        myRef.removeValue();
+
                                         Intent intent = new Intent(getContext(), LoginActivity.class);
                                         startActivity(intent);
                                         Log.d("setting", "User account deleted!");
@@ -123,6 +161,15 @@ public class page_fragment3 extends Fragment {
             }
         });
         return view;
+
+    }
+    private void goToUrl (String url) {
+        Uri uriUrl = Uri.parse(url);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
+        Toast.makeText(getContext(),"Loading...",
+                Toast.LENGTH_LONG).show();
+//                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
 
     }
 }
