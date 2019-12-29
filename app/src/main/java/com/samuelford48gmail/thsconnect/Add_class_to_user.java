@@ -40,6 +40,39 @@ public class Add_class_to_user extends AppCompatActivity {
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
         database = FirebaseDatabase.getInstance();
+        myRef2 = database.getReference("Toggle_Classes");
+
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(String.class).equals("Classes Closed")) {
+                    // ClassesClosed();
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(Add_class_to_user.this);
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("      Classes Closed");
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    builder.setCancelable(false);
+                    builder.show();
+                } else {
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
         myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         //String name = getIntent().getExtra("date_class");
         //String city = getIntent().getExtra("City");

@@ -25,7 +25,8 @@ public class admin_activity extends AppCompatActivity {
         arrayList.add("View students in classes");
         arrayList.add("Remove/Add Classes to Users");
         arrayList.add("Delete Class");
-
+        arrayList.add("Toggle Classes");
+        arrayList.add("Change Admin Panel Password");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -33,11 +34,13 @@ public class admin_activity extends AppCompatActivity {
 
         lv.setAdapter(arrayAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            int i = 0;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
 
                 String item = ((TextView)view).getText().toString();
+
                 if(item.equals("Remove/Add Classes to Users")){
 
                     Intent intent = new Intent(admin_activity.this
@@ -60,6 +63,19 @@ public class admin_activity extends AppCompatActivity {
                 if (item.equals("Delete Class")){
                     Intent intent = new Intent(admin_activity.this, admin_subjects.class);
                     startActivity(intent);
+                }
+                if (item.equals("Toggle Classes")) {
+                    Intent intent = new Intent(admin_activity.this, adminToggleClasses.class);
+                    startActivity(intent);
+                }
+                if (item.equals("Change Admin Panel Password")) {
+
+                    i++;
+                    if (i >= 12) {
+                        Intent intent = new Intent(admin_activity.this
+                                , adminChangePassword.class);
+                        startActivity(intent);
+                    }
                 }
             }
 

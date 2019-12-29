@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Admin_fragment extends Fragment {
     private EditText password;
@@ -39,10 +40,9 @@ public Admin_fragment(){}
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myRef.addChildEventListener(new ChildEventListener() {
+                myRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String p = password.getText().toString();
                         System.out.println(p);
                         String password_firebase = dataSnapshot.getValue(String.class);
@@ -54,30 +54,17 @@ public Admin_fragment(){}
 
                         }
                         else{
-IncorrectPassword();
+                            IncorrectPassword();
 
                         }
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
+
+
                 });
                 /*String p = password.getText().toString();
                 if (p.equals("1")) {

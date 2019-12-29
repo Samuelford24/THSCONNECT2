@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".your_info"></activity>
+        <activity android:name=".adminChangePassword"></activity>
+        <activity android:name=".adminToggleClasses" />
+        <activity android:name=".your_info" />
         <activity android:name=".admin_add_class_to_user_detail" />
         <activity android:name=".adminAddClassStudent_subject" />
         <activity android:name=".admin_subjects" />

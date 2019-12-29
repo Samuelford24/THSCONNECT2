@@ -58,7 +58,7 @@ public class Classes_fragment extends Fragment implements View.OnClickListener {
        social_studies_cv.setOnClickListener(this);
        english_cv.setOnClickListener(this);
        tech_cv.setOnClickListener(this);
-
+        other_cv.setOnClickListener(this);
         return view;
 
 

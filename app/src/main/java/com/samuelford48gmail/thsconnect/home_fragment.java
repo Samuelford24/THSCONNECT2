@@ -64,8 +64,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-           int i = (int) dataSnapshot.getChildrenCount();
-           System.out.println();
+
                 //list = new ArrayList<>();
                // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
