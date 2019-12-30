@@ -26,5 +26,15 @@
             android:layout_height="match_parent"
             android:layout_below="@id/textView" />
 
+        <TextView
+            android:layout_below="@id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have not signed up for any classes"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 </FrameLayout>

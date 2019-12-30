@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".adminChangePassword"></activity>
+        <activity android:name=".DeleteAccount"></activity>
+        <activity android:name=".adminChangePassword" />
         <activity android:name=".adminToggleClasses" />
         <activity android:name=".your_info" />
         <activity android:name=".admin_add_class_to_user_detail" />

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -75,12 +76,12 @@ public class Settings extends Fragment {
                     builder = new AlertDialog.Builder(getContext());
                     //builder.setIcon(R.drawable.open_browser);
                     builder.setTitle("Report a problem/Support");
-                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             goToUrl("https://forms.gle/kqBEcPDD8axhevcj8");
                         }
                     });
-                    builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }
@@ -94,7 +95,7 @@ public class Settings extends Fragment {
                     builder = new AlertDialog.Builder(getContext());
                     //builder.setIcon(R.drawable.open_browser);
                     builder.setTitle("Email us at svhsdev@vigoschools.org");
-                    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }
@@ -110,21 +111,21 @@ public class Settings extends Fragment {
                     startActivity(intent);
 
                 }
-                if (item.equals("Your info")){
+                if (item.equals("Your info")) {
                     Intent intent = new Intent(getContext(), your_info.class);
                     startActivity(intent);
                 }
-                if (item.equals("Privacy Policy/ Terms and Conditions")){
+                if (item.equals("Privacy Policy/ Terms and Conditions")) {
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(getContext());
                     //builder.setIcon(R.drawable.open_browser);
                     builder.setTitle("Report a problem/Support");
-                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             goToUrl("https://forms.gle/8B4Vs2LHqrsriSkv7");
                         }
                     });
-                    builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }
@@ -133,11 +134,25 @@ public class Settings extends Fragment {
                     builder.show();
 
                 }
-                if (item.equals("Delete Account")){
-                    final String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (item.equals("Delete Account")) {
+                    Intent intent = new Intent(getContext(), DeleteAccount.class);
+                    startActivity(intent);
+                  /*  final String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     myRef = database.getReference("Users").child(key);
-                    myRef.removeValue();
-                    final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    myRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            firebaseUser.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    });
+                 /*   final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     AuthCredential authCredential = EmailAuthProvider.getCredential("user@example.com", "password1234");
 
                     firebaseUser.reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -147,7 +162,6 @@ public class Settings extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-
                                         Intent intent = new Intent(getContext(), LoginActivity.class);
                                         startActivity(intent);
                                         Log.d("setting", "User account deleted!");
@@ -158,10 +172,14 @@ public class Settings extends Fragment {
                     });
 
                 }
+            }*/
+                }
             }
-        });
-        return view;
 
+
+        });
+
+        return view;
     }
     private void goToUrl (String url) {
         Uri uriUrl = Uri.parse(url);

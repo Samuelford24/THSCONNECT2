@@ -13,9 +13,12 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class user_remove_class extends AppCompatActivity {
     private Button remove_class;
@@ -38,6 +41,39 @@ public class user_remove_class extends AppCompatActivity {
         display_room_number.setText(room_number);
         database = FirebaseDatabase.getInstance();
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+
+        myRef2 = database.getReference("Toggle_Classes");
+
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(String.class).equals("Classes Closed")) {
+                    // ClassesClosed();
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(user_remove_class.this);
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("      Classes cannot be edited at this time");
+                    builder.setMessage("Ask a teacher to change your classes");
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    builder.setCancelable(false);
+                    builder.show();
+                } else {
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
 
         remove_class = (Button) findViewById(R.id.add_class_2);
         //  final Query query = myRef.orderByChild("classes").equalTo(post_key);

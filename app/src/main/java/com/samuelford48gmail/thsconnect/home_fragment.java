@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,9 +32,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     //ListView listview2;
     //ArrayList<String> list=new ArrayList<>();
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, myRef2;
     List<String> keyList = new ArrayList<String>();
-
+    private TextView tx;
     private List<Listdata> list;
     private RecyclerView recyclerview;
     public home_fragment() {
@@ -45,7 +46,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-
+        tx = (TextView) view.findViewById(R.id.textView2);
         //FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
         // startActivity(intent);}
@@ -55,6 +56,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
        final List<String> keyList = new ArrayList<String>();
         recyclerview = (RecyclerView) view.findViewById(R.id.rvieww);
         database = FirebaseDatabase.getInstance();
+        myRef2 = database.getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         myRef = database.getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         list = new ArrayList<>();
@@ -64,7 +68,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-
+                if (!dataSnapshot.exists()) {
+                    tx.setVisibility(View.VISIBLE);
+                }
                 //list = new ArrayList<>();
                // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
