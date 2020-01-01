@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.onesignal.OneSignal;
 
@@ -99,6 +100,8 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     String create_uid = FirebaseAuth.getInstance().getUid();
+                                    FirebaseUser user2 = auth.getCurrentUser();
+                                    user2.sendEmailVerification();
                                     User user = new User(
                                             name,
                                             email,
@@ -114,6 +117,7 @@ public class SignupActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             progressBar.setVisibility(View.GONE);
                                             if (task.isSuccessful()) {
+
                                                 Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                                 finish();
