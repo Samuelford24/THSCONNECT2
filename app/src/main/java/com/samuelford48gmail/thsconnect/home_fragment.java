@@ -68,18 +68,16 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                if (!dataSnapshot.exists()) {
-                    tx.setVisibility(View.VISIBLE);
-                }
+
                 //list = new ArrayList<>();
                // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
               //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
 //String postkey2 = dataSnapshot.getKey();
 
                 final String class_id = dataSnapshot.getValue(String.class);
-                Log.d("home", "class_idf" + class_id);
+                //Log.d("home", "class_idf" + class_id);
                 myRef = database.getReference("Classes").child(class_id).child("class_info");
-                Log.d("home", "myref" + myRef);
+                //  Log.d("home", "myref" + myRef);
 
                 myRef.addValueEventListener(new ValueEventListener() {
 
@@ -102,7 +100,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                             listdata.setRnumber(roomnumberofclass);
                             // recycler.notifyDataSetChanged();
                             keyList.add(listdata.getUid());
-                            Log.d("home","keylist"+ keyList);
+                            // Log.d("home","keylist"+ keyList);
                             list.add(listdata);
                             recycler.notifyDataSetChanged();
                             //recycler.notifyDataSetChanged();// Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
@@ -144,10 +142,10 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                Log.d("home", "ff" +dataSnapshot);
+                //Log.d("home", "ff" +dataSnapshot);
                 int index = keyList.indexOf(dataSnapshot.getKey());
-                Log.d("home", "indexofkL"+ index
-                );
+                // Log.d("home", "indexofkL"+ index
+                //);
                 keyList.remove(index);
                 list.remove(index);
 

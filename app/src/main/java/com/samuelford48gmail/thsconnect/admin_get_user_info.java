@@ -3,9 +3,13 @@ package com.samuelford48gmail.thsconnect;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,27 +26,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class admin_get_user_info extends AppCompatActivity {
    // private TextView txt;
    private FirebaseDatabase database;
    private DatabaseReference myRef;
-   String user_info = "info";
- String name = null;
-    ListView lv;
-    ArrayList<String> list=new ArrayList<>();
+
+    //  String user_info = "info";
+    String studentUID = null;
+    RecyclerView rv;
+    private List<ListDataUser> list;
+    List<String> keyList = new ArrayList<String>();
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_show_students_uid);
-
-        lv = (ListView) findViewById(R.id.lv_science_students);
-        final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
-        lv.setAdapter(adapter);
-
-        lv.setStackFromBottom(true);
+        list = new ArrayList<>();
+        rv = (RecyclerView) findViewById(R.id.rviewuser);
+        //final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
+        //lv.setAdapter(adapter);
+        final List<String> keyList = new ArrayList<String>();
+        //lv.setStackFromBottom(true);
         TextView display_class_name = (TextView) findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
+        PreferenceManager.getDefaultSharedPreferences(admin_get_user_info.this).edit().putString("classKey", post_key).apply();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Classes").child(post_key).child("Students");
 
@@ -50,11 +58,12 @@ public class admin_get_user_info extends AppCompatActivity {
        // txt = (TextView) findViewById(R.id.textView3);
         display_class_name.setText(post_key);
         myRef.addChildEventListener(new ChildEventListener() {
+            final UserRecyclerView recycler = new UserRecyclerView(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-               name = dataSnapshot.getValue(String.class);
+                studentUID = dataSnapshot.getValue(String.class);
                // name = name.trim().toString();
-          myRef = database.getReference("Users").child(name).child("User_info");
+                myRef = database.getReference("Users").child(studentUID).child("User_info");
           System.out.println(myRef);
 
 
@@ -65,10 +74,14 @@ public class admin_get_user_info extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             User user = dataSnapshot.getValue(User.class);
                             assert user != null;
-                            String name2 = user.getName();
+                            String name = user.getName();
                             String grade = user.getGrade();
+                            String studnetId = user.getStudentID();
                             String uid = user.getUid();
-
+                            keyList.add(uid);
+                            ListDataUser l = new ListDataUser(name, grade, studnetId, uid);
+                            list.add(l);
+                            recycler.notifyDataSetChanged();
 
                             //intent.putExtra("date_class", listdata.get(position).getDate_class2());
                             // intent.putExtra("teacher", listdata.get(position).getTeacher2());
@@ -77,20 +90,24 @@ public class admin_get_user_info extends AppCompatActivity {
                             //String grade = user.getGrade();
                             //String email = user.getEmail();
                             // System.out.println(user);
-                            user_info = ("Name: " + name2 + "Grade: " + grade);
-                            assert user_info != "info";
-                            list.add(user_info);
+
 
 
                             // System.out.println(user_info);
 
-                            adapter.notifyDataSetChanged();
-                        }
-                        else {
-                            myRef = database.getReference("Classes").child("Students").child(name);
-                            myRef.removeValue();
+                            // adapter.notifyDataSetChanged();
                         }
 
+                        else {
+                            myRef = database.getReference("Classes").child(post_key).child("Students").child(studentUID);
+                            // System.out.println("if datasnap not exist" + myRef);
+                            myRef.removeValue();
+                        }
+                        // UserRecyclerView recycler = new UserRecyclerView(list);
+                        RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(admin_get_user_info.this);
+                        rv.setLayoutManager(layoutmanager);
+                        rv.setItemAnimator(new DefaultItemAnimator());
+                        rv.setAdapter(recycler);
 
                     }
 
@@ -102,7 +119,7 @@ public class admin_get_user_info extends AppCompatActivity {
 
                     }
                 });
-adapter.notifyDataSetChanged();
+//adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -112,7 +129,15 @@ adapter.notifyDataSetChanged();
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                int index = keyList.indexOf(dataSnapshot.getKey());
+                // Log.d("home", "indexofkL"+ index
+                //);
+                keyList.remove(index);
+                list.remove(index);
 
+                // recycler.notifyDataSetChanged();
+
+                recycler.notifyDataSetChanged();
             }
 
             @Override
@@ -125,7 +150,7 @@ adapter.notifyDataSetChanged();
 
             }
         });
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
               list.get(position);
@@ -133,7 +158,7 @@ adapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),
                         "t"+position, Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
     private void useValue(String yourValue) {
 

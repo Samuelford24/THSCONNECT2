@@ -51,9 +51,9 @@ final String class_type = getIntent().getStringExtra("class_type");
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();
                     //String address = userdetails.getAddress();
-                    listdata.setDate_class(nameofclass);
-                    listdata.setTeacher(teacherofclass);
-                    listdata.setRnumber(roomnumberofclass);
+                    //  listdata.setDate_class(nameofclass);
+                    //listdata.setTeacher(teacherofclass);
+                    //listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
 
                     // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();

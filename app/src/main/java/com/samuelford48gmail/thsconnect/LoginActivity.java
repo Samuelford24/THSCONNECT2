@@ -71,18 +71,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //Get Firebase auth instance
-        // auth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-                }
-
             }
-        };
+
 
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);
