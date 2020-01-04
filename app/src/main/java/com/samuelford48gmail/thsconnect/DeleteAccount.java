@@ -60,15 +60,18 @@ public class DeleteAccount extends AppCompatActivity {
                 }
                 database = FirebaseDatabase.getInstance();
                 final String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                myRef = database.getReference("Users").child(key);
-                System.out.println(myRef);
-                myRef.removeValue();
+                //myRef = database.getReference("Users").child(key);
+                //  System.out.println(myRef);
+                //  myRef.removeValue();
                 final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 AuthCredential authCredential = EmailAuthProvider.getCredential(email, password);
 
                 firebaseUser.reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        myRef = database.getReference("Users").child(key);
+                        // System.out.println(myRef);
+                        myRef.removeValue();
                         firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

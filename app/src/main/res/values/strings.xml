@@ -36,7 +36,7 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Address to send you password reset instructions.</string>
     <string name="email_id">Email ID</string>
-    <string name="registration_success">Registered Successfully</string>
+    <string name="registration_success">Registered Successfully! An email has been sent to verify your email; this must be done before logging in.</string>
     <string name="title_activity_admin_fragment">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in">Sign in or register</string>

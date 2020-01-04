@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null && auth.getCurrentUser().isEmailVerified()) {
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
@@ -139,10 +139,32 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                    finish();
+                                    if (auth.getCurrentUser().isEmailVerified()) {
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        finish();
+                                    } else {
+                                        AlertDialog.Builder builder;
+                                        builder = new AlertDialog.Builder(LoginActivity.this);
+                                        //builder.setIcon(R.drawable.open_browser);
+                                        builder.setTitle("Verify Email");
+                                        builder.setMessage("You need to verify your email before logging in! Would you like to resend the verification email?");
+                                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                auth.getCurrentUser().sendEmailVerification();
+                                            }
+                                        });
+                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        builder.setCancelable(true);
+                                        builder.show();
+
+
+                                    }
                                 }
                             }
                         });
