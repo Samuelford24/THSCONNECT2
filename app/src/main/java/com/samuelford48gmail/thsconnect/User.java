@@ -8,17 +8,21 @@ public class User {
     public String grade;
     public String uid;
 
+
+    public String homeroom;
     public String studentID;
 
      public User(){
 
     }
-    public User(String name, String email, String grade, String uid, String studentID) {
+
+    public User(String name, String email, String grade, String uid, String studentID, String homeroom) {
         this.name = name;
         this.email = email;
         this.grade = grade;
         this.uid = uid;
         this.studentID = studentID;
+        this.homeroom = homeroom;
 
     }
     public String getName() {
@@ -54,5 +58,17 @@ public class User {
     }
     public String getStudentID() {
         return studentID;
+    }
+
+    public String getHomeroom() {
+        return homeroom;
+    }
+
+    public void setHomeroom(String homeroom) {
+        this.homeroom = homeroom;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 }

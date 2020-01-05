@@ -17,16 +17,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.onesignal.OneSignal;
 
+import org.w3c.dom.Text;
+
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputGrade, inputName, inputID;     //hit option + enter if you on mac , for windows hit ctrl + enter
+    private EditText inputEmail, inputPassword, inputGrade, inputName, inputID, inputHR;     //hit option + enter if you on mac , for windows hit ctrl + enter
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
-
+    private String hr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
         inputGrade = (EditText) findViewById(R.id.grade);
         inputName = (EditText) findViewById(R.id.name);
         inputID = (EditText) findViewById(R.id.studentID);
-
+        inputHR = (EditText) findViewById(R.id.homeroom);
 
       /*  btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,18 +72,27 @@ public class SignupActivity extends AppCompatActivity {
                 final String name = inputName.getText().toString().trim();
                 final String grade = inputGrade.getText().toString().trim();
                 final String studentID = inputID.getText().toString().trim();
+                final String homeroom = inputHR.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter a email address!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter a password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (password.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(homeroom)) {
+                    Toast.makeText(getApplicationContext(), "Enter a homeroom!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(studentID)) {
+                    Toast.makeText(getApplicationContext(), "Enter a StudentID!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -99,25 +111,56 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    String create_uid = FirebaseAuth.getInstance().getUid();
+                                    final String create_uid = FirebaseAuth.getInstance().getUid();
                                     FirebaseUser user2 = auth.getCurrentUser();
                                     user2.sendEmailVerification();
-                                    User user = new User(
-                                            name,
-                                            email,
-                                            grade,
-                                            create_uid,
-                                            studentID
-                                    );
+                                    User user = new User(name, email, grade, create_uid, studentID, homeroom);
                                    // OneSignal.setEmail(email);
                                     FirebaseDatabase.getInstance().getReference("Users")
                                             .child(create_uid).child("User_info")
                                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            progressBar.setVisibility(View.GONE);
+
                                             if (task.isSuccessful()) {
 
+
+                                                String b = homeroom.toUpperCase();
+                                                int value = b.charAt(0);
+                                                //int asciiValue = (int) value;
+                                                System.out.println(value);
+                                                if (value >= 65 && value < 67) {
+                                                    hr = "HR1";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else if (value <= 70) {
+                                                    hr = "HR2";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else if (value <= 76) {
+                                                    hr = "HR3";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else if (value <= 79) {
+                                                    hr = "HR4";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else if (value <= 83) {
+                                                    hr = "HR5";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else if (value <= 90) {
+                                                    hr = "HR6";
+                                                    Toast.makeText(getApplicationContext(), homeroom,
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    hr = "Incorrect Format";
+                                                }
+                                                System.out.println(hr);
+                                                DatabaseReference myref = FirebaseDatabase.getInstance().getReference(hr).child(homeroom).child(create_uid);
+                                                System.out.println(myref);
+                                                myref.setValue(create_uid);
+                                                progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                                 finish();
