@@ -27,40 +27,47 @@ public class admin_activity extends AppCompatActivity {
         arrayList.add("Delete Class");
         arrayList.add("Toggle Classes");
         arrayList.add("Change Admin Panel Password");
+        arrayList.add("Homerooms A-C");
+        arrayList.add("Homerooms D-G");
+        arrayList.add("HomeroomsH-L");
+        arrayList.add("Homerooms M-O");
+        arrayList.add("Homerooms P-S");
+        arrayList.add("Homerooms T-Z");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                arrayList );
+                arrayList);
 
         lv.setAdapter(arrayAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             int i = 0;
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
 
-                String item = ((TextView)view).getText().toString();
-
-                if(item.equals("Remove/Add Classes to Users")){
+                String item = ((TextView) view).getText().toString();
+                String hr;
+                if (item.equals("Remove/Add Classes to Users")) {
 
                     Intent intent = new Intent(admin_activity.this
-                    , admin_edit_student_classes.class);
+                            , admin_edit_student_classes.class);
                     startActivity(intent);
 
-                   // Intent intent = new Intent(admin_activity.this, admin_edit_student_classes.class
-                   // );
+                    // Intent intent = new Intent(admin_activity.this, admin_edit_student_classes.class
+                    // );
                     //startActivity(intent);
                 }
-                if(item.equals("Create Class")){
+                if (item.equals("Create Class")) {
                     Intent intent = new Intent(admin_activity.this, admin_create_class.class
                     );
                     startActivity(intent);
                 }
-                if(item.equals("View students in classes")){
+                if (item.equals("View students in classes")) {
                     Intent intent = new Intent(admin_activity.this, adminClassesWithStudents_subjects.class);
                     startActivity(intent);
                 }
-                if (item.equals("Delete Class")){
+                if (item.equals("Delete Class")) {
                     Intent intent = new Intent(admin_activity.this, admin_subjects.class);
                     startActivity(intent);
                 }
@@ -76,6 +83,44 @@ public class admin_activity extends AppCompatActivity {
                                 , adminChangePassword.class);
                         startActivity(intent);
                     }
+
+                }
+                if (item.equals("Homerooms A-C")) {
+                    hr = "HR1";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
+                }
+                if (item.equals("Homerooms D-G")) {
+                    hr = "HR2";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
+                }
+                if (item.equals("Homerooms H-L")) {
+                    hr = "HR3";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
+                }
+                if (item.equals("Homerooms M-O")) {
+                    hr = "HR4";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
+                }
+                if (item.equals("Homerooms P-S")) {
+                    hr = "HR5";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
+
+                }
+                if (item.equals("Homerooms T-Z")) {
+                    hr = "HR6";
+                    Intent intent = new Intent(admin_activity.this, Homeroom.class);
+                    intent.putExtra("hr", hr);
+                    startActivity(intent);
                 }
             }
 
