@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Homeroom extends AppCompatActivity {
     ListView rv;
@@ -42,8 +43,11 @@ public class Homeroom extends AppCompatActivity {
         myref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //  System.out.println(dataSnapshot);
-                list.add(dataSnapshot.getKey());
+                System.out.println(dataSnapshot);
+                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+
+
+
                 adapter.notifyDataSetChanged();
             }
 
@@ -57,6 +61,7 @@ public class Homeroom extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String value = (String) rv.getItemAtPosition(i);
                 Intent intent = new Intent(Homeroom.this, HRstudents.class);
+                intent.putExtra("hrCategory", hr);
                 intent.putExtra("HR", value);
                 startActivity(intent);
             }

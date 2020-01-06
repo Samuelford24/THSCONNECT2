@@ -35,7 +35,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     private DatabaseReference myRef, myRef2;
     List<String> keyList = new ArrayList<String>();
     private TextView tx;
-    private List<Listdata> list;
+    List<Listdata> list;
     private RecyclerView recyclerview;
     public home_fragment() {
 
