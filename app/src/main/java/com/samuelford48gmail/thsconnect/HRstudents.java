@@ -59,7 +59,8 @@ public class HRstudents extends AppCompatActivity {
 
                 final String student = dataSnapshot.getValue(String.class);
                 //Log.d("home", "class_idf" + class_id);
-                myRef = database.getReference("Users").child(student).child("class_info");
+                System.out.println(student);
+                myRef = database.getReference("Users").child(student).child("User_info");
                 //  Log.d("home", "myref" + myRef);
                 System.out.println(myRef);
                 myRef.addValueEventListener(new ValueEventListener() {
@@ -88,8 +89,7 @@ public class HRstudents extends AppCompatActivity {
                             //String email = user.getEmail();
                             // System.out.println(user);
 
-                            list.add(l);
-                            recycler.notifyDataSetChanged();
+
                             // System.out.println(user_info);
 
                             // adapter.notifyDataSetChanged();

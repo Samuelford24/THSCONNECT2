@@ -45,7 +45,10 @@ public class Homeroom extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println(dataSnapshot);
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
-
+                System.out.println(map.keySet());
+                for (String key : map.keySet()) {
+                    list.add(key);
+                }
 
 
                 adapter.notifyDataSetChanged();
@@ -60,6 +63,7 @@ public class Homeroom extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String value = (String) rv.getItemAtPosition(i);
+                System.out.println(value);
                 Intent intent = new Intent(Homeroom.this, HRstudents.class);
                 intent.putExtra("hrCategory", hr);
                 intent.putExtra("HR", value);
