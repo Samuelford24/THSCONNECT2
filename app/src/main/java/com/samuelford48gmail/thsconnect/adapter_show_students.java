@@ -1,13 +1,20 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 //uses lock show students activities
 public class adapter_show_students extends RecyclerView.Adapter<adapter_show_students.MyHolder>{
@@ -28,6 +35,7 @@ public class adapter_show_students extends RecyclerView.Adapter<adapter_show_stu
 
 
     public void onBindViewHolder(MyHolder holder, final int position) {
+
         final Listdata data = listdata.get(position);
         holder.vdate_class.setText(data.getDate_class());
         holder.vteacher.setText(data.getTeacher());
@@ -46,6 +54,7 @@ public class adapter_show_students extends RecyclerView.Adapter<adapter_show_stu
         });
 
     }
+
 
     @Override
     public int getItemCount() {
