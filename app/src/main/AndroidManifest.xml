@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HRstudents"></activity>
+        <activity android:name=".HRActions"></activity>
+        <activity android:name=".HRstudents" />
         <activity android:name=".Homeroom" />
         <activity android:name=".DeleteAccount" />
         <activity android:name=".adminChangePassword" />

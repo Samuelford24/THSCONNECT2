@@ -2,6 +2,8 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -43,41 +45,12 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Context context = view.getContext();
-                final String ClassKey = PreferenceManager.getDefaultSharedPreferences(context).getString("classKey", "");
-                android.support.v7.app.AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(context);
-                //builder.setIcon(R.drawable.open_browser);
-                builder.setTitle("Remove Student from Class?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String uid = data.getUid();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myref = database.getReference("Classes").child(ClassKey).child("Students").child(uid);
-                        //System.out.println(myref);
-                        myref.removeValue();
-                        DatabaseReference myref2 = database.getReference("Users").child(uid).child("Classes").child(ClassKey);
-                        myref2.removeValue();
-                        System.out.println(myref2);
-                    }
+                final Context context = view.getContext();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setCancelable(true);
-                builder.show();
-
-                /*Intent intent = new Intent(context, Add_class_to_user.class);
-                intent.putExtra("studentName", listdata.get(position).getStudentname());
-                intent.putExtra("grade", listdata.get(position).getGrade());
-                intent.putExtra("studentIDr", listdata.get(position).getStudnetID());
-                intent.putExtra("UID", listdata.get(position).getUid());
+                Intent intent = new Intent(context, HRActions.class);
+                intent.putExtra("uid", data.getUid());
                 context.startActivity(intent);
-*/
 
             }
         });

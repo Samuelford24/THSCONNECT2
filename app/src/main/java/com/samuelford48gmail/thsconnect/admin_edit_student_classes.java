@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class admin_edit_student_classes extends AppCompatActivity {
-    private Button btn1, btn2;
+    private Button btn1, btn2, btn3;
     private EditText edt1;
 
     @Override
@@ -19,6 +19,7 @@ public class admin_edit_student_classes extends AppCompatActivity {
         btn1 = (Button) findViewById(R.id.admin_remove_class);
         btn2 = (Button) findViewById(R.id.admin_add_class);
         edt1 = (EditText) findViewById(R.id.studentName);
+        btn3 = (Button) findViewById(R.id.back);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +40,13 @@ public class admin_edit_student_classes extends AppCompatActivity {
                 Intent intent = new Intent(context, adminAddClassStudent_subject.class);
                 intent.putExtra("studentid", studentid);
                 context.startActivity(intent);
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(admin_edit_student_classes.this, admin_activity.class);
+                startActivity(intent);
             }
         });
     }

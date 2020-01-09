@@ -136,8 +136,10 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
         builder.setMessage("The studentID " + studentid + " does not match any on file");
         builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(adminAddClassStudent_subject.this, admin_edit_student_classes.class);
-                startActivity(intent);
+                finish();
+                // Intent intent = new Intent(adminAddClassStudent_subject.this, admin_edit_student_classes.class);
+                //startActivity(intent);
+                //finish();
             }
         });
 
