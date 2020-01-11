@@ -47,13 +47,73 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
             public void onClick(final View view) {
                 final Context context = view.getContext();
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                android.support.v7.app.AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(context);
+                //builder.setIcon(R.drawable.open_browser);
+                builder.setTitle("View Student's Classes?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String uid = data.getUid();
+                        Intent intent = new Intent(context, HRStudentsClasses.class);
+                        intent.putExtra("uid", uid);
+                        context.startActivity(intent);
 
-                Intent intent = new Intent(context, HRActions.class);
-                intent.putExtra("uid", data.getUid());
-                context.startActivity(intent);
+                    }
+
+
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(true);
+                builder.show();
 
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final Context context = view.getContext();
+                android.support.v7.app.AlertDialog.Builder builder2;
+                //  dateTimeDisplay.setText(date);
+                builder2 = new AlertDialog.Builder(context);
+                //builder.setIcon(R.drawable.open_browser);
+                builder2.setTitle("View Student's Attendance?");
+                builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String uid = data.getUid();
+                        Intent intent = new Intent(context, HRStudentAttendance.class);
+                        intent.putExtra("uid", uid);
+                        context.startActivity(intent);
+                        //System.out.println(myref);
+
+                    }
+
+
+                });
+                builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                builder2.setCancelable(true);
+                builder2.show();
+
+                /*Intent intent = new Intent(context, Add_class_to_user.class);
+                intent.putExtra("studentName", listdata.get(position).getStudentname());
+                intent.putExtra("grade", listdata.get(position).getGrade());
+                intent.putExtra("studentIDr", listdata.get(position).getStudnetID());
+                intent.putExtra("UID", listdata.get(position).getUid());
+                context.startActivity(intent);
+*/
+
+                return true;
+            }
+
+        });
+
     }
 
 
