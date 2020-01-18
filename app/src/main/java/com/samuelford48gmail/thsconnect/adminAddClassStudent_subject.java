@@ -45,7 +45,7 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
                 //must match path in Firebase
                 String student = (String) dataSnapshot.child("User_info/studentID").getValue();
                 if (student.equals(studentid)) {
-                    Log.d("admin", "Found student");
+
                     studentFound();
                     String user_uid = (String) dataSnapshot.child("User_info/uid").getValue();
                     SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid2", Context.MODE_PRIVATE);
@@ -54,9 +54,7 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
                     editor.apply();
                     Log.d("admin", "Got uid" + user_uid);
                 }
-                else {
-                    studentNotFound(studentid);
-                }
+
             }
 
                 @Override

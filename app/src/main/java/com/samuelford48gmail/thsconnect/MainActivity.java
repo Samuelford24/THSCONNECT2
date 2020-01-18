@@ -50,22 +50,26 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                    // mTextMessage.setText(R.string.title_home);
                     fm.beginTransaction().hide(active).show(fragment1).commit();
-                    active = fragment1;
 
+                    active = fragment1;
+                    fm.popBackStack();
                     return true;
                 case R.id.navigation_dashboard:
                    // mTextMessage.setText(R.string.title_dashboard);
                     fm.beginTransaction().hide(active).show(fragment2).commit();
                     active = fragment2;
+                    fm.popBackStack();
                     return true;
                 case R.id.navigation_notifications:
                     //mTextMessage.setText(R.string.title_notifications);
                     fm.beginTransaction().hide(active).show(fragment3).commit();
                     active = fragment3;
+                    fm.popBackStack();
                     return true;
                 case R.id.admin:
                     fm.beginTransaction().hide(active).show(fragment4).commit();
                     active = fragment4;
+                    fm.popBackStack();
                     return true;
             }
             return false;
