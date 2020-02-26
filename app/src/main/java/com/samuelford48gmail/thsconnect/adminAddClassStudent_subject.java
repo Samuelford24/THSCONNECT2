@@ -43,7 +43,10 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
 
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //must match path in Firebase
+                System.out.println("1" + dataSnapshot);
+                System.out.println("2" + dataSnapshot.child("User_info/studentID"));
                 String student = (String) dataSnapshot.child("User_info/studentID").getValue();
+
                 if (student.equals(studentid)) {
 
                     studentFound();

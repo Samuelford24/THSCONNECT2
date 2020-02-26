@@ -48,10 +48,10 @@ public class adminRemoveClassFromStudent extends AppCompatActivity {
             final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String student = (String)dataSnapshot.child("User_info/studentID").getValue();
+                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
+                System.out.println("Student" + student);
 
-
-                if (student.equals(studentid)) {
+                if (studentid.equals(student)) {
                    studentFound();
                     //studentNotFound(studentid);
 
