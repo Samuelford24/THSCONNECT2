@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment fragment2 = new Classes_fragment();
     final Fragment fragment3 = new Settings();
     final Fragment fragment4 = new Admin_fragment();
+    final Fragment fragment5 = new HR_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        fm.beginTransaction().add(R.id.main_container, fragment5, "5").hide(fragment5).commit();
         fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit();
         fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit();
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
@@ -69,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.admin:
                     fm.beginTransaction().hide(active).show(fragment4).commit();
                     active = fragment4;
+                    fm.popBackStack();
+                    return true;
+                case R.id.Homeroom:
+                    fm.beginTransaction().hide(active).show(fragment5).commit();
+                    active = fragment5;
                     fm.popBackStack();
                     return true;
             }

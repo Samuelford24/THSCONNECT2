@@ -27,9 +27,10 @@ public class admin_activity extends AppCompatActivity {
         arrayList.add("Delete Class");
         arrayList.add("Toggle Classes");
         arrayList.add("Change Admin Panel Password");
+        arrayList.add("Set Homeroom");
         arrayList.add("Homerooms A-C");
         arrayList.add("Homerooms D-G");
-        arrayList.add("HomeroomsH-L");
+        arrayList.add("Homerooms H-L");
         arrayList.add("Homerooms M-O");
         arrayList.add("Homerooms P-S");
         arrayList.add("Homerooms T-Z");
@@ -84,6 +85,11 @@ public class admin_activity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
+                }
+                if (item.equals("Set Homeroom")) {
+                    Intent intent = new Intent(admin_activity.this
+                            , adminSetHR.class);
+                    startActivity(intent);
                 }
                 if (item.equals("Homerooms A-C")) {
                     hr = "HR1";

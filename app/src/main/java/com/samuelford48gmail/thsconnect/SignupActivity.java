@@ -114,7 +114,7 @@ public class SignupActivity extends AppCompatActivity {
                                     final String create_uid = FirebaseAuth.getInstance().getUid();
                                     FirebaseUser user2 = auth.getCurrentUser();
                                     user2.sendEmailVerification();
-                                    User user = new User(name, email, grade, create_uid, studentID, homeroom);
+                                    User user = new User(name, email, grade, create_uid, studentID, homeroom.toUpperCase());
                                    // OneSignal.setEmail(email);
                                     FirebaseDatabase.getInstance().getReference("Users")
                                             .child(create_uid).child("User_info")
@@ -157,7 +157,7 @@ public class SignupActivity extends AppCompatActivity {
                                                     hr = "Incorrect Format";
                                                 }
                                                 System.out.println(hr);
-                                                DatabaseReference myref = FirebaseDatabase.getInstance().getReference(hr).child(homeroom).child(create_uid);
+                                                DatabaseReference myref = FirebaseDatabase.getInstance().getReference(hr).child(b).child(create_uid);
                                                 System.out.println(myref);
                                                 myref.setValue(create_uid);
                                                 progressBar.setVisibility(View.GONE);

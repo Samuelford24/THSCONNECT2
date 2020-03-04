@@ -20,7 +20,9 @@
         android:icon="@drawable/lock_admin"
         android:title="Admin"
         />
-
-
+    <item
+        android:id="@+id/Homeroom"
+        android:icon="@drawable/shield"
+        android:title="Homeroom" />
 
 </menu>

@@ -28,7 +28,7 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
     private Button btn, btn2, btn3, btn4, btn5, btn6;
     private String class_name;
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, g;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +43,19 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
 
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //must match path in Firebase
-                System.out.println("1" + dataSnapshot);
-                System.out.println("2" + dataSnapshot.child("User_info/studentID"));
-                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
 
+                //  if(!dataSnapshot.child("User_info/studentID").exists()){
+
+
+                // }
+                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
+                if (student == null) {
+                    System.out.println("KEY" + dataSnapshot.getKey());
+
+                    g = database.getReference("Users").child(dataSnapshot.getKey());
+                    System.out.println(g);
+                    g.removeValue();
+                }
                 if (student.equals(studentid)) {
 
                     studentFound();

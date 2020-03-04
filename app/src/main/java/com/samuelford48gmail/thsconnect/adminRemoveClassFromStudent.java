@@ -28,7 +28,7 @@ import java.util.List;
 public class adminRemoveClassFromStudent extends AppCompatActivity {
     private RecyclerView recyclerview;
     private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef, g;
     private List<Listdata> list;
     List<String> keyList = new ArrayList<String>();
 
@@ -49,8 +49,14 @@ public class adminRemoveClassFromStudent extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String student = (String) dataSnapshot.child("User_info/studentID").getValue();
-                System.out.println("Student" + student);
 
+                if (student == null) {
+
+
+                    g = database.getReference("Users").child(dataSnapshot.getKey());
+                    System.out.println(g);
+                    g.removeValue();
+                }
                 if (studentid.equals(student)) {
                    studentFound();
                     //studentNotFound(studentid);
