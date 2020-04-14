@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Classes_fragment extends Fragment implements View.OnClickListener {
-    private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, other_cv;
+    private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, other_cv, music_cv, art_cv;
     String class_name;
     private DatabaseReference myRef;
     private FirebaseDatabase database;
@@ -52,6 +52,8 @@ public class Classes_fragment extends Fragment implements View.OnClickListener {
         english_cv = (CardView) view.findViewById(R.id.English);
         tech_cv = (CardView) view.findViewById(R.id.tech);
         other_cv= (CardView) view.findViewById(R.id.other);
+        music_cv = view.findViewById(R.id.Music);
+        art_cv = view.findViewById(R.id.art);
         //set onclicklistener to cardviews
        science_cv.setOnClickListener(this);
        math_cv.setOnClickListener(this);
@@ -59,6 +61,8 @@ public class Classes_fragment extends Fragment implements View.OnClickListener {
        english_cv.setOnClickListener(this);
        tech_cv.setOnClickListener(this);
         other_cv.setOnClickListener(this);
+        music_cv.setOnClickListener(this);
+        art_cv.setOnClickListener(this);
         return view;
 
 
@@ -112,35 +116,43 @@ public class Classes_fragment extends Fragment implements View.OnClickListener {
 
     public void onClick (View v){
         Intent i;
+        i = new Intent(getContext(), Classes.class);
         switch (v.getId()) {
             case R.id.science:
-               // ClassesClosed();
-
-              i = new Intent(getContext(), Classes.class);
-               class_name = "Science";
+                class_name = "Science";
                i.putExtra("class_type", class_name);
-               startActivity(i);
-
+                startActivity(i);
                 break;
-            case R.id.math: i = new Intent(getContext(), Classes.class);
+            case R.id.math:
             class_name = "Math";
                 i.putExtra("class_type", class_name);
             startActivity(i);break;
-            case R.id.social_studies: i = new Intent(getContext(), Classes.class);
+            case R.id.social_studies:
                 class_name = "Social Studies";
                 i.putExtra("class_type", class_name);
             startActivity(i);break;
-            case R.id.English: i = new Intent(getContext(), Classes.class);
+            case R.id.English:
                 class_name = "English";
                 i.putExtra("class_type", class_name);
             startActivity(i);break;
-            case R.id.tech: i = new Intent(getContext(), Classes.class);
+            case R.id.tech:
                 class_name = "Technology";
                 i.putExtra("class_type", class_name);startActivity(i);break;
-            case R.id.other: i = new Intent(getContext(), Classes.class);
+            case R.id.other:
                 class_name = "Other";
                 i.putExtra("class_type", class_name);
                 startActivity(i);break;
+            case R.id.Music:
+                class_name = "Music";
+                i.putExtra("class_type", class_name);
+                startActivity(i);
+                break;
+            case R.id.art:
+                class_name = "Art";
+                i.putExtra("class_type", class_name);
+                startActivity(i);
+                break;
+
             default:break;
         }
     }

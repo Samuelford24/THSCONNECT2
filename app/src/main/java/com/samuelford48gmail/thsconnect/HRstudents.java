@@ -95,7 +95,7 @@ public class HRstudents extends AppCompatActivity {
                             // adapter.notifyDataSetChanged();
                         } else {
                             myRef = database.getReference(g).child(f).child(student);
-                            // System.out.println("if datasnap not exist" + myRef);
+                            System.out.println("if datasnap not exist" + myRef);
                             myRef.removeValue();
                         }
                         // Log.d("home","keylist"+ keyList);

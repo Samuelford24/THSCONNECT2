@@ -38,7 +38,7 @@ public class admin_create_class extends AppCompatActivity {
                 String date_class = date_class1.getText().toString().trim();
                 String teacher_name = teacher_name1.getText().toString().trim();
                 String room_number = room_number1.getText().toString().trim();
-                if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other")) {
+                if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
                     String key = myRef.push().getKey();
                     Class_model new_class = new Class_model(date_class, teacher_name, room_number, key, subject);
 

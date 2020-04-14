@@ -50,8 +50,8 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
                 android.support.v7.app.AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(context);
                 //builder.setIcon(R.drawable.open_browser);
-                builder.setTitle("View Student's Classes?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setTitle("View Student's Classes or Attendance?");
+                builder.setNegativeButton("Classes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String uid = data.getUid();
                         Intent intent = new Intent(context, HRStudentsClasses.class);
@@ -62,7 +62,16 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
 
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Attendance", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String uid = data.getUid();
+                        Intent intent = new Intent(context, HRStudentAttendance.class);
+                        intent.putExtra("uid", uid);
+                        context.startActivity(intent);
+                    }
+                });
+
+                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
@@ -72,7 +81,7 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
             }
         });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+       /* holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 final Context context = view.getContext();
@@ -107,13 +116,14 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
                 intent.putExtra("studentIDr", listdata.get(position).getStudnetID());
                 intent.putExtra("UID", listdata.get(position).getUid());
                 context.startActivity(intent);
-*/
+
 
                 return true;
             }
 
         });
 
+*/
     }
 
 
