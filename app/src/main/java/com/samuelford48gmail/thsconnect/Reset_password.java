@@ -1,7 +1,8 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,10 +27,10 @@ public class Reset_password extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-        inputEmail = (EditText) findViewById(R.id.email);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-        btnBack = (Button) findViewById(R.id.btn_back);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        inputEmail = findViewById(R.id.email);
+        btnReset = findViewById(R.id.btn_reset_password);
+        btnBack = findViewById(R.id.btn_back);
+        progressBar = findViewById(R.id.progressBar);
 
         auth = FirebaseAuth.getInstance();
 

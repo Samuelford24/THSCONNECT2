@@ -5,18 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
@@ -47,7 +44,7 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
             public void onClick(final View view) {
                 final Context context = view.getContext();
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                android.support.v7.app.AlertDialog.Builder builder;
+                androidx.appcompat.app.AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(context);
                 //builder.setIcon(R.drawable.open_browser);
                 builder.setTitle("View Student's Classes or Attendance?");
@@ -139,9 +136,9 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
         public MyHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.studentName);
-            grade = (TextView) itemView.findViewById(R.id.grade);
-            id = (TextView) itemView.findViewById(R.id.studentID);
+            name = itemView.findViewById(R.id.studentName);
+            grade = itemView.findViewById(R.id.grade);
+            id = itemView.findViewById(R.id.studentID);
 
         }
     }

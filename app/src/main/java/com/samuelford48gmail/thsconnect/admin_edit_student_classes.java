@@ -2,7 +2,9 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +18,10 @@ public class admin_edit_student_classes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit_classes);
-        btn1 = (Button) findViewById(R.id.admin_remove_class);
-        btn2 = (Button) findViewById(R.id.admin_add_class);
-        edt1 = (EditText) findViewById(R.id.studentName);
-        btn3 = (Button) findViewById(R.id.back);
+        btn1 = findViewById(R.id.admin_remove_class);
+        btn2 = findViewById(R.id.admin_add_class);
+        edt1 = findViewById(R.id.studentName);
+        btn3 = findViewById(R.id.back);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,9 +1,11 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +26,8 @@ public class adminChangePassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_change_pssword);
-        b1 = (Button) findViewById(R.id.button);
-        et = (EditText) findViewById(R.id.editText);
+        b1 = findViewById(R.id.button);
+        et = findViewById(R.id.editText);
         database = FirebaseDatabase.getInstance();
         myref = database.getReference().child("Password");
         b1.setOnClickListener(new View.OnClickListener() {

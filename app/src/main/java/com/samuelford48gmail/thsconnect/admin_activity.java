@@ -1,7 +1,9 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +20,7 @@ public class admin_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_activity);
-        ListView lv = (ListView) findViewById(R.id.listview_admin);
+        ListView lv = findViewById(R.id.listview_admin);
 
         List<String> arrayList = new ArrayList<String>();
         arrayList.add("Create Class");

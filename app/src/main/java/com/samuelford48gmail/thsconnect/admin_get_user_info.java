@@ -1,22 +1,16 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -43,12 +37,12 @@ public class admin_get_user_info extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_show_students_uid);
         list = new ArrayList<>();
-        rv = (RecyclerView) findViewById(R.id.rviewuser);
+        rv = findViewById(R.id.rviewuser);
         //final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,list);
         //lv.setAdapter(adapter);
         final List<String> keyList = new ArrayList<String>();
         //lv.setStackFromBottom(true);
-        TextView display_class_name = (TextView) findViewById(R.id.textView3);
+        TextView display_class_name = findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
         PreferenceManager.getDefaultSharedPreferences(admin_get_user_info.this).edit().putString("classKey", post_key).apply();
         database = FirebaseDatabase.getInstance();

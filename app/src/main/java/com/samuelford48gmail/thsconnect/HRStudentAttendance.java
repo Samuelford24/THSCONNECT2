@@ -1,8 +1,9 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,7 +27,7 @@ public class HRStudentAttendance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hrstudent_attendance);
         String uid = getIntent().getStringExtra("uid");
-        listview2 = (ListView) findViewById(R.id.Attendance);
+        listview2 = findViewById(R.id.Attendance);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listview2.setAdapter(adapter);
         listview2.setStackFromBottom(true);

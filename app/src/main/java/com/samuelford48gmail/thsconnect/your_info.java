@@ -1,9 +1,9 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,11 +32,11 @@ public class your_info extends AppCompatActivity {
                 String studentid = dataSnapshot.child("User_info/studentID").getValue(String.class);
 
                 String email = dataSnapshot.child("User_info/email").getValue(String.class);
-                TextView user_name = (TextView) findViewById(R.id.name);
+                TextView user_name = findViewById(R.id.name);
                 user_name.setText("Name: " + name);
-                TextView user_grade = (TextView) findViewById(R.id.grade);
+                TextView user_grade = findViewById(R.id.grade);
                 user_grade.setText("Grade: " + grade);
-                TextView user_email = (TextView) findViewById(R.id.email);
+                TextView user_email = findViewById(R.id.email);
                 user_email.setText("Email: " + email);
 TextView user_id = findViewById(R.id.studentID);
 user_id.setText("ID: " + studentid);

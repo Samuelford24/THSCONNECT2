@@ -1,7 +1,8 @@
 package com.samuelford48gmail.thsconnect;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,9 +24,9 @@ public class adminToggleClasses extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_toggle_classes);
-        tx = (TextView) findViewById(R.id.openClpsed);
-        b1 = (Button) findViewById(R.id.CloseClasses);
-        b2 = (Button) findViewById(R.id.OpenClasses);
+        tx = findViewById(R.id.openClpsed);
+        b1 = findViewById(R.id.CloseClasses);
+        b2 = findViewById(R.id.OpenClasses);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference().child("Toggle_Classes");
         myRef.addValueEventListener(new ValueEventListener() {

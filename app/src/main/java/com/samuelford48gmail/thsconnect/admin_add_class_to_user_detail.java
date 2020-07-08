@@ -3,9 +3,11 @@ package com.samuelford48gmail.thsconnect;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,16 +41,16 @@ public class admin_add_class_to_user_detail extends AppCompatActivity {
         //String name = getIntent().getExtra("date_class");
         //String city = getIntent().getExtra("City");
         //System.out.println(value);
-        TextView display_class_name = (TextView) findViewById(R.id.date_tv);
+        TextView display_class_name = findViewById(R.id.date_tv);
         display_class_name.setText(date_class2);
-        TextView display_teacher = (TextView) findViewById(R.id.teacher_tv);
+        TextView display_teacher = findViewById(R.id.teacher_tv);
         display_teacher.setText(teacher);
-        TextView display_room_number = (TextView) findViewById(R.id.rn_tv);
+        TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
         database = FirebaseDatabase.getInstance();
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
 
-        add_class = (Button) findViewById(R.id.add_class_2);
+        add_class = findViewById(R.id.add_class_2);
         //  final Query query = myRef.orderByChild("classes").equalTo(post_key);
         //System.out.println(query);
         add_class.setOnClickListener(new View.OnClickListener() {

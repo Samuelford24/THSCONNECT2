@@ -2,8 +2,10 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,20 +48,20 @@ public class Classes_fragment extends Fragment implements View.OnClickListener {
 
         //find cardview's by ids
 
-        science_cv = (CardView) view.findViewById(R.id.science);
-        math_cv = (CardView) view.findViewById(R.id.math);
-        social_studies_cv = (CardView) view.findViewById(R.id.social_studies);
-        english_cv = (CardView) view.findViewById(R.id.English);
-        tech_cv = (CardView) view.findViewById(R.id.tech);
-        other_cv= (CardView) view.findViewById(R.id.other);
+        science_cv = view.findViewById(R.id.science);
+        math_cv = view.findViewById(R.id.math);
+        social_studies_cv = view.findViewById(R.id.social_studies);
+        english_cv = view.findViewById(R.id.English);
+        tech_cv = view.findViewById(R.id.tech);
+        other_cv = view.findViewById(R.id.other);
         music_cv = view.findViewById(R.id.Music);
         art_cv = view.findViewById(R.id.art);
         //set onclicklistener to cardviews
-       science_cv.setOnClickListener(this);
-       math_cv.setOnClickListener(this);
-       social_studies_cv.setOnClickListener(this);
-       english_cv.setOnClickListener(this);
-       tech_cv.setOnClickListener(this);
+        science_cv.setOnClickListener(this);
+        math_cv.setOnClickListener(this);
+        social_studies_cv.setOnClickListener(this);
+        english_cv.setOnClickListener(this);
+        tech_cv.setOnClickListener(this);
         other_cv.setOnClickListener(this);
         music_cv.setOnClickListener(this);
         art_cv.setOnClickListener(this);

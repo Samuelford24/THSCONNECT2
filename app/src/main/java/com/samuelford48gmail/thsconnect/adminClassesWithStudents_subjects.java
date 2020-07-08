@@ -1,7 +1,9 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +16,12 @@ private String class_name;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_classes_with_students);
-        btn = (Button) findViewById(R.id.Science);
-        btn2 = (Button) findViewById(R.id.mat);
-        btn3 = (Button) findViewById(R.id.eng);
-        btn4 = (Button) findViewById(R.id.ss);
-        btn5 = (Button) findViewById(R.id.oth);
-        btn6 = (Button) findViewById(R.id.tech);
+        btn = findViewById(R.id.Science);
+        btn2 = findViewById(R.id.mat);
+        btn3 = findViewById(R.id.eng);
+        btn4 = findViewById(R.id.ss);
+        btn5 = findViewById(R.id.oth);
+        btn6 = findViewById(R.id.tech);
         btn.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);

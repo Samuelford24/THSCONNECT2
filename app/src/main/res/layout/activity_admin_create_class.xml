@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/subject"
         android:layout_centerHorizontal="true"
-        android:hint="Date-Class" />
+        android:hint="Class Name" />
 
     <EditText
 
@@ -42,11 +42,22 @@
         android:hint="Subject"
         android:textAlignment="center" />
 
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_number"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+
+        android:hint="Date(MM-DD)"
+        android:textAlignment="center" />
+
     <Button
         android:id="@+id/create_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/room_number"
+        android:layout_below="@id/date"
         android:layout_centerHorizontal="true"
         android:text="Create class" />
 

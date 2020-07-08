@@ -2,10 +2,11 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
             public void onClick(final View view) {
                 Context context = view.getContext();
                 final String ClassKey = PreferenceManager.getDefaultSharedPreferences(context).getString("classKey", "");
-                android.support.v7.app.AlertDialog.Builder builder;
+                androidx.appcompat.app.AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(context);
                 //builder.setIcon(R.drawable.open_browser);
                 builder.setTitle("Remove Student from Class?");
@@ -89,7 +90,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
             @Override
             public boolean onLongClick(View view) {
                 Context context = view.getContext();
-                android.support.v7.app.AlertDialog.Builder builder2;
+                androidx.appcompat.app.AlertDialog.Builder builder2;
                 dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 date = dateFormat.format(calendar.getTime());
                 //  dateTimeDisplay.setText(date);
@@ -144,9 +145,9 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
 
         public MyHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.studentName);
-            grade = (TextView) itemView.findViewById(R.id.grade);
-            id = (TextView) itemView.findViewById(R.id.studentID);
+            name = itemView.findViewById(R.id.studentName);
+            grade = itemView.findViewById(R.id.grade);
+            id = itemView.findViewById(R.id.studentID);
 
         }
     }

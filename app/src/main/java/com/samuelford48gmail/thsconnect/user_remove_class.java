@@ -1,11 +1,12 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class user_remove_class extends AppCompatActivity {
@@ -33,11 +33,11 @@ public class user_remove_class extends AppCompatActivity {
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
-        TextView display_class_name = (TextView) findViewById(R.id.date_tv);
+        TextView display_class_name = findViewById(R.id.date_tv);
         display_class_name.setText(date_class2);
-        TextView display_teacher = (TextView) findViewById(R.id.teacher_tv);
+        TextView display_teacher = findViewById(R.id.teacher_tv);
         display_teacher.setText(teacher);
-        TextView display_room_number = (TextView) findViewById(R.id.rn_tv);
+        TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
         database = FirebaseDatabase.getInstance();
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
@@ -75,7 +75,7 @@ public class user_remove_class extends AppCompatActivity {
 
         });
 
-        remove_class = (Button) findViewById(R.id.add_class_2);
+        remove_class = findViewById(R.id.add_class_2);
         //  final Query query = myRef.orderByChild("classes").equalTo(post_key);
         //System.out.println(query);
         remove_class.setOnClickListener(new View.OnClickListener() {

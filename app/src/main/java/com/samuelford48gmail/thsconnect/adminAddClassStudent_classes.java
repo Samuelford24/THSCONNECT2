@@ -2,11 +2,12 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +30,7 @@ public class adminAddClassStudent_classes extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_science);
-        recyclerview = (RecyclerView) findViewById(R.id.rview_admin_science);
+        recyclerview = findViewById(R.id.rview_admin_science);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Classes");
         final String class_type = getIntent().getStringExtra("class_type");

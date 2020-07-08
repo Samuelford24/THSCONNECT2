@@ -2,7 +2,9 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +64,9 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
         public MyHolder(View itemView) {
             super(itemView);
-            vdate_class = (TextView) itemView.findViewById(R.id.date_class_name);
-            vteacher = (TextView) itemView.findViewById(R.id.teacher);
-            vrnumber = (TextView) itemView.findViewById(R.id.room_number);
+            vdate_class = itemView.findViewById(R.id.date_class_name);
+            vteacher = itemView.findViewById(R.id.teacher);
+            vrnumber = itemView.findViewById(R.id.room_number);
 
         }
     }

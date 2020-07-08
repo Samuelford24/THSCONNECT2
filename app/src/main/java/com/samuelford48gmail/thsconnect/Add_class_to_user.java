@@ -2,29 +2,25 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class Add_class_to_user extends AppCompatActivity {
     private Button add_class;
@@ -77,23 +73,23 @@ public class Add_class_to_user extends AppCompatActivity {
         //String name = getIntent().getExtra("date_class");
         //String city = getIntent().getExtra("City");
         //System.out.println(value);
-        TextView display_class_name = (TextView) findViewById(R.id.date_tv);
+        TextView display_class_name = findViewById(R.id.date_tv);
         display_class_name.setText(date_class2);
-        TextView display_teacher = (TextView) findViewById(R.id.teacher_tv);
+        TextView display_teacher = findViewById(R.id.teacher_tv);
         display_teacher.setText(teacher);
-        TextView display_room_number = (TextView) findViewById(R.id.rn_tv);
+        TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
-        add_class = (Button) findViewById(R.id.add_class_2);
+        add_class = findViewById(R.id.add_class_2);
         add_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
+                // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
                 myRef.child(post_key).setValue(post_key);
-add_student_to_class();
+                add_student_to_class();
                 // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
                 //myRef.child(new_class_to_user_uid.).removeValue();
 
-               // Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
 
             }
         });

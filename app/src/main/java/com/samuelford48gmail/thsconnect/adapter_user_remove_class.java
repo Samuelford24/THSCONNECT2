@@ -2,7 +2,9 @@ package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,9 @@ import java.util.List;
 
 public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user_remove_class.MyHolder>{
 
-    List<Listdata> listdata;
+    List<Class_model> listdata;
 
-    public adapter_user_remove_class(List<Listdata> listdata) {
+    public adapter_user_remove_class(List<Class_model> listdata) {
         this.listdata = listdata;
     }
 
@@ -29,18 +31,18 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
 
     public void onBindViewHolder(adapter_user_remove_class.MyHolder holder, final int position) {
 
-        final Listdata data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_class());
+        final Class_model data = listdata.get(position);
+        holder.vdate_class.setText(data.getDate_clasname());
         holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRnumber());
+        holder.vrnumber.setText(data.getRoom_number());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( final View view) {
+            public void onClick(final View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, user_remove_class.class);
-                intent.putExtra("date_class", listdata.get(position).getDate_class());
-                 intent.putExtra("teacher", listdata.get(position).getTeacher());
-                 intent.putExtra("room_number", listdata.get(position).getRnumber());
+                intent.putExtra("date_class", listdata.get(position).getDate_clasname());
+                intent.putExtra("teacher", listdata.get(position).getTeacher());
+                intent.putExtra("room_number", listdata.get(position).getRoom_number());
                 intent.putExtra("post_key", listdata.get(position).getUid());
                 context.startActivity(intent);
             }
@@ -59,9 +61,9 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
 
         public MyHolder(View itemView) {
             super(itemView);
-            vdate_class = (TextView) itemView.findViewById(R.id.date_class_name);
-            vteacher = (TextView) itemView.findViewById(R.id.teacher);
-            vrnumber = (TextView) itemView.findViewById(R.id.room_number);
+            vdate_class = itemView.findViewById(R.id.date_class_name);
+            vteacher = itemView.findViewById(R.id.teacher);
+            vrnumber = itemView.findViewById(R.id.room_number);
 
         }
     }

@@ -41,8 +41,7 @@
         <activity android:name=".admin_create_class" />
         <activity android:name=".admin_activity" />
         <activity android:name=".Other_classes" />
-        <activity android:name=".Technology_classes" />
-        <activity android:name=".Social_studies_classes" />
+
         <activity android:name=".English_classes" />
         <activity android:name=".Classes" />
         <activity android:name=".Science_classes" />

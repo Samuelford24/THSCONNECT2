@@ -1,15 +1,20 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HR_fragment extends Fragment {
@@ -41,7 +49,7 @@ public class HR_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_hr_fragment, container, false);
-        rv = (RecyclerView) view.findViewById(R.id.rvHRMAIN);
+        rv = view.findViewById(R.id.rvHRMAIN);
         database = FirebaseDatabase.getInstance();
         tv = view.findViewById(R.id.textHR);
         myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("HR");
@@ -70,7 +78,9 @@ public class HR_fragment extends Fragment {
 
     private void getHomeroom(final String reference) {
 
-
+        android.text.format.DateFormat df = new android.text.format.DateFormat();
+        String formattedDate = (String) DateFormat.format("MM-dd", new Date());
+        System.out.println(formattedDate);
         myRef = database.getReference(reference);
         System.out.println(myRef);
 

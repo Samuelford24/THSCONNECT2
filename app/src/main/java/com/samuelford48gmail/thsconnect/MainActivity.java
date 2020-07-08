@@ -1,11 +1,15 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         fm.beginTransaction().add(R.id.main_container, fragment5, "5").hide(fragment5).commit();
         fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit();
@@ -82,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-    ;
 
   /*  @Override
     protected void onCreate(Bundle savedInstanceState) {

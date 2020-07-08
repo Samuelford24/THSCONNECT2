@@ -1,20 +1,16 @@
 package com.samuelford48gmail.thsconnect;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 //uses lock show students activities
 public class adapter_show_students extends RecyclerView.Adapter<adapter_show_students.MyHolder>{
@@ -67,11 +63,11 @@ public class adapter_show_students extends RecyclerView.Adapter<adapter_show_stu
 
         public MyHolder(View itemView) {
             super(itemView);
-            vdate_class = (TextView) itemView.findViewById(R.id.date_class_name);
-            vteacher = (TextView) itemView.findViewById(R.id.teacher);
-           vrnumber = (TextView) itemView.findViewById(R.id.room_number);
+            vdate_class = itemView.findViewById(R.id.date_class_name);
+            vteacher = itemView.findViewById(R.id.teacher);
+            vrnumber = itemView.findViewById(R.id.room_number);
 
-               }
+        }
            }
 
         }
