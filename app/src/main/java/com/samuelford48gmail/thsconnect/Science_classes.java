@@ -67,7 +67,7 @@ Toast.makeText(this,class_type,Toast.LENGTH_LONG).show();
                             String nameofclass = new_class.getDate_clasname();
                             String teacherofclass = new_class.getTeacher();
                             String roomnumberofclass = new_class.getRoom_number();
-                            String class_key = new_class.getUid();
+                            String class_key = new_class.getid();
                             Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
                             //String name = userdetails.getName();
                             //String email = userdetails.getEmail();
@@ -114,7 +114,7 @@ Toast.makeText(this,class_type,Toast.LENGTH_LONG).show();
         });
 
 
-                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+        // Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
 
 

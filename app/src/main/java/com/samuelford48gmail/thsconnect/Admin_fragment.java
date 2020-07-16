@@ -102,23 +102,23 @@ public Admin_fragment(){}
 
                 String item = ((TextView)view).getText().toString();
                 if(item.equals("Users/edit classes")){
-                    Intent intent = new Intent(getContext(), MainActivity.class
+                    Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.teacher.MainActivity.class
                     );
                     startActivity(intent);
                 }
                 if(item.equals("Create User")){
-                    Intent intent = new Intent(getContext(), MainActivity.class
+                    Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.teacher.MainActivity.class
                     );
                     startActivity(intent);
                 }
                 if(item.equals("Create Class")){
-                    Intent intent = new Intent(getContext(), MainActivity.class
+                    Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.teacher.MainActivity.class
                     );
                     startActivity(intent);
                 }
 
                 if(item.equals("Remove User")){
-                    Intent intent = new Intent(getContext(), MainActivity.class
+                    Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.teacher.MainActivity.class
                     );
                     startActivity(intent);
                 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +39,13 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                //   Log.i("OnBindViewHolder",listdata.get(position).getid());
                 Context context = view.getContext();
                 Intent intent = new Intent(context, user_remove_class.class);
                 intent.putExtra("date_class", listdata.get(position).getDate_clasname());
                 intent.putExtra("teacher", listdata.get(position).getTeacher());
                 intent.putExtra("room_number", listdata.get(position).getRoom_number());
-                intent.putExtra("post_key", listdata.get(position).getUid());
+                intent.putExtra("post_key", listdata.get(position).getid());
                 context.startActivity(intent);
             }
         });

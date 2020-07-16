@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class Add_class_to_user extends AppCompatActivity {
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
+        Log.i("onCreate", post_key);
         database = FirebaseDatabase.getInstance();
         myRef2 = database.getReference("Toggle_Classes");
 
@@ -157,7 +159,7 @@ public class Add_class_to_user extends AppCompatActivity {
                     listdata.setTeacher(teacherofclass);
                     listdata.setRnumber(roomnumberofclass);
                     list.add(listdata);
-                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                    // Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
                 }
 

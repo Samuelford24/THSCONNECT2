@@ -1,14 +1,9 @@
-package com.samuelford48gmail.thsconnect;
+package com.samuelford48gmail.thsconnect.teacher;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +14,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.samuelford48gmail.thsconnect.DeleteAccount;
+import com.samuelford48gmail.thsconnect.R;
+import com.samuelford48gmail.thsconnect.your_info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +102,17 @@ public class Settings extends Fragment {
 
                 if (item.equals("Signout")) {
                     FirebaseAuth.getInstance().signOut();
-                    Log.i("Settings1", getContext().getPackageName());
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    if (getContext().getPackageName().equals(" com.samuelford48gmail.thsconnect")) {
+                        Log.i("Settings",getContext().getPackageName());
+                        Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.LoginActivity.class);
+                        startActivity(intent);
+                    }
+                    if (getContext().getPackageName().equals(" com.samuelford48gmail.thsconnect.teacher")){
+                        Log.i("Settings",getContext().getPackageName());
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
                 if (item.equals("Your info")) {
                     Intent intent = new Intent(getContext(), your_info.class);
@@ -126,6 +135,7 @@ public class Settings extends Fragment {
                     });
                     builder.setCancelable(true);
                     builder.show();
+
                 }
                 if (item.equals("Delete Account")) {
                     Intent intent = new Intent(getContext(), DeleteAccount.class);

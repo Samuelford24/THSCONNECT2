@@ -141,7 +141,7 @@ public class HR_fragment extends Fragment {
                         }
                         // Log.d("home","keylist"+ keyList);
 
-                        //recycler.notifyDataSetChanged();// Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                        //recycler.notifyDataSetChanged();// Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
 
 
                     }

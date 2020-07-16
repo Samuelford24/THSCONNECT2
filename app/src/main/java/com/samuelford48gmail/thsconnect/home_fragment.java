@@ -91,7 +91,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                             String nameofclass = new_class.getDate_clasname();
                             String teacherofclass = new_class.getTeacher();
                             String roomnumberofclass = new_class.getRoom_number();
-                            String class_key = new_class.getUid();
+                            String class_key = new_class.getid();
                             Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
                             //String name = userdetails.getName();
                             //String email = userdetails.getEmail();
@@ -103,11 +103,11 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                             //  listdata.setTeacher(teacherofclass);
                             // listdata.setRnumber(roomnumberofclass);
                             // recycler.notifyDataSetChanged();
-                            keyList.add(listdata.getUid());
+                            keyList.add(new_class.getid());
                             // Log.d("home","keylist"+ keyList);
-                            list.add(listdata);
+                            list.add(new_class);
                             recycler.notifyDataSetChanged();
-                            //recycler.notifyDataSetChanged();// Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                            //recycler.notifyDataSetChanged();// Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
                         }
                         else {myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes").child(class_id);
                         myRef.removeValue();}
@@ -239,7 +239,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                     listdata.setTeacher2(teacherofclass);
                     listdata.setRnumber2(roomnumberofclass);
                     list.add(listdata);
-                    // Toast.makeText(MainActivity.this,""+name,Toast.LENGTH_LONG).show();
+                    // Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
                 }
                 RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());

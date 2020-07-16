@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class user_remove_class extends AppCompatActivity {
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
+        Log.i("Post Key", post_key);
         TextView display_class_name = findViewById(R.id.date_tv);
         display_class_name.setText(date_class2);
         TextView display_teacher = findViewById(R.id.teacher_tv);

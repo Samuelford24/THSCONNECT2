@@ -15,37 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".HR_fragment"></activity>
-        <activity android:name=".adminSetHR" />
         <activity android:name=".HRStudentsClasses" />
         <activity android:name=".HRStudentAttendance" />
         <activity android:name=".HRstudents" />
         <activity android:name=".Homeroom" />
         <activity android:name=".DeleteAccount" />
-        <activity android:name=".adminChangePassword" />
-        <activity android:name=".adminToggleClasses" />
         <activity android:name=".your_info" />
-        <activity android:name=".admin_add_class_to_user_detail" />
-        <activity android:name=".adminAddClassStudent_subject" />
-        <activity android:name=".admin_subjects" />
-        <activity android:name=".admin_delete_class_detail_page" />
-        <activity android:name=".admin_classes" />
-        <activity android:name=".admin_show_class_detail" />
-        <activity android:name=".admin_showClasses" />
-        <activity android:name=".admin_show_subjects" />
-        <activity android:name=".adminRemoveClassFromStudent" />
-        <activity android:name=".admin_edit_student_classes" />
         <activity android:name=".user_remove_class" />
-        <activity android:name=".adminClassesWithStudents_subjects" />
         <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />
-        <activity android:name=".admin_create_class" />
-        <activity android:name=".admin_activity" />
         <activity android:name=".Other_classes" />
 
         <activity android:name=".English_classes" />
         <activity android:name=".Classes" />
         <activity android:name=".Science_classes" />
-        <activity android:name=".admin_add_class_to_user" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
@@ -58,8 +41,6 @@
         <activity android:name=".Reset_password" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".adminAddClassStudent_classes" />
-        <activity android:name=".admin_get_user_info" />
     </application>
 
 </manifest>

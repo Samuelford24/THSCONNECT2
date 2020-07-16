@@ -39,6 +39,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions 'version'
+    productFlavors {
+        student {
+            dimension 'version'
+            applicationId 'com.samuelford48gmail.thsconnect.student'
+        }
+        teacher {
+            dimension 'version'
+            applicationId 'com.samuelford48gmail.thsconnect.teacher'
+        }
+    }
 }
 
 dependencies {

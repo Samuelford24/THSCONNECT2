@@ -49,7 +49,7 @@ public class admin_create_class extends AppCompatActivity {
                 if (UtilMethods.isDateValid(date)) {
                     if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
                         String key = myRef.push().getKey();
-                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject);
+                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject, date);
 
                         myRef.child(key).child("class_info").setValue(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

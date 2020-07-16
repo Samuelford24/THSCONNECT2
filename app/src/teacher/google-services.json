@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "313374459486",
+    "firebase_url": "https://ths-connect.firebaseio.com",
+    "project_id": "ths-connect",
+    "storage_bucket": "ths-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313374459486:android:fdf3a02f8619d5a0",
+        "android_client_info": {
+          "package_name": "com.samuelford48gmail.thsconnect.teacher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313374459486-81droj58ss8n5cpbj01sq82sq5mt8hhf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samuelford48gmail.thsconnect",
+            "certificate_hash": "c5dc671b75c5dd1db4cc7e8dd3d9ec95a0295023"
+          }
+        },
+        {
+          "client_id": "313374459486-o7m1vggn4anvq2csgrgpvbf5641db0nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFmzom_gedAyMdolbKA9PPhhdfdkLcs3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313374459486-o7m1vggn4anvq2csgrgpvbf5641db0nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

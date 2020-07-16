@@ -6,6 +6,75 @@ import android.os.health.TimerStat;
 
 import java.sql.Timestamp;
 
+public class Class_model {
+
+    String teacher;
+    String room_number;
+    //String subject;
+    String classname;
+    String subject;
+    String id;
+    String date;
+
+    public Class_model() {
+    }
+
+    public Class_model(String classname, String teacher, String room_number, String id, String subject, String date) {
+        //subject = subject2;
+        this.classname = classname;
+        this.teacher = teacher;
+        this.room_number = room_number;
+        this.id = id;
+        this.subject = subject;
+        this.date = date;
+    }
+
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getDate_clasname() {
+        return classname;
+    }
+
+    public void setDate_clasname(String date_clasname) {
+        this.classname = date_clasname;
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public String getRoom_number() {
+        return room_number;
+    }
+
+    public void setRoom_number(String room_number) {
+        this.room_number = room_number;
+    }
+
+    public String getid() {
+        return id;
+    }
+
+    public void setid(String id) {
+        this.id = id;
+    }
+
+
+}
+
+
+/*
 public class Class_model implements Parcelable {
     public static final Creator<Class_model> CREATOR = new Creator<Class_model>() {
         @Override
@@ -105,5 +174,5 @@ public class Class_model implements Parcelable {
 
 
 }
-
+*/
 

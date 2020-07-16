@@ -14,16 +14,15 @@
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/settings_black_25"
-        android:title="Settings"/>
-    <!--
+        android:title="Settings" />
+
     <item
         android:id="@+id/admin"
         android:icon="@drawable/lock_admin"
-        android:title="Admin"
-        />
+        android:title="Admin" />
     <item
         android:id="@+id/Homeroom"
         android:icon="@drawable/shield"
         android:title="Homeroom" />
-        -->
+
 </menu>

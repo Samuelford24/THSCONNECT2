@@ -1,32 +1,55 @@
-package com.samuelford48gmail.thsconnect;
+package com.samuelford48gmail.thsconnect.teacher;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.samuelford48gmail.thsconnect.Admin_fragment;
+import com.samuelford48gmail.thsconnect.Classes_fragment;
+import com.samuelford48gmail.thsconnect.HR_fragment;
+import com.samuelford48gmail.thsconnect.R;
+import com.samuelford48gmail.thsconnect.Settings;
+import com.samuelford48gmail.thsconnect.home_fragment;
+
+public class MainActivity2 extends AppCompatActivity {
     private Button signout2;
     private TextView mTextMessage;
     private FirebaseAuth auth;
     final Fragment fragment1 = new home_fragment();
     final Fragment fragment2 = new Classes_fragment();
     final Fragment fragment3 = new Settings();
-    //  final Fragment fragment4 = new Admin_fragment();
-    //  final Fragment fragment5 = new HR_fragment();
+  final Fragment fragment4 = new Admin_fragment();
+    final Fragment fragment5 = new HR_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        fm.beginTransaction().add(R.id.main_container, fragment5, "5").hide(fragment5).commit();
+        fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit();
+        fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit();
+        fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
+        fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
+
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -34,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    // mTextMessage.setText(R.string.title_home);
+                   // mTextMessage.setText(R.string.title_home);
                     fm.beginTransaction().hide(active).show(fragment1).commit();
 
                     active = fragment1;
@@ -52,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     active = fragment3;
                     fm.popBackStack();
                     return true;
-              /*  case R.id.admin:
+                case R.id.admin:
                     fm.beginTransaction().hide(active).show(fragment4).commit();
                     active = fragment4;
                     fm.popBackStack();
@@ -61,30 +84,11 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().hide(active).show(fragment5).commit();
                     active = fragment5;
                     fm.popBackStack();
-                    return true;*/
+                    return true;
             }
             return false;
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        //  fm.beginTransaction().add(R.id.main_container, fragment5, "5").hide(fragment5).commit();
-        //  fm.beginTransaction().add(R.id.main_container, fragment4, "4").hide(fragment4).commit();
-        fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit();
-        fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
-        fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
-
-    }
 
   /*  @Override
     protected void onCreate(Bundle savedInstanceState) {
