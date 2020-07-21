@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,11 +110,11 @@ System.out.println("MainActivity2");
                                     }
                                 } else {
                                     if (auth.getCurrentUser().isEmailVerified()) {
-                                        System.out.println("MainActivity2");
+                                        Log.i("S", "Email is Verified");
                                         startActivity(new Intent(LoginActivity.this, MainActivity2.class));
-
-                                        progressBar.setVisibility(View.INVISIBLE);
                                         finish();
+                                        progressBar.setVisibility(View.INVISIBLE);
+
                                     } else {
                                         AlertDialog.Builder builder;
                                         builder = new AlertDialog.Builder(LoginActivity.this);

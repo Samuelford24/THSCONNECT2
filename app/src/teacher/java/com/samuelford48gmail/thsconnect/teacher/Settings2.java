@@ -27,10 +27,11 @@ import com.samuelford48gmail.thsconnect.your_info;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Settings extends Fragment {
+public class Settings2 extends Fragment {
     private FirebaseDatabase database;
-    private  DatabaseReference myRef;
-    public Settings() {
+    private DatabaseReference myRef;
+
+    public Settings2() {
 
     }
 
@@ -102,13 +103,13 @@ public class Settings extends Fragment {
 
                 if (item.equals("Signout")) {
                     FirebaseAuth.getInstance().signOut();
-                    if (getContext().getPackageName().equals(" com.samuelford48gmail.thsconnect")) {
-                        Log.i("Settings",getContext().getPackageName());
+                    if (getContext().getPackageName().equals("com.samuelford48gmail.thsconnect")) {
+                        Log.i("Settings", getContext().getPackageName());
                         Intent intent = new Intent(getContext(), com.samuelford48gmail.thsconnect.LoginActivity.class);
                         startActivity(intent);
                     }
-                    if (getContext().getPackageName().equals(" com.samuelford48gmail.thsconnect.teacher")){
-                        Log.i("Settings",getContext().getPackageName());
+                    if (getContext().getPackageName().equals("com.samuelford48gmail.thsconnect.teacher")) {
+                        Log.i("Settings", getContext().getPackageName());
                         Intent intent = new Intent(getContext(), LoginActivity.class);
                         startActivity(intent);
                     }

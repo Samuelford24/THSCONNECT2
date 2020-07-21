@@ -25,8 +25,8 @@ public class MainActivity2 extends AppCompatActivity {
     private FirebaseAuth auth;
     final Fragment fragment1 = new home_fragment();
     final Fragment fragment2 = new Classes_fragment();
-    final Fragment fragment3 = new Settings();
-  final Fragment fragment4 = new Admin_fragment();
+    final Fragment fragment3 = new Settings2();
+    final Fragment fragment4 = new Admin_fragment();
     final Fragment fragment5 = new HR_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
