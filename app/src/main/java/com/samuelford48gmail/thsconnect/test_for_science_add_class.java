@@ -7,13 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.Button;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class test_for_science_add_class extends AppCompatActivity {
     private Button add_class;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

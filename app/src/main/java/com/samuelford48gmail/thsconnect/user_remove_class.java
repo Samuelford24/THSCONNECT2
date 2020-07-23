@@ -15,16 +15,13 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class user_remove_class extends AppCompatActivity {
     private Button remove_class;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef, myRef2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,40 +38,44 @@ public class user_remove_class extends AppCompatActivity {
         display_teacher.setText(teacher);
         TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
-        database = FirebaseDatabase.getInstance();
+
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
 
-        myRef2 = database.getReference("Toggle_Classes");
 
-        myRef2.addValueEventListener(new ValueEventListener() {
+        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Toggle_Classes").document("Classes");
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue(String.class).equals("Classes Closed")) {
-                    // ClassesClosed();
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(user_remove_class.this);
-                    //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("      Classes cannot be edited at this time");
-                    builder.setMessage("Ask a teacher to change your classes");
-                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                            finish();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.get("classes").toString().equals("Classes Closed")) {
+                            // ClassesClosed();
+                            AlertDialog.Builder builder;
+                            builder = new AlertDialog.Builder(user_remove_class.this);
+                            //builder.setIcon(R.drawable.open_browser);
+                            builder.setTitle("      Classes cannot be edited at this time");
+                            builder.setMessage("Ask a teacher to change your classes");
+                            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            builder.setCancelable(false);
+                            builder.show();
+                        } else {
+                            Log.e("Firebase", "document doesn't exist");
                         }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
-                } else {
-
-
+                    } else {
+                        UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
         });
 
         remove_class = findViewById(R.id.add_class_2);
@@ -83,10 +84,9 @@ public class user_remove_class extends AppCompatActivity {
         remove_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                myRef = database.getReference("Classes").child(post_key).child("Students").child(key);
-                System.out.println(myRef);
-                myRef.removeValue();
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students").document(uid).delete();
+
                 remove_class_from_student();
 
             }
@@ -94,10 +94,9 @@ public class user_remove_class extends AppCompatActivity {
     }
 
     public void remove_class_from_student() {
-        String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String post_key = getIntent().getStringExtra("post_key");
-        myRef = database.getReference("Users").child(key).child("Classes").child(post_key);
-        myRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(post_key).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -105,7 +104,7 @@ public class user_remove_class extends AppCompatActivity {
                     builder = new AlertDialog.Builder(user_remove_class.this);
                     //builder.setIcon(R.drawable.open_browser);
                     builder.setTitle("      Class Removed");
-                    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                             finish();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,22 +54,39 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Context context = view.getContext();
+                final Context context = view.getContext();
                 final String ClassKey = PreferenceManager.getDefaultSharedPreferences(context).getString("classKey", "");
                 androidx.appcompat.app.AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(context);
                 //builder.setIcon(R.drawable.open_browser);
                 builder.setTitle("Remove Student from Class?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(final DialogInterface dialog, final int id) {
                         String uid = data.getUid();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myref = database.getReference("Classes").child(ClassKey).child("Students").child(uid);
+
+                        FirebaseFirestore.getInstance().collection("Classes").document(ClassKey).collection("Students").document(uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    dialog.dismiss();
+                                    Toast.makeText(context, "Student removed", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(context, "Student could not be removed, please try again later", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
                         //System.out.println(myref);
-                        myref.removeValue();
-                        DatabaseReference myref2 = database.getReference("Users").child(uid).child("Classes").child(ClassKey);
-                        myref2.removeValue();
-                        System.out.println(myref2);
+
+                        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(ClassKey).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                } else {
+                                }
+                            }
+                        });
+                        //   myref2.removeValue();
+                        //   System.out.println(myref2);
                     }
 
 
@@ -89,7 +112,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Context context = view.getContext();
+                final Context context = view.getContext();
                 androidx.appcompat.app.AlertDialog.Builder builder2;
                 dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 date = dateFormat.format(calendar.getTime());
@@ -98,12 +121,22 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
                 //builder.setIcon(R.drawable.open_browser);
                 builder2.setTitle("Mark Student absent?");
                 builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(final DialogInterface dialog, int id) {
                         String uid = data.getUid();
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myref = database.getReference("Users").child(uid).child("Attendance");
-                        String key = myref.push().getKey();
-                        myref.child(key).setValue("Absent from assigned class on: " + date);
+                        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance");
+                        String key = collectionReference.getId();
+                        collectionReference.add("Absent from assigned class on: " + date).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(context, "Attendance updated successfully", Toast.LENGTH_LONG);
+                                    dialog.dismiss();
+                                } else {
+                                    Toast.makeText(context, "Error, please try again later", Toast.LENGTH_LONG);
+
+                                }
+                            }
+                        });
 
                         //System.out.println(myref);
 

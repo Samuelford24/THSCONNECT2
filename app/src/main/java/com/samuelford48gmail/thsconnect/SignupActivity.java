@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -114,12 +117,13 @@ public class SignupActivity extends AppCompatActivity {
                                     FirebaseUser user2 = auth.getCurrentUser();
                                     user2.sendEmailVerification();
                                     User user = new User(name, email, grade, create_uid, studentID, homeroom.toUpperCase());
-                                   // OneSignal.setEmail(email);
-                                    FirebaseDatabase.getInstance().getReference("Users")
-                                            .child(create_uid).child("User_info")
-                                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    // OneSignal.setEmail(email);
+                                    FirebaseFirestore.getInstance().collection("Users")
+                                            .document(create_uid)
+                                            .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
+
 
                                             if (task.isSuccessful()) {
 
@@ -156,9 +160,8 @@ public class SignupActivity extends AppCompatActivity {
                                                     hr = "Incorrect Format";
                                                 }
                                                 System.out.println(hr);
-                                                DatabaseReference myref = FirebaseDatabase.getInstance().getReference(hr).child(b).child(create_uid);
-                                                System.out.println(myref);
-                                                myref.setValue(create_uid);
+                                                addHomeroom(b, create_uid);
+
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
@@ -178,6 +181,24 @@ public class SignupActivity extends AppCompatActivity {
             });
         }
 
+    private void addHomeroom(String b, String create_uid) {
+        FirebaseFirestore.getInstance().collection(hr).document(b).collection("Students").add(create_uid).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                    finish();
+                } else {
+                    Log.i("Signup", "Error adding user to homeroom");
+                    UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again later");
+                }
+            }
+        });
+
+
+    }
 
     @Override
     protected void onResume() {

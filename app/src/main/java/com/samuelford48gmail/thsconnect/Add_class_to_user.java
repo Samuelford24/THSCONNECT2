@@ -22,10 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Add_class_to_user extends AppCompatActivity {
     private Button add_class;
-    private FirebaseDatabase database;
+    private FireSt database;
     private DatabaseReference myRef, myRef2;
 
     @Override
@@ -37,7 +38,7 @@ public class Add_class_to_user extends AppCompatActivity {
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
         Log.i("onCreate", post_key);
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseFirestore.getInstance();
         myRef2 = database.getReference("Toggle_Classes");
 
         myRef2.addValueEventListener(new ValueEventListener() {

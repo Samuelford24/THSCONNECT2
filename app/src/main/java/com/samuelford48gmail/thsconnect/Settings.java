@@ -20,15 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Settings extends Fragment {
-    private FirebaseDatabase database;
-    private  DatabaseReference myRef;
+
     public Settings() {
 
     }
@@ -37,8 +35,7 @@ public class Settings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, container, false);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
         ;
 
         ListView lv = view.findViewById(R.id.listview);

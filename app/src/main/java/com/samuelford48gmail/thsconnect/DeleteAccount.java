@@ -21,14 +21,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class DeleteAccount extends AppCompatActivity {
     private EditText et, et1;
     private Button b;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class DeleteAccount extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                database = FirebaseDatabase.getInstance();
+
                 final String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 //myRef = database.getReference("Users").child(key);
                 //  System.out.println(myRef);
@@ -67,7 +66,7 @@ public class DeleteAccount extends AppCompatActivity {
                 firebaseUser.reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        myRef = database.getReference("Users").child(key);
+                        FirebaseFirestore.getInstance().collection("Users").document(key);
                         // System.out.println(myRef);
                         myRef.removeValue();
                         firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {

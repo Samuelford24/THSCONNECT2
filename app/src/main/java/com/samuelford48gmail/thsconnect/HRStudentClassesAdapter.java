@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HRStudentClassesAdapter extends RecyclerView.Adapter<HRStudentClassesAdapter.MyHolder> {
+    ArrayList<Class_model> classes;
 
-    List<Listdata> listdata;
-
-    public HRStudentClassesAdapter(List<Listdata> listdata) {
-        this.listdata = listdata;
+    public HRStudentClassesAdapter(ArrayList<Class_model> classes) {
+        this.classes = classes;
     }
 
     @Override
@@ -29,10 +29,10 @@ public class HRStudentClassesAdapter extends RecyclerView.Adapter<HRStudentClass
 
 
     public void onBindViewHolder(HRStudentClassesAdapter.MyHolder holder, final int position) {
-        final Listdata data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_class());
-        holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRnumber());
+        final Class_model class_model = classes.get(position);
+        holder.vdate_class.setText(class_model.getDate_clasname());
+        holder.vteacher.setText(class_model.getTeacher());
+        holder.vrnumber.setText(class_model.getRoom_number());
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class HRStudentClassesAdapter extends RecyclerView.Adapter<HRStudentClass
 
     @Override
     public int getItemCount() {
-        return listdata.size();
+        return classes.size();
     }
 
 

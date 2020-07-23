@@ -13,20 +13,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HRstudents extends AppCompatActivity {
     RecyclerView rv;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+
 
     List<ListDataUser> list;
 
@@ -37,13 +31,13 @@ public class HRstudents extends AppCompatActivity {
         rv = findViewById(R.id.rvHRS);
         final String f = getIntent().getStringExtra("HR");
         final String g = getIntent().getStringExtra("hrCategory");
-        database = FirebaseDatabase.getInstance();
+
         myRef = database.getReference(g).child(f);
         System.out.println(myRef);
 
         list = new ArrayList<>();
-
-        myRef.addChildEventListener(new ChildEventListener() {
+        FirebaseFirestore.getInstance().collection(g).document(g).
+                myRef.addChildEventListener(new ChildEventListener() {
 
             final StudentHRRV recycler = new StudentHRRV(list);
 

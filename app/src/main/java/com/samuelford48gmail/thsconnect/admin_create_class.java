@@ -13,8 +13,8 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,8 +23,7 @@ import java.text.SimpleDateFormat;
 public class admin_create_class extends AppCompatActivity {
     private EditText subject1, ClassName, teacher_name1, room_number1, date1;
     private Button submit;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,7 @@ public class admin_create_class extends AppCompatActivity {
         teacher_name1 = findViewById(R.id.Teacher);
         room_number1 = findViewById(R.id.room_number);
         submit = findViewById(R.id.create_class);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Classes");
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,12 +46,12 @@ public class admin_create_class extends AppCompatActivity {
                 String date = date1.getText().toString().trim();
                 if (UtilMethods.isDateValid(date)) {
                     if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
-                        String key = myRef.push().getKey();
+                        String key = FirebaseFirestore.getInstance().collection("Classes").getId();
                         Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject, date);
 
-                        myRef.child(key).child("class_info").setValue(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        FirebaseFirestore.getInstance().collection("Classes").add(new_class).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
                                     AlertDialog.Builder builder;
                                     builder = new AlertDialog.Builder(admin_create_class.this);

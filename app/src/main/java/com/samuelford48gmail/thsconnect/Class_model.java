@@ -14,19 +14,19 @@ public class Class_model {
     String classname;
     String subject;
     String id;
-    String date;
+  //  String date;
 
     public Class_model() {
     }
 
-    public Class_model(String classname, String teacher, String room_number, String id, String subject, String date) {
+    public Class_model(String classname, String teacher, String room_number, String id, String subject) {
         //subject = subject2;
         this.classname = classname;
         this.teacher = teacher;
         this.room_number = room_number;
         this.id = id;
         this.subject = subject;
-        this.date = date;
+        // this.date = date;
     }
 
 
