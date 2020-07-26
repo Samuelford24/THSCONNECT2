@@ -14,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
-    List<ListDataUser> listdata;
+    ArrayList<User> users;
 
-    public StudentHRRV(List<ListDataUser> listdata) {
-        this.listdata = listdata;
+    public StudentHRRV(ArrayList<User> users) {
+        this.users = users;
     }
 
     @Override
@@ -34,10 +35,10 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
     public void onBindViewHolder(StudentHRRV.MyHolder holder, final int position) {
 
-        final ListDataUser data = listdata.get(position);
-        holder.name.setText(data.getStudentname());
+        final User data = users.get(position);
+        holder.name.setText(data.getName());
         holder.grade.setText(data.getGrade());
-        holder.id.setText(data.getStudnetID());
+        holder.id.setText(data.getStudentID());
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +128,7 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
     @Override
     public int getItemCount() {
-        return listdata.size();
+        return users.size();
     }
 
 

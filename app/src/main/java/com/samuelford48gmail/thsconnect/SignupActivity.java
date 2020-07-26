@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +26,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.onesignal.OneSignal;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -69,8 +75,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-              final   String email = inputEmail.getText().toString().trim();
-               final String password = inputPassword.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
+                final String password = inputPassword.getText().toString().trim();
                 final String name = inputName.getText().toString().trim();
                 final String grade = inputGrade.getText().toString().trim();
                 final String studentID = inputID.getText().toString().trim();
@@ -104,7 +110,7 @@ public class SignupActivity extends AppCompatActivity {
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                              //  Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
@@ -114,77 +120,93 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     final String create_uid = FirebaseAuth.getInstance().getUid();
-                                    FirebaseUser user2 = auth.getCurrentUser();
+                                    final FirebaseUser user2 = auth.getCurrentUser();
                                     user2.sendEmailVerification();
                                     User user = new User(name, email, grade, create_uid, studentID, homeroom.toUpperCase());
-                                    // OneSignal.setEmail(email);
+                                    OneSignal.setEmail(email);
+                                  /*  Map<String, Object> user = new HashMap<>();
+                                    user.put("name", name);
+                                    user.put("grade", grade);
+                                    user.put("email", email);
+                                    user.put("homeroom", homeroom.toUpperCase());
+                                    user.put("studentID", studentID);
+                                    user.put("uid", create_uid);*/
                                     FirebaseFirestore.getInstance().collection("Users")
                                             .document(create_uid)
-                                            .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+                                        public void onSuccess(Void aVoid) {
 
 
-                                            if (task.isSuccessful()) {
+                                            user2.sendEmailVerification();
 
-
-                                                String b = homeroom.toUpperCase();
-                                                int value = b.charAt(0);
-                                                //int asciiValue = (int) value;
-                                                System.out.println(value);
-                                                if (value >= 65 && value < 67) {
-                                                    hr = "HR1";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else if (value <= 70) {
-                                                    hr = "HR2";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else if (value <= 76) {
-                                                    hr = "HR3";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else if (value <= 79) {
-                                                    hr = "HR4";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else if (value <= 83) {
-                                                    hr = "HR5";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else if (value <= 90) {
-                                                    hr = "HR6";
-                                                    Toast.makeText(getApplicationContext(), homeroom,
-                                                            Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    hr = "Incorrect Format";
-                                                }
-                                                System.out.println(hr);
-                                                addHomeroom(b, create_uid);
-
-                                                progressBar.setVisibility(View.GONE);
-                                                Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
-                                                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                                finish();
+                                            String b = homeroom.toUpperCase();
+                                            int value = b.charAt(0);
+                                            //int asciiValue = (int) value;
+                                            System.out.println(value);
+                                            if (value >= 65 && value < 67) {
+                                                hr = "HR1";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else if (value <= 70) {
+                                                hr = "HR2";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else if (value <= 76) {
+                                                hr = "HR3";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else if (value <= 79) {
+                                                hr = "HR4";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else if (value <= 83) {
+                                                hr = "HR5";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else if (value <= 90) {
+                                                hr = "HR6";
+                                                Toast.makeText(getApplicationContext(), homeroom,
+                                                        Toast.LENGTH_SHORT).show();
                                             } else {
-                                                //display a failure message
+                                                hr = "Incorrect Format";
                                             }
+                                            System.out.println(hr);
+                                            addHomeroom(b, create_uid);
+
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                            finish();
+
                                         }
-                                    });
+                                    })
+                                            .addOnFailureListener(new OnFailureListener() {
+
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    auth.getCurrentUser().delete();
+                                                    UtilMethods.showErrorMessage(getApplicationContext(), "Error", e.getMessage());
+                                                }
+                                            });
+
 
                                 }
 
-                                }
-                            });
-                        }
-
-            });
-        }
+                            }
+                        });
+            }
+        });
+    }
 
     private void addHomeroom(String b, String create_uid) {
-        FirebaseFirestore.getInstance().collection(hr).document(b).collection("Students").add(create_uid).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", create_uid);
+        FirebaseFirestore.getInstance().collection(hr).document(b).collection("Students").document(create_uid).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
+            public void onComplete(@NonNull Task<Void> task) {
+
+
                 if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();

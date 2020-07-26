@@ -10,14 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Classes_fragment extends Fragment implements View.OnClickListener {
     private CardView science_cv, math_cv, social_studies_cv, english_cv, tech_cv, other_cv, music_cv, art_cv;
     String class_name;
-    private DatabaseReference myRef;
-    private FirebaseDatabase database;
+
 
     //List<Classes_fragment> list;
     // private RecyclerView recycle;

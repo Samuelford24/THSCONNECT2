@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -68,5 +70,33 @@ class UtilMethods {
         } else {
             return null;
         }
+    }
+
+    public static User getUserInfo(final String uid) {
+        final User[] user = new User[1];
+        FirebaseFirestore.getInstance().collection("Users").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()) {
+                    user[0] = (User) value.getData();
+                } else {
+                    FirebaseFirestore.getInstance().collection("Users").document(uid).delete();
+                }
+            }
+        });
+        if (user[0] != null) {
+            return user[0];
+        } else {
+            return null;
+        }
+    }
+
+    public static void removeStudentFromClass(CollectionReference collectionReference, String uid) {
+        collectionReference.document(uid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
     }
 }

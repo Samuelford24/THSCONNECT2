@@ -3,6 +3,7 @@ package com.samuelford48gmail.thsconnect;
 import android.content.DialogInterface;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,14 +14,17 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 
 public class adminChangePassword extends AppCompatActivity {
     Button b1;
     EditText et;
-    FirebaseDatabase database;
-    DatabaseReference myref;
+
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +32,21 @@ public class adminChangePassword extends AppCompatActivity {
         setContentView(R.layout.activity_admin_change_pssword);
         b1 = findViewById(R.id.button);
         et = findViewById(R.id.editText);
-        database = FirebaseDatabase.getInstance();
-        myref = database.getReference().child("Password");
+
+
+        FirebaseFirestore.getInstance().collection("Password").document("password").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    password = value.get("password").toString();
+                }
+            }
+        });
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String s = et.getText().toString().trim();
-                myref.setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
+                FirebaseFirestore.getInstance().collection("Password").document("password").update("password", s).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {

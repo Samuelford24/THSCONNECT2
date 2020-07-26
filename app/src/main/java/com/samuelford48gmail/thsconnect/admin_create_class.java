@@ -47,7 +47,7 @@ public class admin_create_class extends AppCompatActivity {
                 if (UtilMethods.isDateValid(date)) {
                     if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
                         String key = FirebaseFirestore.getInstance().collection("Classes").getId();
-                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject, date);
+                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject);
 
                         FirebaseFirestore.getInstance().collection("Classes").add(new_class).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                             @Override

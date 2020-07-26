@@ -12,15 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class adminSetHR extends AppCompatActivity {
-    FirebaseDatabase database;
-    DatabaseReference myRef;
+
     TextView h;
     Button b;
 
@@ -30,10 +24,11 @@ public class adminSetHR extends AppCompatActivity {
         setContentView(R.layout.activity_admin_set_hr);
         h = findViewById(R.id.editText4);
         b = findViewById(R.id.button4);
+        /*
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                database = FirebaseDatabase.getInstance();
+
                 final String s = h.getText().toString().trim();
                 System.out.println("refrence" + s);
                 myRef = database.getReference(s);
@@ -82,5 +77,7 @@ public class adminSetHR extends AppCompatActivity {
             }
         });
 
+    }
+}*/
     }
 }

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class admin_adapter_add_class_to_user extends RecyclerView.Adapter<admin_adapter_add_class_to_user.MyHolder>{
 
-    List<Listdata> listdata;
+    List<Class_model> listdata;
 
-    public admin_adapter_add_class_to_user(List<Listdata> listdata) {
+    public admin_adapter_add_class_to_user(List<Class_model> listdata) {
         this.listdata = listdata;
     }
 
@@ -30,22 +30,21 @@ public class admin_adapter_add_class_to_user extends RecyclerView.Adapter<admin_
 
 
     public void onBindViewHolder(admin_adapter_add_class_to_user.MyHolder holder, final int position) {
-        final Listdata data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_class());
+        final Class_model data = listdata.get(position);
+        holder.vdate_class.setText(data.getDate_clasname());
         holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRnumber());
+        holder.vrnumber.setText(data.getRoom_number());
         //System.out.println(data.getDate_class2());
-        holder.itemView.setOnClickListener(new View.OnClickListener()
-        {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( final View view) {
+            public void onClick(final View view) {
 
                 Context context = view.getContext();
                 Intent intent = new Intent(context, admin_add_class_to_user_detail.class);
-                intent.putExtra("date_class", listdata.get(position).getDate_class());
+                intent.putExtra("date_class", listdata.get(position).getDate_clasname());
                 intent.putExtra("teacher", listdata.get(position).getTeacher());
-                intent.putExtra("room_number", listdata.get(position).getRnumber());
-                intent.putExtra("post_key", listdata.get(position).getUid());
+                intent.putExtra("room_number", listdata.get(position).getRoom_number());
+                intent.putExtra("post_key", listdata.get(position).getid());
 
                 context.startActivity(intent);
             }

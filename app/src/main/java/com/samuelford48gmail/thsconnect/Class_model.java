@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.os.health.TimerStat;
 
 import java.sql.Timestamp;
-
+/*
 public class Class_model {
 
     String teacher;
@@ -72,9 +72,9 @@ public class Class_model {
 
 
 }
+*/
 
 
-/*
 public class Class_model implements Parcelable {
     public static final Creator<Class_model> CREATOR = new Creator<Class_model>() {
         @Override
@@ -98,7 +98,7 @@ public class Class_model implements Parcelable {
     public Class_model() {
     }
 
-    public Class_model(String classname, String teacher, String room_number, String id, String subject, String date) {
+    public Class_model(String classname, String teacher, String room_number, String id, String subject) {
         //subject = subject2;
         this.classname = classname;
         this.teacher = teacher;
@@ -174,5 +174,4 @@ public class Class_model implements Parcelable {
 
 
 }
-*/
 

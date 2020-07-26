@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class HRStudentAttendance extends AppCompatActivity {
-    DatabaseReference myRef;
-    FirebaseDatabase database;
+
     ListView listview2;
     ArrayList<String> list = new ArrayList<>();
 
@@ -31,35 +31,24 @@ public class HRStudentAttendance extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listview2.setAdapter(adapter);
         listview2.setStackFromBottom(true);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(uid).child("Attendance");
-        System.out.println(myRef);
-        myRef.addChildEventListener(new ChildEventListener() {
+
+
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                list.add(dataSnapshot.getValue(String.class));
-                adapter.notifyDataSetChanged();
-            }
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    if (!value.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : value) {
+                            list.add(documentSnapshot.get("attendance").toString());
+                        }
+                    } else {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    }
+                } else {
+                    UtilMethods.showErrorMessage(getApplicationContext(), "Error", "There was a problem checking the attendance. Please check your connection and try again.");
+                }
             }
         });
+
     }
 }

@@ -66,9 +66,9 @@ public class DeleteAccount extends AppCompatActivity {
                 firebaseUser.reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        FirebaseFirestore.getInstance().collection("Users").document(key);
+                        FirebaseFirestore.getInstance().collection("Users").document(key).delete();
                         // System.out.println(myRef);
-                        myRef.removeValue();
+
                         firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

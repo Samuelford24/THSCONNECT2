@@ -10,16 +10,9 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class English_classes extends AppCompatActivity {
 
     private FirebaseDatabase database;
@@ -89,3 +82,4 @@ public class English_classes extends AppCompatActivity {
 
 
 }
+*/

@@ -3,27 +3,25 @@ package com.samuelford48gmail.thsconnect;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class adminAddClassStudent_classes extends AppCompatActivity {
-
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-    private List<Listdata> list;
+    private ArrayList<Class_model> list;
     private RecyclerView recyclerview;
 
     @Override
@@ -31,36 +29,19 @@ public class adminAddClassStudent_classes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_science);
         recyclerview = findViewById(R.id.rview_admin_science);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Classes");
+        FirebaseFirestore.getInstance().collection("Classes");
+        list = new ArrayList<>();
         final String class_type = getIntent().getStringExtra("class_type");
-        myRef = database.getReference("Classes");
-
-        Query query = myRef.orderByChild("class_info/subject").equalTo(class_type);
-        //  Query query = myRef.child("Class_info").orderByChild("subject").equalTo("Math");
-        query.addValueEventListener(new ValueEventListener() {
+        FirebaseFirestore.getInstance().collection("Classes").whereEqualTo("subject", class_type).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list = new ArrayList<>();
-                // StringBuffer stringbuffer = new StringBuffer();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Class_model new_class = dataSnapshot1.child("class_info").getValue(Class_model.class);
-                    String nameofclass = new_class.getDate_clasname();
-                    String teacherofclass = new_class.getTeacher();
-                    String roomnumberofclass = new_class.getRoom_number();
-                    String class_key = new_class.getid();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
-                    //String name = userdetails.getName();
-                    //String email = userdetails.getEmail();
-                    //String address = userdetails.getAddress();
-                    listdata.setDate_class(nameofclass);
-                    listdata.setTeacher(teacherofclass);
-                    listdata.setRnumber(roomnumberofclass);
-                    list.add(listdata);
-                    // Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
-
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentSnapshot documentSnapshot : value) {
+                    if (UtilMethods.getClassInfo(documentSnapshot.getId()) != null) {
+                        list.add(UtilMethods.getClassInfo(documentSnapshot.getId()));
+                    }
                 }
-
+            }
+        });
                 adapter_show_students recycler = new adapter_show_students(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminAddClassStudent_classes.this);
                 recyclerview.setLayoutManager(layoutmanager);
@@ -69,25 +50,8 @@ public class adminAddClassStudent_classes extends AppCompatActivity {
 
             }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                AlertDialog alertDialog = new AlertDialog.Builder(adminAddClassStudent_classes.this).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-                // Failed to read value
-                //  Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
 
     }
 //});
 
 
-}

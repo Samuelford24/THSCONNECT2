@@ -5,18 +5,20 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapter2.MyHolder>{
 
-    List<Listdata> listdata;
+    ArrayList<Class_model> listdata;
 
-    public RecyclerviewAdapter2(List<Listdata> listdata) {
+    public RecyclerviewAdapter2(ArrayList<Class_model> listdata) {
         this.listdata = listdata;
     }
 
@@ -30,22 +32,19 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
 
     public void onBindViewHolder(RecyclerviewAdapter2.MyHolder holder, final int position) {
-        final Listdata data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_class());
+        final Class_model data = listdata.get(position);
+        holder.vdate_class.setText(data.getDate_clasname());
         holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRnumber());
+        holder.vrnumber.setText(data.getRoom_number());
         //System.out.println(data.getDate_class2());
-        holder.itemView.setOnClickListener(new View.OnClickListener()
-        {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( final View view) {
+            public void onClick(final View view) {
 
                 Context context = view.getContext();
                 Intent intent = new Intent(context, Add_class_to_user.class);
-                intent.putExtra("date_class", listdata.get(position).getDate_class());
-                intent.putExtra("teacher", listdata.get(position).getTeacher());
-                intent.putExtra("room_number", listdata.get(position).getRnumber());
-                intent.putExtra("post_key", listdata.get(position).getUid());
+                intent.putExtra("class", data);
+
 
                 context.startActivity(intent);
             }

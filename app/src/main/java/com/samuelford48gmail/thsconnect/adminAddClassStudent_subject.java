@@ -15,18 +15,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class adminAddClassStudent_subject extends AppCompatActivity implements View.OnClickListener{
+
+public class adminAddClassStudent_subject extends AppCompatActivity implements View.OnClickListener {
 
     private Button btn, btn2, btn3, btn4, btn5, btn6;
     private String class_name;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef, g;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,79 +34,33 @@ public class adminAddClassStudent_subject extends AppCompatActivity implements V
         final String studentid = getIntent().getStringExtra("studentid");
         System.out.println(studentid);
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users");
-
-        myRef.addChildEventListener(new ChildEventListener() {
-
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //must match path in Firebase
-
-                //  if(!dataSnapshot.child("User_info/studentID").exists()){
-
-
-                // }
-                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
-                if (student == null) {
-                    System.out.println("KEY" + dataSnapshot.getKey());
-
-                    g = database.getReference("Users").child(dataSnapshot.getKey());
-                    System.out.println(g);
-                    g.removeValue();
+        FirebaseFirestore.getInstance().collection("Users").whereEqualTo("studentID", studentid).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    if (!value.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : value) {
+                            if (documentSnapshot.getId().equals(studentid)) {
+                                String user_uid = documentSnapshot.getId();
+                                SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid2", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                                editor.putString("Uid2", user_uid);
+                                editor.apply();
+                                //  getUsersClasses(documentSnapshot.getId());
+                                break;
+                            }
+                        }
+                    } else {
+                        studentNotFound(studentid);
+                    }
                 }
-                if (student.equals(studentid)) {
-
-                    studentFound();
-                    String user_uid = (String) dataSnapshot.child("User_info/uid").getValue();
-                    SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid2", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    editor.putString("Uid2", user_uid);
-                    editor.apply();
-                    Log.d("admin", "Got uid" + user_uid);
-                }
-
             }
-
-                @Override
-                public void onChildChanged (@NonNull DataSnapshot dataSnapshot, @Nullable String s){
-
-                }
-
-                @Override
-                public void onChildRemoved (@NonNull DataSnapshot dataSnapshot){
-
-                }
-
-                @Override
-                public void onChildMoved (@NonNull DataSnapshot dataSnapshot, @Nullable String s){
-
-                }
-
-                @Override
-                public void onCancelled (@NonNull DatabaseError databaseError){
-                    Log.d("adminAddClassStudent","onCancelled");
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(adminAddClassStudent_subject.this);
-                    //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("Error Finding student");
-                    builder.setMessage("Check your connection");
-                    builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            Intent intent = new Intent(adminAddClassStudent_subject.this, admin_edit_student_classes.class);
-                            startActivity(intent);
-
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(true);
-                    builder.show();
-                }
         });
+
+
+        // }
+
+
         btn = findViewById(R.id.Science);
         btn2 = findViewById(R.id.mat);
         btn3 = findViewById(R.id.eng);

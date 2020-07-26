@@ -18,20 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class adminRemoveClassFromStudent extends AppCompatActivity {
     private RecyclerView recyclerview;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef, g;
+
     private List<Class_model> list;
     List<String> keyList = new ArrayList<String>();
 
@@ -42,181 +40,51 @@ public class adminRemoveClassFromStudent extends AppCompatActivity {
         final String studentid = getIntent().getStringExtra("studentid");
         System.out.println("studentID" + studentid);
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users");
         recyclerview = findViewById(R.id.rvieww);
         list = new ArrayList<>();
         //  Query query = myRef.orderByChild("User_info/studentID").equalTo(studentID);
-        myRef.addChildEventListener(new ChildEventListener() {
-            final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
+        final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
+        FirebaseFirestore.getInstance().collection("Users").whereEqualTo("studentID", studentid).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String student = (String) dataSnapshot.child("User_info/studentID").getValue();
-
-                if (student == null) {
-
-
-                    g = database.getReference("Users").child(dataSnapshot.getKey());
-                    System.out.println(g);
-                    g.removeValue();
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    if (!value.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : value) {
+                            if (documentSnapshot.getId().equals(studentid)) {
+                                getUsersClasses(documentSnapshot.getId());
+                                break;
+                            }
+                        }
+                    } else {
+                        studentNotFound(studentid);
+                    }
                 }
-                if (studentid.equals(student)) {
-                   studentFound();
-                    //studentNotFound(studentid);
-
-
-                    String user_uid = (String) dataSnapshot.child("User_info/uid").getValue();
-                    SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mySharedPreferences.edit();
-                    editor.putString("Uid", user_uid);
-                    editor.apply();
-                    Log.d("admin", "Got uid" + user_uid);
-                    //  for (DataSnapshot dataSnapshot1 : (String)dataSnapshot.child("Classes").getKey()) {
-                    Log.d("admin", "ref" + myRef);
-                    myRef = database.getReference("Users").child(user_uid).child("Classes");
-                    myRef.addChildEventListener(new ChildEventListener() {
-                        //  final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
-                        final admin_adapter_delete_class recycler = new admin_adapter_delete_class(list);
-
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                            //list = new ArrayList<>();
-                            // final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
-                            //  final RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
-//String postkey2 = dataSnapshot.getKey();
-
-                            final String class_id = dataSnapshot.getValue(String.class);
-                            Log.d("admin", "class_id" + class_id);
-                            myRef = database.getReference("Classes").child(class_id).child("class_info");
-                            Log.d("admin", "myref with class_id" + myRef);
-
-                            myRef.addValueEventListener(new ValueEventListener() {
-
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    //keyList.add(dataSnapshot.getKey());
-                                    // if (dataSnapshot.exists()) {
-                                    Class_model new_class = dataSnapshot.getValue(Class_model.class);
-                                    assert new_class != null;
-                                    String nameofclass = new_class.getDate_clasname();
-                                    String teacherofclass = new_class.getTeacher();
-                                    String roomnumberofclass = new_class.getRoom_number();
-                                    String class_key = new_class.getid();
-                                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
-                                    //String name = userdetails.getName();
-                                    //String email = userdetails.getEmail();
-                                    //String address = userdetails.getAddress();
-                                    listdata.setDate_class(nameofclass);
-                                    listdata.setTeacher(teacherofclass);
-                                    listdata.setRnumber(roomnumberofclass);
-                                    keyList.add(listdata.getUid());
-                                    // recycler.notifyDataSetChanged();
-                                    //  keyList.add(listdata.getUid());
-                                    //  Log.d("home","keylist"+ keyList);
-                                    list.add(new_class);
-                                    recycler.notifyDataSetChanged();
-                                    //recycler.notifyDataSetChanged();// Toast.makeText(com.samuelford48gmail.thsconnect.teacher.MainActivity.this,""+name,Toast.LENGTH_LONG).show();
-                                    //  }
-                                    //  else {myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes").child(class_id);
-                                    //    myRef.removeValue();}
-                                }
-
-
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(adminRemoveClassFromStudent.this).create();
-                                    alertDialog.setTitle("Error");
-                                    alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
-                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                    alertDialog.show();
-                                }
-
-                            });
-
-//was originally here
-                            RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminRemoveClassFromStudent.this);
-                            recyclerview.setLayoutManager(layoutmanager);
-                            recyclerview.setItemAnimator(new DefaultItemAnimator());
-                            recyclerview.setAdapter(recycler);
-
-
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                            int index = keyList.indexOf(dataSnapshot.getKey());
-
-                            keyList.remove(index);
-                            list.remove(index);
-
-                            recycler.notifyDataSetChanged();
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            AlertDialog alertDialog = new AlertDialog.Builder(adminRemoveClassFromStudent.this).create();
-                            alertDialog.setTitle("Error");
-                            alertDialog.setMessage("Check your connection! If, problem persists please email svhsdev@vigoschools.org!");
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            alertDialog.show();
-                        }
-
-
-                    });
-// Map<String, String> class_list = (Map<String, String>) dataSnapshot.child("Classes").getValue();
-                    //Log.d("admin", "classes" + class_list);
-                    //}
-                }
-                    RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminRemoveClassFromStudent.this);
-                    recyclerview.setLayoutManager(layoutmanager);
-                    recyclerview.setItemAnimator(new DefaultItemAnimator());
-                    recyclerview.setAdapter(recycler);
-               // }//closes for loop
             }
-
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
         });
 
+
+//was originally here
+        RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(adminRemoveClassFromStudent.this);
+        recyclerview.setLayoutManager(layoutmanager);
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
+        recyclerview.setAdapter(recycler);
+
+
+    }
+
+
+    private void getUsersClasses(String uid) {
+        studentFound();
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentSnapshot documentSnapshot : value) {
+                    if (UtilMethods.getClassInfo(documentSnapshot.getId()) != null) {
+                        list.add(UtilMethods.getClassInfo(documentSnapshot.getId()));
+                    }
+                }
+            }
+        });
     }
     public void studentFound(){
         Log.d("adminAddClassStudent","student Found");

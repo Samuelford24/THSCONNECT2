@@ -1,52 +1,44 @@
 package com.samuelford48gmail.thsconnect;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class your_info extends AppCompatActivity {
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_info);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        myRef.addValueEventListener(new ValueEventListener() {
+
+
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("User_info/name").getValue(String.class);
-
-                String grade = dataSnapshot.child("User_info/grade").getValue(String.class);
-
-                String studentid = dataSnapshot.child("User_info/studentID").getValue(String.class);
-
-                String email = dataSnapshot.child("User_info/email").getValue(String.class);
-                TextView user_name = findViewById(R.id.name);
-                user_name.setText("Name: " + name);
-                TextView user_grade = findViewById(R.id.grade);
-                user_grade.setText("Grade: " + grade);
-                TextView user_email = findViewById(R.id.email);
-                user_email.setText("Email: " + email);
-TextView user_id = findViewById(R.id.studentID);
-user_id.setText("ID: " + studentid);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    user = (User) value.getData();
+                }
             }
         });
-    }
+
+        TextView user_name = findViewById(R.id.name);
+        user_name.setText("Name: " + user.getName());
+                TextView user_grade = findViewById(R.id.grade);
+        user_grade.setText("Grade: " + user.grade);
+                TextView user_email = findViewById(R.id.email);
+        user_email.setText("Email: " + user.getEmail());
+TextView user_id = findViewById(R.id.studentID);
+        user_id.setText("ID: " + user.getStudentID());
+
+            }
+
 }

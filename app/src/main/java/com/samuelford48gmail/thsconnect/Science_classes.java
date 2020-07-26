@@ -28,8 +28,8 @@ public class Science_classes extends AppCompatActivity {
 
 
 
-   private List<Listdata> list;
-   private RecyclerView recyclerview;
+   private ArrayList<Class_model> list;
+    private RecyclerView recyclerview;
    String class_value = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,18 +52,12 @@ public class Science_classes extends AppCompatActivity {
                 for (DocumentSnapshot documentSnapshot : value) {
 
                     Class_model new_class = new Class_model(documentSnapshot.get("date_clasname").toString(), documentSnapshot.get("teacher").toString(), documentSnapshot.get("room_number").toString(), documentSnapshot.get("id").toString(), documentSnapshot.get("subject").toString());
-                    String nameofclass = new_class.getDate_clasname();
-                    String teacherofclass = new_class.getTeacher();
-                    String roomnumberofclass = new_class.getRoom_number();
-                    String class_key = new_class.getid();
-                    Listdata listdata = new Listdata(nameofclass, teacherofclass, roomnumberofclass, class_key);
+
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();
                     //String address = userdetails.getAddress();
-                    listdata.setDate_class(nameofclass);
-                    listdata.setTeacher(teacherofclass);
-                    listdata.setRnumber(roomnumberofclass);
-                    list.add(listdata);
+
+                    list.add(new_class);
                 }
                 RecyclerviewAdapter2 recycler = new RecyclerviewAdapter2(list);
                 RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(Science_classes.this);

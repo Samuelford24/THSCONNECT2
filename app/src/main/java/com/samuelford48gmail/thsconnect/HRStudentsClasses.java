@@ -38,7 +38,7 @@ public class HRStudentsClasses extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
+                if (error == null) {
                     list = new ArrayList<>();
                     final HRStudentClassesAdapter recycler = new HRStudentClassesAdapter(list);
                     for (DocumentSnapshot documentSnapshot : value) {

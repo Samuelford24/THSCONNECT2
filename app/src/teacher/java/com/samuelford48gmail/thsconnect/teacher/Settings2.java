@@ -18,8 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 import com.samuelford48gmail.thsconnect.DeleteAccount;
 import com.samuelford48gmail.thsconnect.R;
 import com.samuelford48gmail.thsconnect.your_info;
@@ -28,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Settings2 extends Fragment {
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+
 
     public Settings2() {
 
@@ -39,9 +37,7 @@ public class Settings2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, container, false);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-        ;
+
 
         ListView lv = view.findViewById(R.id.listview);
         final List<String> arrayList = new ArrayList<String>();
@@ -185,11 +181,12 @@ public class Settings2 extends Fragment {
 
         return view;
     }
-    private void goToUrl (String url) {
+
+    private void goToUrl(String url) {
         Uri uriUrl = Uri.parse(url);
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
         startActivity(launchBrowser);
-        Toast.makeText(getContext(),"Loading...",
+        Toast.makeText(getContext(), "Loading...",
                 Toast.LENGTH_LONG).show();
 //                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
 

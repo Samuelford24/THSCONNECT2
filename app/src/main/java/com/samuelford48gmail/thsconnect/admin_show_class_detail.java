@@ -16,13 +16,12 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class admin_show_class_detail extends AppCompatActivity {
     private Button remove_class;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef, myRef2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,9 @@ public class admin_show_class_detail extends AppCompatActivity {
         SharedPreferences mySharedPreferences = getApplicationContext().getSharedPreferences("user_uid", Context.MODE_PRIVATE);
         final String uid = mySharedPreferences.getString("Uid", "");
         Log.d("admin_remove", uid);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(uid).child("Classes");
+
+        // myRef = database.getReference("Users").child(uid).child("Classes");
+
         //String name = getIntent().getExtra("date_class");
         //String city = getIntent().getExtra("City");
         //System.out.println(value);
@@ -47,7 +47,7 @@ public class admin_show_class_detail extends AppCompatActivity {
         display_teacher.setText(teacher);
         TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
-        database = FirebaseDatabase.getInstance();
+
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
 
         remove_class = findViewById(R.id.add_class_2);
@@ -57,11 +57,11 @@ public class admin_show_class_detail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                myRef = database.getReference("Classes").child(post_key).child("Students").child(uid);
-                System.out.println(myRef);
-                myRef.removeValue();
-                myRef = database.getReference("Users").child(uid).child("Classes").child(post_key);
-                myRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students").document(uid).delete();
+
+
+                FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(post_key).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -69,7 +69,7 @@ public class admin_show_class_detail extends AppCompatActivity {
                             builder = new AlertDialog.Builder(admin_show_class_detail.this);
                             //builder.setIcon(R.drawable.open_browser);
                             builder.setTitle("      Class Removed");
-                            builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.dismiss();
                                 }

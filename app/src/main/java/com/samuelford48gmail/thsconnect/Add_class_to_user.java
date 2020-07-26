@@ -17,62 +17,64 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Add_class_to_user extends AppCompatActivity {
     private Button add_class;
-    private FireSt database;
-    private DatabaseReference myRef, myRef2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_to_user);
+        Class_model class_model = getIntent().getExtras().getParcelable("foo");
         final String date_class2 = getIntent().getStringExtra("date_class");
         final String teacher = getIntent().getStringExtra("teacher");
         final String room_number = getIntent().getStringExtra("room_number");
         final String post_key = getIntent().getStringExtra("post_key");
         Log.i("onCreate", post_key);
-        database = FirebaseFirestore.getInstance();
-        myRef2 = database.getReference("Toggle_Classes");
-
-        myRef2.addValueEventListener(new ValueEventListener() {
+        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Toggle_Classes").document("Classes");
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue(String.class).equals("Classes Closed")) {
-                    // ClassesClosed();
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(Add_class_to_user.this);
-                    //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("      Classes Closed");
-                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                            finish();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (document.get("classes").toString().equals("Classes Closed")) {
+                            // ClassesClosed();
+                            AlertDialog.Builder builder;
+                            builder = new AlertDialog.Builder(Add_class_to_user.this);
+                            //builder.setIcon(R.drawable.open_browser);
+                            builder.setTitle("      Classes cannot be edited at this time");
+                            builder.setMessage("Ask a teacher to change your classes");
+                            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            builder.setCancelable(false);
+                            builder.show();
+                        } else {
+                            Log.e("Firebase", "document doesn't exist");
                         }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
-                } else {
-
-
+                    } else {
+                        UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
         });
 
 
-        myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
+        //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
         //String name = getIntent().getExtra("date_class");
         //String city = getIntent().getExtra("City");
         //System.out.println(value);
@@ -86,8 +88,9 @@ public class Add_class_to_user extends AppCompatActivity {
         add_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(post_key).set(post_key);
                 // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
-                myRef.child(post_key).setValue(post_key);
+
                 add_student_to_class();
                 // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
                 //myRef.child(new_class_to_user_uid.).removeValue();
@@ -103,8 +106,7 @@ public class Add_class_to_user extends AppCompatActivity {
         final String post_key = getIntent().getStringExtra("post_key");
         String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
        // String key2 = myRef.push().getKey();
-        myRef2 = database.getReference().child("Classes").child(post_key).child("Students").child(key);
-        myRef2.setValue(key).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students").document(key).set(key).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -112,7 +114,7 @@ public class Add_class_to_user extends AppCompatActivity {
                     builder = new AlertDialog.Builder(Add_class_to_user.this);
                     //builder.setIcon(R.drawable.open_browser);
                     builder.setTitle("      Class Added");
-                    builder.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                             finish();
