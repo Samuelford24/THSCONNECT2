@@ -2,8 +2,10 @@ package com.samuelford48gmail.thsconnect;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -45,7 +47,22 @@ public class HRStudentAttendance extends AppCompatActivity {
 
                     }
                 } else {
-                    UtilMethods.showErrorMessage(getApplicationContext(), "Error", "There was a problem checking the attendance. Please check your connection and try again.");
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(HRStudentAttendance.this);
+
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("      No attendance");
+                    builder.setMessage("There isn't any attendance information for this user");
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
+
+                    // UtilMethods.showErrorMessage(getApplicationContext(), "Error", "There was a problem checking the attendance. Please check your connection and try again.");
                 }
             }
         });

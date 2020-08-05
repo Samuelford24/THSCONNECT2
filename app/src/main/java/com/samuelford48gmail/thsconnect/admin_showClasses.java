@@ -44,7 +44,7 @@ public class admin_showClasses extends AppCompatActivity {
                     for (DocumentSnapshot documentSnapshot : value) {
                         if (UtilMethods.getClassInfo(documentSnapshot.getId()) != null) {
                             list.add(UtilMethods.getClassInfo(documentSnapshot.getId()));
-                            recycler.notifyDataSetChanged();
+                           // recycler.notifyDataSetChanged();
                         }
                     }
                 } else {

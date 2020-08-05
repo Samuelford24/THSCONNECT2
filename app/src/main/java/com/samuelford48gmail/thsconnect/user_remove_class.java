@@ -1,5 +1,6 @@
 package com.samuelford48gmail.thsconnect;
 
+import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class user_remove_class extends AppCompatActivity {
     private Button remove_class;
-
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class user_remove_class extends AppCompatActivity {
         display_teacher.setText(teacher);
         TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(room_number);
-
+        context = getApplicationContext();
         //myRef = database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Classes");
 
 
@@ -51,12 +52,12 @@ public class user_remove_class extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if (document.get("classes").toString().equals("Classes Closed")) {
+                        if (document.get("classes").toString().equals("Classes are closed")) {
                             // ClassesClosed();
                             AlertDialog.Builder builder;
                             builder = new AlertDialog.Builder(user_remove_class.this);
                             //builder.setIcon(R.drawable.open_browser);
-                            builder.setTitle("      Classes cannot be edited at this time");
+                            builder.setTitle("Classes cannot be edited at this time");
                             builder.setMessage("Ask a teacher to change your classes");
                             builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -67,10 +68,23 @@ public class user_remove_class extends AppCompatActivity {
                             builder.setCancelable(false);
                             builder.show();
                         } else {
-                            Log.e("Firebase", "document doesn't exist");
+
                         }
                     } else {
-                        UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again");
+                        // UtilMethods.showErrorMessage(context, "Error", "Check your connection and try again");
+                        AlertDialog.Builder builder;
+                        builder = new AlertDialog.Builder(user_remove_class.this);
+                        //builder.setIcon(R.drawable.open_browser);
+                        builder.setTitle("      Error");
+                        builder.setMessage("Check your connection and try again");
+                        builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        builder.setCancelable(true);
+                        builder.show();
                     }
                 }
 

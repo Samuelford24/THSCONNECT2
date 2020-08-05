@@ -23,7 +23,7 @@ public class MainActivity2 extends AppCompatActivity {
     private Button signout2;
     private TextView mTextMessage;
     private FirebaseAuth auth;
-    final Fragment fragment1 = new home_fragment();
+    final Fragment fragment1 = new home_fragment2();
     final Fragment fragment2 = new Classes_fragment();
     final Fragment fragment3 = new Settings2();
     final Fragment fragment4 = new Admin_fragment();

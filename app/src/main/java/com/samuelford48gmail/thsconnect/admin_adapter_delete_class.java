@@ -31,7 +31,7 @@ public class admin_adapter_delete_class extends RecyclerView.Adapter<admin_adapt
 
     public void onBindViewHolder(admin_adapter_delete_class.MyHolder holder, final int position) {
         final Class_model data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_clasname());
+        holder.vdate_class.setText(data.getClassname());
         holder.vteacher.setText(data.getTeacher());
         holder.vrnumber.setText(data.getRoom_number());
         //System.out.println(data.getDate_class2());
@@ -41,7 +41,7 @@ public class admin_adapter_delete_class extends RecyclerView.Adapter<admin_adapt
 
                 Context context = view.getContext();
                 Intent intent = new Intent(context, admin_show_class_detail.class);
-                intent.putExtra("date_class", listdata.get(position).getDate_clasname());
+                intent.putExtra("date_class", listdata.get(position).getClassname());
                 intent.putExtra("teacher", listdata.get(position).getTeacher());
                 intent.putExtra("room_number", listdata.get(position).getRoom_number());
                 intent.putExtra("post_key", listdata.get(position).getid());

@@ -5,6 +5,9 @@ import android.os.Parcelable;
 import android.os.health.TimerStat;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 public class Class_model {
 
@@ -72,9 +75,9 @@ public class Class_model {
 
 
 }
+
+
 */
-
-
 public class Class_model implements Parcelable {
     public static final Creator<Class_model> CREATOR = new Creator<Class_model>() {
         @Override
@@ -87,34 +90,42 @@ public class Class_model implements Parcelable {
             return new Class_model[size];
         }
     };
-    String teacher;
-    String room_number;
+
+
     //String subject;
     String classname;
-    String subject;
+    String teacher;
+
+    String room_number;
     String id;
-    String date;
+    String subject;
+    List<String> dates;
+    String dateString;
 
     public Class_model() {
     }
 
-    public Class_model(String classname, String teacher, String room_number, String id, String subject) {
+    public Class_model(String classname, String teacher, String room_number, String id, String subject, ArrayList<String> dates, String dateString) {
         //subject = subject2;
         this.classname = classname;
         this.teacher = teacher;
         this.room_number = room_number;
         this.id = id;
         this.subject = subject;
+        this.dates = dates;
+        this.dateString = dateString;
 
     }
 
     //constructor used for parcel
     public Class_model(Parcel parcel) {
         classname = parcel.readString();
-        id = parcel.readString();
         teacher = parcel.readString();
         room_number = parcel.readString();
+        id = parcel.readString();
         subject = parcel.readString();
+        dates = parcel.readArrayList(Class_model.class.getClassLoader());
+        dateString = parcel.readString();
     }
 
     @Override
@@ -129,6 +140,8 @@ public class Class_model implements Parcelable {
         dest.writeString(room_number);
         dest.writeString(id);
         dest.writeString(subject);
+        dest.writeList(dates);
+        dest.writeString(dateString);
     }
 
 
@@ -140,12 +153,12 @@ public class Class_model implements Parcelable {
         this.subject = subject;
     }
 
-    public String getDate_clasname() {
+    public String getClassname() {
         return classname;
     }
 
-    public void setDate_clasname(String date_clasname) {
-        this.classname = date_clasname;
+    public void setClassname(String classname) {
+        this.classname = classname;
     }
 
     public String getTeacher() {
@@ -168,10 +181,25 @@ public class Class_model implements Parcelable {
         return id;
     }
 
-    public void setid(String iid) {
+    public void setid(String id) {
         this.id = id;
     }
 
+    public List<String> getDates() {
+        return dates;
+    }
 
+    public void setDates(List<String> dates) {
+        this.dates = dates;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
 }
+
 

@@ -37,7 +37,6 @@ public class Settings extends Fragment {
         View view = inflater.inflate(R.layout.setting, container, false);
         FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
         ;
-
         ListView lv = view.findViewById(R.id.listview);
         final List<String> arrayList = new ArrayList<String>();
 

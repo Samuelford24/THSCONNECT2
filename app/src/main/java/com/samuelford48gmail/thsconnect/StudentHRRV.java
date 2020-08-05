@@ -128,7 +128,12 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
     @Override
     public int getItemCount() {
-        return users.size();
+        System.out.println(users.size());
+        if (users == null) {
+            return 0;
+        } else {
+            return users.size();
+        }
     }
 
 

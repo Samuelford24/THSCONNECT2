@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,14 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class home_fragment extends Fragment /*implements View.OnClickListener */ {
+    private static final String TAG = "home_fragment";
     // private Button button;
     //DatabaseReference dref;
     //ListView listview2;
     //ArrayList<String> list=new ArrayList<>();
 
-    List<String> keyList = new ArrayList<String>();
+
     private TextView tx;
-    List<Class_model> list;
+    ArrayList<Class_model> list;
     private RecyclerView recyclerview;
 
     public home_fragment() {
@@ -50,29 +55,47 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         tx = view.findViewById(R.id.textView2);
-        //FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
-        //if(fbUser == null) { Intent intent = new Intent(getContext(), LoginActivity.class);
-        // startActivity(intent);}
 
-        // button = (Button) view.findViewById(R.id.button);
-        // button.setOnClickListener(this);
-        final List<String> keyList = new ArrayList<String>();
+
         recyclerview = view.findViewById(R.id.rvieww);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         list = new ArrayList<>();
+        list.clear();
         final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.isEmpty()) {
+                    list.clear();
+                    recycler.notifyDataSetChanged();
+                }
+
                 if (error == null) {
-                    if (!value.isEmpty()) {
-                        for (DocumentSnapshot documentSnapshot : value) {
-                            list.add(UtilMethods.getClassInfo(documentSnapshot.getId()));
-                            recycler.notifyDataSetChanged();
-                        }
-                    } else {
+                    // if (!value.isEmpty()) {
+                    list.clear();
+                    for (final DocumentSnapshot documentSnapshot : value) {
+                        Log.w(TAG, documentSnapshot.getId());
+
+                        FirebaseFirestore.getInstance().collection("Classes").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Task was successful");
+                                    list.add(task.getResult().toObject(Class_model.class));
+                                    recycler.notifyDataSetChanged();
+                                } else {
+                                    UtilMethods.removeClass(documentSnapshot.getId());
+                                    Log.d(TAG, "Current data: null");
+                                }
+                            }
+                        });
+
+
                     }
+
+                    // } else {
+                    // }
                 } else {
                     UtilMethods.showErrorMessage(getContext(), "Error", "Please Check your connection and try again later");
                 }
@@ -105,7 +128,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
 
     }*/
+//return view;
 }
+
 //});
 
 

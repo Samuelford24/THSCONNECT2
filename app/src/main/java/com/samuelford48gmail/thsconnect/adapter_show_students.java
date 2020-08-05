@@ -34,7 +34,7 @@ public class adapter_show_students extends RecyclerView.Adapter<adapter_show_stu
     public void onBindViewHolder(MyHolder holder, final int position) {
 
         final Class_model data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_clasname());
+        holder.vdate_class.setText(data.getClassname());
         holder.vteacher.setText(data.getTeacher());
         holder.vrnumber.setText(data.getRoom_number());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

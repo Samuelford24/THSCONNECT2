@@ -41,5 +41,14 @@
             android:layout_centerHorizontal="true"
             android:text="dfdfdfdfd"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/dates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/room_number"
+            android:layout_centerHorizontal="true"
+            android:text="sdfs"
+            android:textAlignment="center" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

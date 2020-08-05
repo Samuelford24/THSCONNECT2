@@ -105,11 +105,14 @@ public class HR_fragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error == null) {
                     if (!value.isEmpty()) {
+
                         tv.setVisibility(View.INVISIBLE);
+                        list.clear();
                         for (DocumentSnapshot documentSnapshot : value) {
-                            list.add(UtilMethods.getUserInfo(documentSnapshot.getId()));
-                            recycler.notifyDataSetChanged();
+                            getUserInfo(documentSnapshot.getId());
+                            //  recycler.notifyDataSetChanged();
                         }
+                        recycler.notifyDataSetChanged();
                     } else {
                     }
                 } else {
@@ -127,6 +130,20 @@ public class HR_fragment extends Fragment {
 
     }
 
+    private void getUserInfo(final String uid) {
+
+        FirebaseFirestore.getInstance().collection("Users").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()) {
+                    User user = value.toObject(User.class);
+                    list.add(user);
+                } else {
+                    FirebaseFirestore.getInstance().collection("Users").document(uid).delete();
+                }
+            }
+        });
+    }
 
 }
 

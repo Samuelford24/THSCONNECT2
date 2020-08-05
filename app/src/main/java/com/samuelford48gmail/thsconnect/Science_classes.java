@@ -51,7 +51,8 @@ public class Science_classes extends AppCompatActivity {
                 list = new ArrayList<>();
                 for (DocumentSnapshot documentSnapshot : value) {
 
-                    Class_model new_class = new Class_model(documentSnapshot.get("date_clasname").toString(), documentSnapshot.get("teacher").toString(), documentSnapshot.get("room_number").toString(), documentSnapshot.get("id").toString(), documentSnapshot.get("subject").toString());
+                    Class_model new_class = documentSnapshot.toObject(Class_model.class);
+                    // new Class_model(documentSnapshot.get("date_clasname").toString(), documentSnapshot.get("teacher").toString(), documentSnapshot.get("room_number").toString(), documentSnapshot.get("id").toString(), documentSnapshot.get("subject").toString());
 
                     //String name = userdetails.getName();
                     //String email = userdetails.getEmail();

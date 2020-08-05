@@ -35,13 +35,18 @@ public class adminToggleClasses extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    System.out.println(document);
+
+                    System.out.println(document.getId());
+                    System.out.println(document.get("classes"));
                     tx.setText(document.get("classes").toString());
 
                     b1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
-                            documentReference.update("classes", "Classes Closed");
+                            documentReference.update("classes", "Classes are closed");
+                            tx.setText("Classes are closed");
 
                         }
                     });
@@ -49,6 +54,7 @@ public class adminToggleClasses extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             documentReference.update("classes", "Classes are open");
+                            tx.setText("Classes are open");
                         }
                     });
                 }

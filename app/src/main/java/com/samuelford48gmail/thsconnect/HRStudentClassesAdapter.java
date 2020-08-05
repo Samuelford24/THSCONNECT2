@@ -30,7 +30,7 @@ public class HRStudentClassesAdapter extends RecyclerView.Adapter<HRStudentClass
 
     public void onBindViewHolder(HRStudentClassesAdapter.MyHolder holder, final int position) {
         final Class_model class_model = classes.get(position);
-        holder.vdate_class.setText(class_model.getDate_clasname());
+        holder.vdate_class.setText(class_model.getClassname());
         holder.vteacher.setText(class_model.getTeacher());
         holder.vrnumber.setText(class_model.getRoom_number());
         //System.out.println(data.getDate_class2());

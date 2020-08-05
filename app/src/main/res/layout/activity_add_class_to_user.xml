@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Add_class_to_user"
     >
 
@@ -40,13 +40,36 @@
         android:textAlignment="center"
         android:textSize="36sp" />
 
-    <Button
-        android:id="@+id/add_class_2"
+    <TextView
+        android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rn_tv"
         android:layout_centerHorizontal="true"
+        android:text="Select the date(s) you would like to add this class for"
+        android:textColor="#000000" />
+
+    <ListView
+        android:id="@+id/dateslv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/add_class_2"
+        android:layout_below="@id/date_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/add_class_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:text="Add Class" />
 
 

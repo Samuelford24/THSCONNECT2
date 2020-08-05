@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,12 +45,29 @@ public class HRStudentsClasses extends AppCompatActivity {
                     final HRStudentClassesAdapter recycler = new HRStudentClassesAdapter(list);
                     for (DocumentSnapshot documentSnapshot : value) {
                         String class_id = documentSnapshot.getId();
-                        if (UtilMethods.getClassInfo(class_id) != null) {
-                            list.add(UtilMethods.getClassInfo(class_id));
-                        }
+                        getClassInfo(class_id);
                     }
+                    recycler.notifyDataSetChanged();
                 } else {
                     UtilMethods.showErrorMessage(getApplicationContext(), "Error", "There was a problem connecting to the database, please try again later!");
+                }
+
+            }
+        });
+    }
+
+    private void getClassInfo(final String class_id) {
+        FirebaseFirestore.getInstance().collection("Classes").document(class_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                System.out.println(task.getResult());
+
+                if (task.isSuccessful()) {
+                    Class_model class_model2 = task.getResult().toObject(Class_model.class);
+                    list.add(class_model2);
+
+                } else {
+                    FirebaseFirestore.getInstance().collection("Classes").document(class_id).delete();
                 }
 
             }

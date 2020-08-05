@@ -14,7 +14,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapter2.MyHolder>{
+public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapter2.MyHolder> {
+
+    public void setListdata(ArrayList<Class_model> listdata) {
+        this.listdata = listdata;
+    }
 
     ArrayList<Class_model> listdata;
 
@@ -24,7 +28,7 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
     @Override
     public RecyclerviewAdapter2.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model, parent, false);
 
         RecyclerviewAdapter2.MyHolder myHolder = new RecyclerviewAdapter2.MyHolder(view);
         return myHolder;
@@ -33,7 +37,7 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
     public void onBindViewHolder(RecyclerviewAdapter2.MyHolder holder, final int position) {
         final Class_model data = listdata.get(position);
-        holder.vdate_class.setText(data.getDate_clasname());
+        holder.vdate_class.setText(data.getClassname());
         holder.vteacher.setText(data.getTeacher());
         holder.vrnumber.setText(data.getRoom_number());
         //System.out.println(data.getDate_class2());
@@ -45,7 +49,6 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
                 Intent intent = new Intent(context, Add_class_to_user.class);
                 intent.putExtra("class", data);
 
-
                 context.startActivity(intent);
             }
         });
@@ -54,7 +57,13 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
     @Override
     public int getItemCount() {
-        return listdata.size();
+//        System.out.println(listdata.size());
+        if (listdata != null) {
+            return listdata.size();
+        } else {
+            return 0;
+        }
+
     }
 
 

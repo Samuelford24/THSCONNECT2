@@ -30,7 +30,7 @@ public class admin_delete_class_detail_page extends AppCompatActivity {
 
 
         TextView display_class_name = findViewById(R.id.date_tv);
-        display_class_name.setText(class_model.getDate_clasname());
+        display_class_name.setText(class_model.getClassname());
         TextView display_teacher = findViewById(R.id.teacher_tv);
         display_teacher.setText(class_model.getTeacher());
         TextView display_room_number = findViewById(R.id.rn_tv);

@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,20 +26,33 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Add_class_to_user extends AppCompatActivity {
     private Button add_class;
-
+    Class_model class_model;
+    String class_id;
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_to_user);
-        Class_model class_model = getIntent().getExtras().getParcelable("foo");
-        final String date_class2 = getIntent().getStringExtra("date_class");
-        final String teacher = getIntent().getStringExtra("teacher");
-        final String room_number = getIntent().getStringExtra("room_number");
-        final String post_key = getIntent().getStringExtra("post_key");
-        Log.i("onCreate", post_key);
+
+        class_model = getIntent().getExtras().getParcelable("class");
+        class_id = class_model.getid();
+        lv = findViewById(R.id.dateslv);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, class_model.getDates());
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setAdapter(adapter);
+        //  final String date_class2 = getIntent().getStringExtra("date_class");
+        // final String teacher = getIntent().getStringExtra("teacher");
+        // final String room_number = getIntent().getStringExtra("room_number");
+        //   final String post_key = getIntent().getStringExtra("post_key");
+        //  Log.i("onCreate", post_key);
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Toggle_Classes").document("Classes");
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -65,7 +81,7 @@ public class Add_class_to_user extends AppCompatActivity {
                             Log.e("Firebase", "document doesn't exist");
                         }
                     } else {
-                        UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again");
+                        // UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Check your connection and try again");
                     }
                 }
 
@@ -79,16 +95,28 @@ public class Add_class_to_user extends AppCompatActivity {
         //String city = getIntent().getExtra("City");
         //System.out.println(value);
         TextView display_class_name = findViewById(R.id.date_tv);
-        display_class_name.setText(date_class2);
+        display_class_name.setText(class_model.getClassname());
         TextView display_teacher = findViewById(R.id.teacher_tv);
-        display_teacher.setText(teacher);
+        display_teacher.setText(class_model.getTeacher());
         TextView display_room_number = findViewById(R.id.rn_tv);
-        display_room_number.setText(room_number);
+        display_room_number.setText(class_model.getRoom_number());
         add_class = findViewById(R.id.add_class_2);
         add_class.setOnClickListener(new View.OnClickListener() {
+            ArrayList<String> dates = new ArrayList<>();
             @Override
             public void onClick(View view) {
-                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(post_key).set(post_key);
+                int count = lv.getCount();
+                SparseBooleanArray sparseBooleanArray = lv.getCheckedItemPositions();
+                for (int i = 0; i < count; i++) {
+                    if (sparseBooleanArray.get(i)) {
+                        dates.add(lv.getItemAtPosition(i).toString());
+                    }
+                }
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", class_model.getid());
+                map.put("dates", dates);
+                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(class_id).set(map);
                 // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
 
                 add_student_to_class();
@@ -103,10 +131,14 @@ public class Add_class_to_user extends AppCompatActivity {
     }
 
     public void add_student_to_class() {
-        final String post_key = getIntent().getStringExtra("post_key");
+        // final String post_key = getIntent().getStringExtra("post_key");
         String key = FirebaseAuth.getInstance().getCurrentUser().getUid();
-       // String key2 = myRef.push().getKey();
-        FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students").document(key).set(key).addOnCompleteListener(new OnCompleteListener<Void>() {
+        // String key2 = myRef.push().getKey();
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("uid", key);
+        System.out.println(key);
+        System.out.println("Class id" + class_model.getid());
+        FirebaseFirestore.getInstance().collection("Classes").document(class_id).collection("Students").document(key).set(map2).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

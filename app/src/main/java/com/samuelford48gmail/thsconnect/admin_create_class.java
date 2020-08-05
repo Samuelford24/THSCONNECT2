@@ -19,6 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class admin_create_class extends AppCompatActivity {
     private EditText subject1, ClassName, teacher_name1, room_number1, date1;
@@ -29,7 +31,7 @@ public class admin_create_class extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_create_class);
-        date1 = findViewById(R.id.date);
+        date1 = findViewById(R.id.editTextDate);
         subject1 = findViewById(R.id.subject);
         ClassName = findViewById(R.id.Date_class);
         teacher_name1 = findViewById(R.id.Teacher);
@@ -44,14 +46,17 @@ public class admin_create_class extends AppCompatActivity {
                 String teacher_name = teacher_name1.getText().toString().trim();
                 String room_number = room_number1.getText().toString().trim();
                 String date = date1.getText().toString().trim();
-                if (UtilMethods.isDateValid(date)) {
+                if (checkDatesandConvertToArray(date) != null) {
+                    //   if (UtilMethods.isDateValid(date)) {
                     if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
-                        String key = FirebaseFirestore.getInstance().collection("Classes").getId();
-                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject);
-
-                        FirebaseFirestore.getInstance().collection("Classes").add(new_class).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        String key = FirebaseFirestore.getInstance().collection("Classes").document().getId();
+                        System.out.println(key);
+                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject, new ArrayList<>(Arrays.asList(checkDatesandConvertToArray(date))), date);
+//String key2 = FirebaseFirestore.getInstance().collection("Classes").getId();
+                        FirebaseFirestore.getInstance().collection("Classes").document(key).set(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                            public void onComplete(@NonNull Task<Void> task) {
+
                                 if (task.isSuccessful()) {
                                     AlertDialog.Builder builder;
                                     builder = new AlertDialog.Builder(admin_create_class.this);
@@ -143,7 +148,7 @@ public class admin_create_class extends AppCompatActivity {
     });
     }
 */
-                } else {
+                /*} else {
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(admin_create_class.this);
                     //builder.setIcon(R.drawable.open_browser);
@@ -156,9 +161,35 @@ public class admin_create_class extends AppCompatActivity {
                     });
                     builder.setCancelable(true);
                     builder.show();
+                }*/
+                } else {
                 }
             }
         });
+    }
+
+    private String[] checkDatesandConvertToArray(String date) {
+        String[] dates = date.split("/");
+        for (String s : dates) {
+            if (UtilMethods.isDateValid(s)) {
+
+            } else {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(admin_create_class.this);
+                //builder.setIcon(R.drawable.open_browser);
+                builder.setTitle("Date " + s + " is invalid");
+                builder.setMessage("Please fix the date and try again. All dates must be separated by a /. An example of a correct entry is 08-09/09-10 ");
+                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(true);
+                builder.show();
+                return null;
+            }
+        }
+        return dates;
     }
 
 

@@ -30,8 +30,8 @@ import java.util.List;
 public class adminRemoveClassFromStudent extends AppCompatActivity {
     private RecyclerView recyclerview;
 
-    private List<Class_model> list;
-    List<String> keyList = new ArrayList<String>();
+    private ArrayList<Class_model> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

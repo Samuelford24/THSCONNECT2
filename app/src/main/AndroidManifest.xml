@@ -22,11 +22,12 @@
         <activity android:name=".DeleteAccount" />
         <activity android:name=".your_info" />
         <activity android:name=".user_remove_class" />
+        <activity android:name=".adminToggleClasses" />
         <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />
-        <activity android:name=".Other_classes" />
+        <activity android:name=".admin_activity" />
+        <activity android:name=".admin_create_class" />
 
-        <activity android:name=".English_classes" />
         <activity android:name=".Classes" />
         <activity android:name=".Science_classes" />
         <activity
