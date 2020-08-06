@@ -112,19 +112,34 @@ public class Add_class_to_user extends AppCompatActivity {
                         dates.add(lv.getItemAtPosition(i).toString());
                     }
                 }
+                if (dates.size() != 0) {
 
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", class_model.getid());
-                map.put("dates", dates);
-                FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(class_id).set(map);
-                // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
 
-                add_student_to_class();
-                // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
-                //myRef.child(new_class_to_user_uid.).removeValue();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", class_model.getid());
+                    map.put("dates", dates);
+                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(class_id).set(map);
+                    // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
 
-                // Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+                    add_student_to_class();
+                    // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, );
+                    //myRef.child(new_class_to_user_uid.).removeValue();
 
+                    // Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(Add_class_to_user.this);
+                    //builder.setIcon(R.drawable.open_browser);
+                    builder.setTitle("You must select one date to be able to add the class");
+                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.setCancelable(true);
+                    builder.show();
+                }
             }
         });
 

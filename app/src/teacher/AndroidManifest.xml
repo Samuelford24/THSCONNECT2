@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity android:name="com.samuelford48gmail.thsconnect.teacher.home_fragment"></activity>
+        <activity android:name="com.samuelford48gmail.thsconnect.teacher.admin_create_class" />
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.MainActivity2" />
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.LoginActivity">
             <intent-filter>

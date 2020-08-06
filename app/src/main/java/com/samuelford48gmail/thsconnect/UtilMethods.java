@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-class UtilMethods extends AppCompatActivity {
+public class UtilMethods extends AppCompatActivity {
     private static final String DATE_FORMAT = "MM-dd";
 
     //using a method from this class with context passed as  a parameter causes an error
@@ -62,7 +62,7 @@ class UtilMethods extends AppCompatActivity {
 
         }
         return dateString.substring(0, dateString.length() - 1);
-        
+
     }
 
     public static Class_model getClassInfo(final String class_id) {
@@ -86,7 +86,7 @@ class UtilMethods extends AppCompatActivity {
 
         });
         System.out.println(class_model[0].getTeacher());
-            return class_model[0];
+        return class_model[0];
 
     }
 
@@ -115,6 +115,17 @@ class UtilMethods extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
 
+            }
+        });
+    }
+
+    public static void removeClassFromStudent(String uid, String classID) {
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(classID).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                }
             }
         });
     }

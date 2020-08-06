@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.samuelford48gmail.thsconnect.teacher.admin_create_class;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class admin_activity extends AppCompatActivity {
         ListView lv = findViewById(R.id.listview_admin);
 
         List<String> arrayList = new ArrayList<String>();
-        arrayList.add("Create Class");
+        // arrayList.add("Create Class");
         arrayList.add("View students in classes");
         arrayList.add("Remove/Add Classes to Users");
         arrayList.add("Delete Class");
@@ -61,11 +63,11 @@ public class admin_activity extends AppCompatActivity {
                     // );
                     //startActivity(intent);
                 }
-                if (item.equals("Create Class")) {
-                    Intent intent = new Intent(admin_activity.this, admin_create_class.class
-                    );
-                    startActivity(intent);
-                }
+                //  if (item.equals("Create Class")) {
+                //   Intent intent = new Intent(admin_activity.this, admin_create_class.class
+                //   );
+                //  startActivity(intent);
+                // }
                 if (item.equals("View students in classes")) {
                     Intent intent = new Intent(admin_activity.this, adminClassesWithStudents_subjects.class);
                     startActivity(intent);

@@ -40,13 +40,46 @@
         android:textAlignment="center"
         android:textSize="36sp" />
 
-    <Button
-        android:id="@+id/add_class_2"
+    <TextView
+        android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rn_tv"
         android:layout_centerHorizontal="true"
+        android:text="Edit the date(s) for the class: "
+        android:textAlignment="center" />
+
+    <ListView
+        android:id="@+id/dates_lv"
+        android:layout_width="match_parent"
+        android:layout_height="263dp"
+
+        android:layout_below="@id/date_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/update_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dates_lv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/update_dates" />
+
+
+    <Button
+
+        android:id="@+id/add_class_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/update_dates"
+        android:layout_centerHorizontal="true"
+
         android:text="Remove Class" />
 
 

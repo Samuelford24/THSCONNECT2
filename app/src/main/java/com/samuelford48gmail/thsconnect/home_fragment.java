@@ -85,7 +85,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                                     list.add(task.getResult().toObject(Class_model.class));
                                     recycler.notifyDataSetChanged();
                                 } else {
-                                    UtilMethods.removeClass(documentSnapshot.getId());
+                                    UtilMethods.removeClassFromStudent(FirebaseAuth.getInstance().getCurrentUser().getUid(), documentSnapshot.getId());
                                     Log.d(TAG, "Current data: null");
                                 }
                             }

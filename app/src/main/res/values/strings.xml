@@ -49,4 +49,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_admin_activity">admin_activity</string>
     <string name="title_activity_add_class_to_user">Add_class_to_user</string>
+    <string name="update_dates">Update Dates</string>
 </resources>

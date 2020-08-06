@@ -47,11 +47,13 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
             public void onClick(final View view) {
                 //   Log.i("OnBindViewHolder",listdata.get(position).getid());
                 Context context = view.getContext();
+
                 Intent intent = new Intent(context, user_remove_class.class);
-                intent.putExtra("date_class", listdata.get(position).getClassname());
-                intent.putExtra("teacher", listdata.get(position).getTeacher());
-                intent.putExtra("room_number", listdata.get(position).getRoom_number());
-                intent.putExtra("post_key", listdata.get(position).getid());
+                intent.putExtra("class", data);
+                //  intent.putExtra("date_class", listdata.get(position).getClassname());
+                // intent.putExtra("teacher", listdata.get(position).getTeacher());
+                //intent.putExtra("room_number", listdata.get(position).getRoom_number());
+                //intent.putExtra("post_key", listdata.get(position).getid());
                 context.startActivity(intent);
             }
         });

@@ -26,7 +26,6 @@
         <activity android:name=".Add_class_to_user" />
         <activity android:name=".test_for_science_add_class" />
         <activity android:name=".admin_activity" />
-        <activity android:name=".admin_create_class" />
 
         <activity android:name=".Classes" />
         <activity android:name=".Science_classes" />

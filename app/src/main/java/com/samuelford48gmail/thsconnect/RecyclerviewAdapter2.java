@@ -37,9 +37,10 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
 
     public void onBindViewHolder(RecyclerviewAdapter2.MyHolder holder, final int position) {
         final Class_model data = listdata.get(position);
-        holder.vdate_class.setText(data.getClassname());
-        holder.vteacher.setText(data.getTeacher());
-        holder.vrnumber.setText(data.getRoom_number());
+        holder.className.setText(data.getClassname());
+        holder.teacher.setText(data.getTeacher());
+        holder.roomNumber.setText(data.getRoom_number());
+        holder.dates.setText(data.getDateString());
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,14 +68,15 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
     }
 
 
-    class MyHolder extends RecyclerView.ViewHolder{
-        TextView vdate_class , vteacher,vrnumber;
+    class MyHolder extends RecyclerView.ViewHolder {
+        TextView className, teacher, roomNumber, dates;
 
         public MyHolder(View itemView) {
             super(itemView);
-            vdate_class = itemView.findViewById(R.id.date_class_name);
-            vteacher = itemView.findViewById(R.id.teacher);
-            vrnumber = itemView.findViewById(R.id.room_number);
+            className = itemView.findViewById(R.id.date_class_name);
+            teacher = itemView.findViewById(R.id.teacher);
+            roomNumber = itemView.findViewById(R.id.room_number);
+            dates = itemView.findViewById(R.id.dates);
 
         }
     }
