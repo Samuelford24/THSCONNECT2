@@ -40,7 +40,7 @@ public class RecyclerviewAdapter2 extends RecyclerView.Adapter<RecyclerviewAdapt
         holder.className.setText(data.getClassname());
         holder.teacher.setText(data.getTeacher());
         holder.roomNumber.setText(data.getRoom_number());
-        holder.dates.setText(data.getDateString());
+        holder.dates.setText(UtilMethods.convertToString(data.getDates()));
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

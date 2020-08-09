@@ -14,17 +14,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user_remove_class.MyHolder>{
+public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user_remove_class.MyHolder> {
 
     ArrayList<Class_model> listdata;
+    ArrayList<String> userdates;
+
+    public adapter_user_remove_class(ArrayList<Class_model> listdata, ArrayList<String> userdates) {
+        this.listdata = listdata;
+        this.userdates = userdates;
+    }
 
     public adapter_user_remove_class(ArrayList<Class_model> listdata) {
         this.listdata = listdata;
     }
 
+    public void setUserdates(ArrayList<String> userdates) {
+        this.userdates = userdates;
+    }
+
     @Override
     public adapter_user_remove_class.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model, parent, false);
 
         adapter_user_remove_class.MyHolder myHolder = new adapter_user_remove_class.MyHolder(view);
         return myHolder;
@@ -41,7 +51,7 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
         holder.className.setText(data.getClassname());
         holder.teacher.setText(data.getTeacher());
         holder.rnumber.setText(data.getRoom_number());
-        holder.dates.setText(UtilMethods.convertToString(data.getDates()));
+        holder.dates.setText(UtilMethods.convertToString(userdates));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -50,6 +60,7 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
 
                 Intent intent = new Intent(context, user_remove_class.class);
                 intent.putExtra("class", data);
+                intent.putExtra("usersDates", userdates);
                 //  intent.putExtra("date_class", listdata.get(position).getClassname());
                 // intent.putExtra("teacher", listdata.get(position).getTeacher());
                 //intent.putExtra("room_number", listdata.get(position).getRoom_number());

@@ -30,7 +30,9 @@ import com.google.firestore.v1.FirestoreGrpc;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class home_fragment extends Fragment /*implements View.OnClickListener */ {
     private static final String TAG = "home_fragment";
@@ -43,6 +45,8 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     private TextView tx;
     ArrayList<Class_model> list;
     private RecyclerView recyclerview;
+    ArrayList<String> dates;
+    adapter_user_remove_class recycler;
 
     public home_fragment() {
 
@@ -59,10 +63,10 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
         recyclerview = view.findViewById(R.id.rvieww);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        dates = new ArrayList<>();
         list = new ArrayList<>();
         list.clear();
-        final adapter_user_remove_class recycler = new adapter_user_remove_class(list);
+        recycler = new adapter_user_remove_class(list, dates);
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -75,6 +79,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                     // if (!value.isEmpty()) {
                     list.clear();
                     for (final DocumentSnapshot documentSnapshot : value) {
+                        dates = (ArrayList<String>) documentSnapshot.get("dates");
+                        recycler.setUserdates(dates);
+                        System.out.println(dates.size());
                         Log.w(TAG, documentSnapshot.getId());
 
                         FirebaseFirestore.getInstance().collection("Classes").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -83,6 +90,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "Task was successful");
                                     list.add(task.getResult().toObject(Class_model.class));
+                                    checkForDateChange(task.getResult().toObject(Class_model.class), documentSnapshot.getId());
                                     recycler.notifyDataSetChanged();
                                 } else {
                                     UtilMethods.removeClassFromStudent(FirebaseAuth.getInstance().getCurrentUser().getUid(), documentSnapshot.getId());
@@ -129,6 +137,41 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
     }*/
 //return view;
+   private void checkForDateChange(Class_model class_model, String id) {
+       List<String> classDates = class_model.getDates();
+       int datesThatDontMatch = 0;
+
+       for (int i = 0; i < dates.size(); i++) {
+           if (classDates.contains(dates.get(i))) {
+
+           } else {
+
+               String date = dates.get(i);
+               recycler.setUserdates(dates);
+               dates.remove(i);
+               Map<String, Object> map = new HashMap<>();
+               map.put("dates", dates);
+               FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(id).update(map);
+
+               AlertDialog.Builder builder;
+               builder = new AlertDialog.Builder(getContext());
+               //builder.setIcon(R.drawable.open_browser);
+               builder.setTitle("Your class for " + date + " has been removed ");
+               builder.setMessage("The date " + date + " selected for " + class_model.getClassname() + " with " + class_model.getTeacher() + " has been removed, please click on the class to edit the dates ");
+               builder.setCancelable(false);
+               builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       dialog.dismiss();
+
+                   }
+               });
+               builder.setCancelable(true);
+               builder.show();
+           }
+
+       }
+
+   }
 }
 
 //});

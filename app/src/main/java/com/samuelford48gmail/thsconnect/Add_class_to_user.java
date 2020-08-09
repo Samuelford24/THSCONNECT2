@@ -35,6 +35,7 @@ public class Add_class_to_user extends AppCompatActivity {
     Class_model class_model;
     String class_id;
     ListView lv;
+    ArrayList<String> dates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +102,9 @@ public class Add_class_to_user extends AppCompatActivity {
         TextView display_room_number = findViewById(R.id.rn_tv);
         display_room_number.setText(class_model.getRoom_number());
         add_class = findViewById(R.id.add_class_2);
+        dates = new ArrayList<>();
         add_class.setOnClickListener(new View.OnClickListener() {
-            ArrayList<String> dates = new ArrayList<>();
+
             @Override
             public void onClick(View view) {
                 int count = lv.getCount();
@@ -151,6 +153,7 @@ public class Add_class_to_user extends AppCompatActivity {
         // String key2 = myRef.push().getKey();
         Map<String, Object> map2 = new HashMap<>();
         map2.put("uid", key);
+        map2.put("dates", dates);
         System.out.println(key);
         System.out.println("Class id" + class_model.getid());
         FirebaseFirestore.getInstance().collection("Classes").document(class_id).collection("Students").document(key).set(map2).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.samuelford48gmail.thsconnect.Class_model;
 import com.samuelford48gmail.thsconnect.R;
@@ -24,7 +25,7 @@ public class admin_create_class extends AppCompatActivity {
     private EditText subject1, ClassName, teacher_name1, room_number1, date1;
     private Button submit;
 
-
+    String classKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +48,11 @@ public class admin_create_class extends AppCompatActivity {
                 if (checkDatesandConvertToArray(date) != null) {
                     //   if (UtilMethods.isDateValid(date)) {
                     if (subject.equals("Science") || subject.equals("Technology") || subject.equals("Math") || subject.equals("Social Studies") || subject.equals("English") || subject.equals("Other") || subject.equals("Music") || subject.equals("Art")) {
-                        String key = FirebaseFirestore.getInstance().collection("Classes").document().getId();
-                        System.out.println(key);
-                        Class_model new_class = new Class_model(class_name, teacher_name, room_number, key, subject, new ArrayList<>(Arrays.asList(checkDatesandConvertToArray(date))), date);
+                        classKey = FirebaseFirestore.getInstance().collection("Classes").document().getId();
+
+                        final Class_model new_class = new Class_model(class_name, teacher_name, room_number, classKey, subject, new ArrayList<>(Arrays.asList(checkDatesandConvertToArray(date))), date);
 //String key2 = FirebaseFirestore.getInstance().collection("Classes").getId();
-                        FirebaseFirestore.getInstance().collection("Classes").document(key).set(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        FirebaseFirestore.getInstance().collection("Classes").document(classKey).set(new_class).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
@@ -60,6 +61,7 @@ public class admin_create_class extends AppCompatActivity {
                                     builder = new AlertDialog.Builder(admin_create_class.this);
                                     //builder.setIcon(R.drawable.open_browser);
                                     builder.setTitle("      Class Created!");
+                                    addClassToTeacher(new_class);
                                     builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.dismiss();
@@ -164,6 +166,10 @@ public class admin_create_class extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void addClassToTeacher(Class_model class_model) {
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("TeachersClasses").document(classKey).set(class_model);
     }
 
     private String[] checkDatesandConvertToArray(String date) {

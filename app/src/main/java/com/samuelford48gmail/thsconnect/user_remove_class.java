@@ -35,7 +35,7 @@ public class user_remove_class extends AppCompatActivity {
     Class_model class_model;
     ListView lv;
     Button updateDates;
-
+    ArrayList<String> userdates;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +45,14 @@ public class user_remove_class extends AppCompatActivity {
         //  final String teacher = getIntent().getStringExtra("teacher");
         // final String room_number = getIntent().getStringExtra("room_number");
         // final String post_key = getIntent().getStringExtra("post_key");
+        userdates = getIntent().getExtras().getStringArrayList("usersDates");
+
         lv = findViewById(R.id.dates_lv);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, class_model.getDates());
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         lv.setAdapter(adapter);
-        checkAllDates();
+        checkDates();
         updateDates = findViewById(R.id.update_dates);
         TextView display_class_name = findViewById(R.id.date_tv);
         display_class_name.setText(class_model.getClassname());
@@ -218,10 +220,12 @@ public class user_remove_class extends AppCompatActivity {
         });
     }
 
-    private void checkAllDates() {
-        int size = class_model.getDates().size();
-        for (int i = 0; i < size; i++) {
-            lv.setItemChecked(i, true);
+    private void checkDates() {
+        //  int size = class_model.getDates().size();
+
+        for (int i = 0; i < userdates.size(); i++) {
+
+            lv.setItemChecked(class_model.getDates().indexOf(userdates.get(i)), true);
         }
     }
 }
