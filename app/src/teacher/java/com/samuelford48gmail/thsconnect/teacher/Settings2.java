@@ -37,7 +37,7 @@ public class Settings2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting, container, false);
-
+System.out.println("Settings2");
 
         ListView lv = view.findViewById(R.id.listview);
         final List<String> arrayList = new ArrayList<String>();

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.samuelford48gmail.thsconnect.Class_model;
 import com.samuelford48gmail.thsconnect.R;
@@ -20,12 +21,16 @@ import com.samuelford48gmail.thsconnect.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class admin_create_class extends AppCompatActivity {
     private EditText subject1, ClassName, teacher_name1, room_number1, date1;
     private Button submit;
 
     String classKey;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +174,10 @@ public class admin_create_class extends AppCompatActivity {
     }
 
     private void addClassToTeacher(Class_model class_model) {
-        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("TeachersClasses").document(classKey).set(class_model);
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", classKey);
+        map.put("timestamp", FieldValue.serverTimestamp());
+        FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(classKey).set(map);
     }
 
     private String[] checkDatesandConvertToArray(String date) {

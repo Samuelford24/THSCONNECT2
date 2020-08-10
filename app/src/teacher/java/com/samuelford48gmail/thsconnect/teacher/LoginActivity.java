@@ -19,7 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.samuelford48gmail.thsconnect.MainActivity;
+
 import com.samuelford48gmail.thsconnect.R;
 import com.samuelford48gmail.thsconnect.Reset_password;
 import com.samuelford48gmail.thsconnect.SignupActivity;
@@ -63,7 +63,7 @@ System.out.println("MainActivity2");
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignupActivity2.class));
             }
         });
 

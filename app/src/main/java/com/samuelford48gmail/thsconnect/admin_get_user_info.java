@@ -44,6 +44,7 @@ public class admin_get_user_info extends AppCompatActivity {
         //lv.setStackFromBottom(true);
         TextView display_class_name = findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
+        //adds to shared preferences
         PreferenceManager.getDefaultSharedPreferences(admin_get_user_info.this).edit().putString("classKey", post_key).apply();
 
 

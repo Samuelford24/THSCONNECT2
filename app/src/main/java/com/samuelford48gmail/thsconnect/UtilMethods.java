@@ -57,12 +57,14 @@ public class UtilMethods extends AppCompatActivity {
 
     public static String convertToString(List<String> dates) {
         String dateString = "";
-        for (String s : dates) {
-            dateString += s + ",";
+        if (dates != null) {
+            for (String s : dates) {
+                dateString += s + ",";
 
+            }
+            return dateString.substring(0, dateString.length() - 1);
         }
-        return dateString.substring(0, dateString.length() - 1);
-
+        return "";
     }
 
     public static Class_model getClassInfo(final String class_id) {

@@ -59,8 +59,30 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
                 androidx.appcompat.app.AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(context);
                 //builder.setIcon(R.drawable.open_browser);
-                builder.setTitle("Remove Student from Class?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setTitle("What would you like to do?");
+                builder.setMessage("You can remove the student from your class or mark them absent.");
+                builder.setNeutralButton("Mark Absent", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, int i) {
+                        String uid = data.getUid();
+                        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance");
+                        String key = collectionReference.getId();
+                        collectionReference.add("Absent from assigned class on: " + date).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(context, "Attendance updated successfully", Toast.LENGTH_LONG);
+                                    dialogInterface.dismiss();
+                                } else {
+                                    Toast.makeText(context, "Error, please try again later", Toast.LENGTH_LONG);
+
+                                }
+                            }
+                        });
+                    }
+                });
+
+                builder.setPositiveButton("Remove Student", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         String uid = data.getUid();
 
@@ -91,7 +113,7 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
 
 
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }

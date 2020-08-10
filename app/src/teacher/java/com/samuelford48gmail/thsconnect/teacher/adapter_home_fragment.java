@@ -1,30 +1,33 @@
-package com.samuelford48gmail.thsconnect;
+package com.samuelford48gmail.thsconnect.teacher;
 
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user_remove_class.MyHolder> {
+import com.samuelford48gmail.thsconnect.Class_model;
+import com.samuelford48gmail.thsconnect.R;
+import com.samuelford48gmail.thsconnect.UtilMethods;
+import com.samuelford48gmail.thsconnect.adapter_user_remove_class;
+import com.samuelford48gmail.thsconnect.user_remove_class;
+
+import java.util.ArrayList;
+
+class adapter_home_fragment extends RecyclerView.Adapter<adapter_home_fragment.MyHolder> {
 
     ArrayList<Class_model> listdata;
     ArrayList<String> userdates;
 
-    public adapter_user_remove_class(ArrayList<Class_model> listdata, ArrayList<String> userdates) {
+    public adapter_home_fragment(ArrayList<Class_model> listdata, ArrayList<String> userdates) {
         this.listdata = listdata;
         this.userdates = userdates;
     }
 
-    public adapter_user_remove_class(ArrayList<Class_model> listdata) {
+    public adapter_home_fragment(ArrayList<Class_model> listdata) {
         this.listdata = listdata;
     }
 
@@ -33,15 +36,15 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
     }
 
     @Override
-    public adapter_user_remove_class.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public adapter_home_fragment.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_class_model, parent, false);
 
-        adapter_user_remove_class.MyHolder myHolder = new adapter_user_remove_class.MyHolder(view);
+        adapter_home_fragment.MyHolder myHolder = new adapter_home_fragment.MyHolder(view);
         return myHolder;
     }
 
 
-    public void onBindViewHolder(adapter_user_remove_class.MyHolder holder, final int position) {
+    public void onBindViewHolder(adapter_home_fragment.MyHolder holder, final int position) {
 
         final Class_model data = listdata.get(position);
         System.out.println(data.getid());
@@ -58,7 +61,7 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
                 //   Log.i("OnBindViewHolder",listdata.get(position).getid());
                 Context context = view.getContext();
 
-                Intent intent = new Intent(context, user_remove_class.class);
+                Intent intent = new Intent(context, edit_class_page.class);
                 intent.putExtra("class", data);
                 intent.putExtra("usersDates", userdates);
                 //  intent.putExtra("date_class", listdata.get(position).getClassname());

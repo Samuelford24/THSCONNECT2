@@ -1,11 +1,7 @@
-package com.samuelford48gmail.thsconnect;
+package com.samuelford48gmail.thsconnect.teacher;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,16 +20,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.onesignal.OneSignal;
+import com.samuelford48gmail.thsconnect.R;
+import com.samuelford48gmail.thsconnect.SignupActivity;
+import com.samuelford48gmail.thsconnect.User;
+import com.samuelford48gmail.thsconnect.UtilMethods;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity2 extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword, inputGrade, inputName, inputID, inputHR;     //hit option + enter if you on mac , for windows hit ctrl + enter
     private Button btnSignIn, btnSignUp, btnResetPassword;
@@ -107,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(SignupActivity2.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //  Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
@@ -116,7 +115,7 @@ public class SignupActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(SignupActivity2.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     final String create_uid = FirebaseAuth.getInstance().getUid();
@@ -174,11 +173,11 @@ public class SignupActivity extends AppCompatActivity {
                                             System.out.println(hr);
                                             addHomeroom(b, create_uid);
 
-                                            progressBar.setVisibility(View.GONE);
-                                            Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                          //  finish();
-
+                                            // progressBar.setVisibility(View.GONE);
+                                            //   Toast.makeText(SignupActivity2.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                            //   startActivity(new Intent(getApplicationContext(), com.samuelford48gmail.thsconnect.teacher.LoginActivity.class));
+                                            finish();
+//
                                         }
                                     })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -209,8 +208,8 @@ public class SignupActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                    Toast.makeText(SignupActivity2.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 } else {
                     Log.i("Signup", "Error adding user to homeroom");

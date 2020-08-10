@@ -46,7 +46,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     ArrayList<Class_model> list;
     private RecyclerView recyclerview;
     ArrayList<String> dates;
-    adapter_user_remove_class recycler;
+    adapter_user_remove_class recyclerAdapter;
 
     public home_fragment() {
 
@@ -66,13 +66,13 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
         dates = new ArrayList<>();
         list = new ArrayList<>();
         list.clear();
-        recycler = new adapter_user_remove_class(list, dates);
+        recyclerAdapter = new adapter_user_remove_class(list, dates);
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value.isEmpty()) {
                     list.clear();
-                    recycler.notifyDataSetChanged();
+                    recyclerAdapter.notifyDataSetChanged();
                 }
 
                 if (error == null) {
@@ -80,8 +80,8 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                     list.clear();
                     for (final DocumentSnapshot documentSnapshot : value) {
                         dates = (ArrayList<String>) documentSnapshot.get("dates");
-                        recycler.setUserdates(dates);
-                        System.out.println(dates.size());
+                        recyclerAdapter.setUserdates(dates);
+
                         Log.w(TAG, documentSnapshot.getId());
 
                         FirebaseFirestore.getInstance().collection("Classes").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -90,8 +90,10 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "Task was successful");
                                     list.add(task.getResult().toObject(Class_model.class));
-                                    checkForDateChange(task.getResult().toObject(Class_model.class), documentSnapshot.getId());
-                                    recycler.notifyDataSetChanged();
+                                    if (task.getResult().toObject(Class_model.class) != null) {
+                                        checkForDateChange(task.getResult().toObject(Class_model.class), documentSnapshot.getId());
+                                    }
+                                    recyclerAdapter.notifyDataSetChanged();
                                 } else {
                                     UtilMethods.removeClassFromStudent(FirebaseAuth.getInstance().getCurrentUser().getUid(), documentSnapshot.getId());
                                     Log.d(TAG, "Current data: null");
@@ -115,7 +117,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
         RecyclerView.LayoutManager layoutmanager = new LinearLayoutManager(getContext());
         recyclerview.setLayoutManager(layoutmanager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-        recyclerview.setAdapter(recycler);
+        recyclerview.setAdapter(recyclerAdapter);
 
 
         return view;
@@ -140,37 +142,38 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
    private void checkForDateChange(Class_model class_model, String id) {
        List<String> classDates = class_model.getDates();
        int datesThatDontMatch = 0;
+       if (dates != null) {
+           for (int i = 0; i < dates.size(); i++) {
+               if (classDates.contains(dates.get(i))) {
 
-       for (int i = 0; i < dates.size(); i++) {
-           if (classDates.contains(dates.get(i))) {
+               } else {
 
-           } else {
+                   String date = dates.get(i);
+                   recyclerAdapter.setUserdates(dates);
+                   dates.remove(i);
+                   Map<String, Object> map = new HashMap<>();
+                   map.put("dates", dates);
+                   FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(id).update(map);
 
-               String date = dates.get(i);
-               recycler.setUserdates(dates);
-               dates.remove(i);
-               Map<String, Object> map = new HashMap<>();
-               map.put("dates", dates);
-               FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(id).update(map);
+                   AlertDialog.Builder builder;
+                   builder = new AlertDialog.Builder(getContext());
+                   //builder.setIcon(R.drawable.open_browser);
+                   builder.setTitle("Your class for " + date + " has been removed ");
+                   builder.setMessage("The date " + date + " selected for " + class_model.getClassname() + " with " + class_model.getTeacher() + " has been removed, please click on the class to edit the dates ");
+                   builder.setCancelable(false);
+                   builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           dialog.dismiss();
 
-               AlertDialog.Builder builder;
-               builder = new AlertDialog.Builder(getContext());
-               //builder.setIcon(R.drawable.open_browser);
-               builder.setTitle("Your class for " + date + " has been removed ");
-               builder.setMessage("The date " + date + " selected for " + class_model.getClassname() + " with " + class_model.getTeacher() + " has been removed, please click on the class to edit the dates ");
-               builder.setCancelable(false);
-               builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       dialog.dismiss();
+                       }
+                   });
+                   builder.setCancelable(true);
+                   builder.show();
+               }
 
-                   }
-               });
-               builder.setCancelable(true);
-               builder.show();
            }
 
        }
-
    }
 }
 
