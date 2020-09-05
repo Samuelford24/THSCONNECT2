@@ -23,15 +23,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHolder> {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String date;
-    List<ListDataUser> listdata;
+    List<User> listdata;
 
-    public UserRecyclerView(List<ListDataUser> listdata) {
+    public UserRecyclerView(List<User> listdata) {
         this.listdata = listdata;
     }
 
@@ -46,10 +48,10 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
 
     public void onBindViewHolder(UserRecyclerView.MyHolder holder, final int position) {
         calendar = Calendar.getInstance();
-        final ListDataUser data = listdata.get(position);
-        holder.name.setText(data.getStudentname());
+        final User data = listdata.get(position);
+        holder.name.setText(data.getName());
         holder.grade.setText(data.getGrade());
-        holder.id.setText(data.getStudnetID());
+        holder.id.setText(data.getStudentID());
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,18 +146,18 @@ public class UserRecyclerView extends RecyclerView.Adapter<UserRecyclerView.MyHo
                 builder2.setTitle("Mark Student absent?");
                 builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, int id) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("attendance", "Absent from assigned class on: " + date);
                         String uid = data.getUid();
-                        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance");
-                        String key = collectionReference.getId();
-                        collectionReference.add("Absent from assigned class on: " + date).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(context, "Attendance updated successfully", Toast.LENGTH_LONG);
+                                    Toast.makeText(context, "Attendance updated successfully", Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 } else {
-                                    Toast.makeText(context, "Error, please try again later", Toast.LENGTH_LONG);
-
+                                    Toast.makeText(context, "Error, please try again later", Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
                                 }
                             }
                         });

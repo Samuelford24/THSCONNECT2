@@ -20,8 +20,26 @@ import java.util.List;
 public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
     ArrayList<User> users;
 
+    ArrayList<String> classNames = new ArrayList<>();
+    ArrayList<String> absentList = new ArrayList<>();
+
+    public StudentHRRV(ArrayList<User> users, ArrayList<String> classNames, ArrayList<String> absentList) {
+        this.users = users;
+        this.classNames = classNames;
+        this.absentList = absentList;
+    }
+
+    public void setAbsentList(ArrayList<String> absentList) {
+        this.absentList = absentList;
+    }
+
+
     public StudentHRRV(ArrayList<User> users) {
         this.users = users;
+    }
+
+    public void setClassNames(ArrayList<String> classNames) {
+        this.classNames = classNames;
     }
 
     @Override
@@ -32,13 +50,26 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
         return myHolder;
     }
 
-
     public void onBindViewHolder(StudentHRRV.MyHolder holder, final int position) {
 
         final User data = users.get(position);
         holder.name.setText(data.getName());
         holder.grade.setText(data.getGrade());
         holder.id.setText(data.getStudentID());
+        if (absentList.get(position) != null) {
+            holder.attendance.setText(absentList.get(position));
+
+        } else {
+            holder.attendance.setText("");
+
+        }
+        if (classNames.get(position) != null) {
+            holder.classname.setText(classNames.get(position));
+
+        } else {
+            holder.classname.setText("No class");
+
+        }
         //System.out.println(data.getDate_class2());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,10 +169,12 @@ public class StudentHRRV extends RecyclerView.Adapter<StudentHRRV.MyHolder> {
 
 
     class MyHolder extends RecyclerView.ViewHolder {
-        TextView name, grade, id;
+        TextView name, grade, id, attendance, classname;
 
         public MyHolder(View itemView) {
             super(itemView);
+            attendance = itemView.findViewById(R.id.attendance);
+            classname = itemView.findViewById(R.id.className);
             name = itemView.findViewById(R.id.studentName);
             grade = itemView.findViewById(R.id.grade);
             id = itemView.findViewById(R.id.studentID);

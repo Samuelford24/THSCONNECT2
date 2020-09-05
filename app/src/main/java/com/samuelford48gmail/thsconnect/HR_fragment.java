@@ -18,9 +18,11 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,6 +40,11 @@ public class HR_fragment extends Fragment {
     RecyclerView rv;
     ArrayList<User> list;
     TextView tv;
+    String date;
+    String className;
+    ArrayList<String> classNames = new ArrayList<>();
+    StudentHRRV recycler;
+    ArrayList<String> absentList = new ArrayList<>();
 
     public HR_fragment() {
 
@@ -71,8 +78,8 @@ public class HR_fragment extends Fragment {
     private void getHomeroom(final String reference) {
         String hr;
         android.text.format.DateFormat df = new android.text.format.DateFormat();
-        String formattedDate = (String) DateFormat.format("MM-dd", new Date());
-        System.out.println(formattedDate);
+        date = (String) DateFormat.format("MM-dd", new Date());
+
 
         int value = reference.charAt(0);
         //int asciiValue = (int) value;
@@ -99,19 +106,23 @@ public class HR_fragment extends Fragment {
             hr = "Incorrect Format";
         }
         list = new ArrayList<>();
-        final StudentHRRV recycler = new StudentHRRV(list);
+        recycler = new StudentHRRV(list);
         FirebaseFirestore.getInstance().collection(hr).document(reference).collection("Students").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error == null) {
-                    if (!value.isEmpty()) {
+                    if (value != null) {
 
                         tv.setVisibility(View.INVISIBLE);
                         list.clear();
                         for (DocumentSnapshot documentSnapshot : value) {
                             getUserInfo(documentSnapshot.getId());
                             //  recycler.notifyDataSetChanged();
+                            getClassForToday(documentSnapshot.getId());
+                            getAttendance(documentSnapshot.getId());
                         }
+                        recycler.setClassNames(classNames);
+                        recycler.setAbsentList(absentList);
                         recycler.notifyDataSetChanged();
                     } else {
                     }
@@ -130,17 +141,66 @@ public class HR_fragment extends Fragment {
 
     }
 
-    private void getUserInfo(final String uid) {
+    private void getAttendance(String uid) {
 
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Attendance").whereEqualTo("attendance", "Absent from assigned class on: " + date).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.size() == 1) {
+                    absentList.add("Absent");
+
+                } else {
+                    absentList.add("Not absent");
+                }
+            }
+        });
+    }
+
+    private void getUserInfo(final String uid) {
+//if classToday returns true pass in class to array and send to adapter
         FirebaseFirestore.getInstance().collection("Users").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.exists()) {
+                if (value != null && value.exists()) {
                     User user = value.toObject(User.class);
+                    //  getClassForToday(uid);
+                    // checkAttendance();
                     list.add(user);
                 } else {
-                    FirebaseFirestore.getInstance().collection("Users").document(uid).delete();
+                    //  FirebaseFirestore.getInstance().collection("Users").document(uid).delete();
                 }
+            }
+        });
+    }
+
+    //gets the class id if the student has added a class for the current date
+    private void getClassForToday(String uid) {
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").whereArrayContains("date", date).limit(1).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    if (value.size() == 0) {
+                        classNames.add("No Class");
+                        return;
+                    }
+                    for (DocumentSnapshot documentSnapshot : value) {
+                        String id = documentSnapshot.get("id").toString();
+                        getClassName(id);
+
+                    }
+                }
+            }
+        });
+    }
+
+    private void getClassName(String classID) {
+
+        FirebaseFirestore.getInstance().collection("Classes").document(classID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                className = documentSnapshot.get("classname").toString();
+                classNames.add(className);
+                // recycler.setClassNames(classNames);
             }
         });
     }

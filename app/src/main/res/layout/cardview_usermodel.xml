@@ -41,5 +41,22 @@
             android:layout_centerHorizontal="true"
             android:text="dfdfdfdfd"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/className"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentName"
+            android:layout_marginLeft="38dp"
+            android:layout_toRightOf="@id/grade"
+            android:text="TextView" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

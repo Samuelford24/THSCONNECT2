@@ -174,10 +174,10 @@ public class SignupActivity extends AppCompatActivity {
                                             System.out.println(hr);
                                             addHomeroom(b, create_uid);
 
-                                            progressBar.setVisibility(View.GONE);
-                                            Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                          //  finish();
+                                            //  progressBar.setVisibility(View.GONE);
+                                            //  Toast.makeText(SignupActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                            //  startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                            //  finish();
 
                                         }
                                     })

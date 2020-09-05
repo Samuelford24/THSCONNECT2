@@ -70,7 +70,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.isEmpty()) {
+                if (value != null && value.isEmpty()) {
                     list.clear();
                     recyclerAdapter.notifyDataSetChanged();
                 }

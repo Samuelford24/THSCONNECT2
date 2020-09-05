@@ -50,7 +50,7 @@ public class home_fragment2 extends Fragment {
 
         View view = inflater.inflate(R.layout.home_fragment2, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
-        String uid = FirebaseAuth.getInstance().getUid();
+
         list = new ArrayList<>();
         dates = new ArrayList<>();
         list.clear();
@@ -62,12 +62,27 @@ public class home_fragment2 extends Fragment {
                 startActivity(new Intent(getContext(), admin_create_class.class));
             }
         });
-        recyclerAdapter = new adapter_home_fragment(list, dates);
+      //  loadData();
 
+
+
+        return view;
+    }
+//onResume is always run after onCreate
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    private void loadData(){
+list.clear();
+        recyclerAdapter = new adapter_home_fragment(list, dates);
+        String uid = FirebaseAuth.getInstance().getUid();
         FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.isEmpty()) {
+                if (  value!=null && value.isEmpty()) {
                     list.clear();
                     recyclerAdapter.notifyDataSetChanged();
                 }
@@ -115,8 +130,5 @@ public class home_fragment2 extends Fragment {
         recyclerView.setLayoutManager(layoutmanager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerAdapter);
-
-
-        return view;
     }
 }

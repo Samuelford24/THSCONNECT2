@@ -1,6 +1,7 @@
 package com.samuelford48gmail.thsconnect.teacher;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,13 +23,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.samuelford48gmail.thsconnect.Class_model;
 import com.samuelford48gmail.thsconnect.R;
+import com.samuelford48gmail.thsconnect.UtilMethods;
 import com.samuelford48gmail.thsconnect.admin_get_user_info;
-import com.samuelford48gmail.thsconnect.user_remove_class;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +44,7 @@ public class edit_class_page extends AppCompatActivity {
     Button updateDates;
     ArrayList<String> userdates;
     private Button remove_class;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +59,20 @@ public class edit_class_page extends AppCompatActivity {
 
         lv = findViewById(R.id.dates_lv);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, class_model.getDates());
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         lv.setAdapter(adapter);
         //  checkDates();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+             //   System.out.println("Listview item clicked");
                 Intent intent = new Intent(adapterView.getContext(), admin_get_user_info.class);
                 intent.putExtra("class", class_model);
+
+                intent.putExtra("dateClickedOn",lv.getItemAtPosition(i).toString());
                 //inefficient because key is stored in class_model;however, previous code structure requires it and I don't have time to change it
                 intent.putExtra("post_key", class_model.getid());
+                startActivity(intent);
             }
         });
         updateDates = findViewById(R.id.update_dates);
@@ -73,7 +81,7 @@ public class edit_class_page extends AppCompatActivity {
         TextView display_teacher = findViewById(R.id.teacher_tv);
         display_teacher.setText(class_model.getTeacher());
         TextView display_room_number = findViewById(R.id.rn_tv);
-        EditText editText = findViewById(R.id.date_et);
+        editText = findViewById(R.id.date_et);
         editText.setText(class_model.getDateString());
         display_room_number.setText(class_model.getRoom_number());
 
@@ -136,31 +144,24 @@ public class edit_class_page extends AppCompatActivity {
         remove_class.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                FirebaseFirestore.getInstance().collection("Classes").document(class_model.getid()).collection("Students").document(uid).delete();
+           //     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+               // FirebaseFirestore.getInstance().collection("Classes").document(class_model.getid()).collection("Students").document(uid).delete();
+removeClassFromStudents(class_model.getid());
 
-                remove_class_from_student();
 
             }
         });
         updateDates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> dates = new ArrayList<>();
+                //ArrayList<String> dates = new ArrayList<>();
 
-                int count = lv.getCount();
-                SparseBooleanArray sparseBooleanArray = lv.getCheckedItemPositions();
-                for (int i = 0; i < count; i++) {
-                    if (sparseBooleanArray.get(i)) {
-                        dates.add(lv.getItemAtPosition(i).toString());
-
-                    }
-                }
-                if (dates.size() != 0) {
+                if (checkDatesandConvertToArray(editText.getText().toString())!=null) {
                     Map<String, Object> map = new HashMap<>();
+                    map.put("dateString",editText.getText().toString());
+                    map.put("dates", new ArrayList<>(Arrays.asList(checkDatesandConvertToArray(editText.getText().toString()))));
 
-                    map.put("dates", dates);
-                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(class_model.getid()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    FirebaseFirestore.getInstance().collection("Classes").document(class_model.getid()).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             AlertDialog.Builder builder;
@@ -179,10 +180,10 @@ public class edit_class_page extends AppCompatActivity {
                     });
                     // Class_model new_class_to_user_uid = new Class_model(date_class2, teacher, room_number, null);
                 } else {
-                    AlertDialog.Builder builder;
+                  /*  AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(edit_class_page.this);
                     //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("You must select one date");
+                    builder.setTitle("You must enter one date");
                     builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
@@ -191,50 +192,85 @@ public class edit_class_page extends AppCompatActivity {
                     });
                     builder.setCancelable(true);
                     builder.show();
+                }*/
                 }
+
             }
 
         });
     }
 
-    public void remove_class_from_student() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String post_key = getIntent().getStringExtra("post_key");
-        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(post_key).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+    private String[] checkDatesandConvertToArray(String date) {
+        String[] dates = date.split("/");
+        for (String s : dates) {
+            if (UtilMethods.isDateValid(s) && s.length()<=5) {
+
+            } else {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(edit_class_page.this);
+                //builder.setIcon(R.drawable.open_browser);
+                builder.setTitle("Date " + s + " is invalid");
+                builder.setMessage("Please fix the date and try again. All dates must be separated by a /. An example of a correct entry is 08-09/09-10 ");
+                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(true);
+                builder.show();
+                return null;
+            }
+        }
+        return dates;
+    }
+    private void  removeClassFromStudents(final String classId){
+        FirebaseFirestore.getInstance().collection("Classes").document(classId).collection("Students").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(edit_class_page.this);
-                    //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("      Class Removed");
-                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    builder.setCancelable(true);
-                    builder.show();
-                } else {
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(edit_class_page.this);
-                    //builder.setIcon(R.drawable.open_browser);
-                    builder.setTitle("Error Removing Class!");
-                    builder.setMessage("Please check your wifi/data connection and try again");
-                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(true);
-                    builder.show();
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentSnapshot documentSnapshot:value){
+                    if (!value.isEmpty()){
+                        FirebaseFirestore.getInstance().collection("Users").document(documentSnapshot.getId()).collection("Classes").document(classId).delete();
+
+                    }
                 }
+            }
+        });
+        removeClassFromTeacher(classId);
+        deleteClass(classId);
+    }
+
+    private void deleteClass(String classId) {
+        FirebaseFirestore.getInstance().collection("Classes").document(classId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(edit_class_page.this);
+                //builder.setIcon(R.drawable.open_browser);
+                builder.setTitle("Class has successfully been removed");
+              builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.setCancelable(true);
+                builder.show();
+            }
+        });
+
+    }
+
+    public void removeClassFromTeacher(String classId) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+     //   final String post_key = getIntent().getStringExtra("post_key");
+        FirebaseFirestore.getInstance().collection("Users").document(uid).collection("Classes").document(classId).delete();
+
             }
 
 
-        });
-    }
+
+
 
     private void checkDates() {
         //  int size = class_model.getDates().size();

@@ -2,6 +2,7 @@ package com.samuelford48gmail.thsconnect.teacher;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class admin_create_class extends AppCompatActivity {
+    private static final String TAG = "admin_create_class";
     private EditText subject1, ClassName, teacher_name1, room_number1, date1;
     private Button submit;
 
@@ -70,7 +72,7 @@ public class admin_create_class extends AppCompatActivity {
                                     builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.dismiss();
-
+                                            finish();
                                         }
                                     });
                                     builder.setCancelable(true);
@@ -183,7 +185,8 @@ public class admin_create_class extends AppCompatActivity {
     private String[] checkDatesandConvertToArray(String date) {
         String[] dates = date.split("/");
         for (String s : dates) {
-            if (UtilMethods.isDateValid(s)) {
+
+            if (UtilMethods.isDateValid(s) && s.length()<=5) {
 
             } else {
                 AlertDialog.Builder builder;

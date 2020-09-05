@@ -38,12 +38,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null && auth.getCurrentUser().isEmailVerified()) {
 
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
+        auth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null && auth.getCurrentUser().isEmailVerified()) {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }
+                if (firebaseAuth.getCurrentUser() == null) {
+
+                }
+
+
+            }
+        };
 
 
         setContentView(R.layout.activity_login);

@@ -17,6 +17,7 @@ import com.samuelford48gmail.thsconnect.Classes_fragment;
 import com.samuelford48gmail.thsconnect.HR_fragment;
 import com.samuelford48gmail.thsconnect.R;
 import com.samuelford48gmail.thsconnect.Settings;
+import com.samuelford48gmail.thsconnect.admin_activity;
 import com.samuelford48gmail.thsconnect.home_fragment;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity2 extends AppCompatActivity {
     final Fragment fragment1 = new home_fragment2();
     final Fragment fragment2 = new Classes_fragment();
     final Fragment fragment3 = new Settings2();
-    final Fragment fragment4 = new Admin_fragment();
+    final Fragment fragment4 = new admin_activity();
     final Fragment fragment5 = new HR_fragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;

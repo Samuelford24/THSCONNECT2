@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -30,7 +33,7 @@ public class admin_get_user_info extends AppCompatActivity {
     //  String user_info = "info";
     String studentUID = null;
     RecyclerView rv;
-    private List<ListDataUser> list;
+    private List<User> list;
     List<String> keyList = new ArrayList<String>();
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class admin_get_user_info extends AppCompatActivity {
         //lv.setStackFromBottom(true);
         TextView display_class_name = findViewById(R.id.textView3);
         final String post_key = getIntent().getStringExtra("post_key");
+        final String dateClickedOn = getIntent().getStringExtra("dateClickedOn");
         //adds to shared preferences
         PreferenceManager.getDefaultSharedPreferences(admin_get_user_info.this).edit().putString("classKey", post_key).apply();
 
@@ -52,24 +56,35 @@ public class admin_get_user_info extends AppCompatActivity {
         // txt = (TextView) findViewById(R.id.textView3);
         display_class_name.setText(post_key);
         final UserRecyclerView recycler = new UserRecyclerView(list);
-        final CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        FirebaseFirestore.getInstance().collection("Classes").document(post_key).collection("Students").whereArrayContains("dates", dateClickedOn).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error == null) {
-                    for (DocumentSnapshot documentSnapshot : value) {
-                        if (UtilMethods.getUserInfo(documentSnapshot.getId()) != null) {
-                            UtilMethods.getUserInfo(documentSnapshot.getId());
-                        } else {
-                            UtilMethods.removeStudentFromClass(collectionReference, documentSnapshot.getId());
-                        }
+                    for (final DocumentSnapshot documentSnapshot : value) {
+                        FirebaseFirestore.getInstance().collection("Users").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().exists()) {
+
+                                    list.add(task.getResult().toObject(User.class));
+                                    recycler.notifyDataSetChanged();
+                                } else {
+                                    FirebaseFirestore.getInstance().collection("Users").document(documentSnapshot.getId()).delete();
+                                }
+                            }
+                        });
+
+
                     }
                 } else {
-                    UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Please check your connection and try again later");
+
+
+                    //  UtilMethods.showErrorMessage(getApplicationContext(), "Error", "Please check your connection and try again later");
                 }
             }
         });
+
 
         //intent.putExtra("date_class", listdata.get(position).getDate_class2());
         // intent.putExtra("teacher", listdata.get(position).getTeacher2());
@@ -93,6 +108,9 @@ public class admin_get_user_info extends AppCompatActivity {
                         rv.setAdapter(recycler);
 
                     }
+
+
+
 
 
 

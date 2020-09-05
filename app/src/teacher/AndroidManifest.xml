@@ -10,6 +10,7 @@
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.admin_create_class" />
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.MainActivity2" />
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.SignupActivity2" />
+        <activity android:name="com.samuelford48gmail.thsconnect.admin_get_user_info" />
         <activity android:name="com.samuelford48gmail.thsconnect.teacher.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
