@@ -56,15 +56,17 @@ public class UtilMethods extends AppCompatActivity {
     }
 
     public static String convertToString(List<String> dates) {
+        System.out.println("Util Methods:" + dates.size());
         String dateString = "";
-        if (dates != null) {
+        if (dates.size() > 0) {
             for (String s : dates) {
                 dateString += s + ",";
 
             }
+            System.out.println(dateString.length());
             return dateString.substring(0, dateString.length() - 1);
         }
-        return "";
+        return null;
     }
 
     public static Class_model getClassInfo(final String class_id) {

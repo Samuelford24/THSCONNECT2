@@ -63,6 +63,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
 
         recyclerview = view.findViewById(R.id.rvieww);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        //dates are the students
         dates = new ArrayList<>();
         list = new ArrayList<>();
         list.clear();
@@ -79,7 +80,8 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                     // if (!value.isEmpty()) {
                     list.clear();
                     for (final DocumentSnapshot documentSnapshot : value) {
-                        dates = (ArrayList<String>) documentSnapshot.get("dates");
+                        //dates is null because data isn't being fetched properly(i tihnk)
+                        // dates = (ArrayList<String>) documentSnapshot.get("dates");
                         recyclerAdapter.setUserdates(dates);
 
                         Log.w(TAG, documentSnapshot.getId());
@@ -140,6 +142,7 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
     }*/
 //return view;
    private void checkForDateChange(Class_model class_model, String id) {
+       System.out.println(class_model.getDates().size());
        List<String> classDates = class_model.getDates();
        int datesThatDontMatch = 0;
        if (dates != null) {
@@ -149,8 +152,9 @@ public class home_fragment extends Fragment /*implements View.OnClickListener */
                } else {
 
                    String date = dates.get(i);
-                   recyclerAdapter.setUserdates(dates);
                    dates.remove(i);
+                   recyclerAdapter.setUserdates(dates);
+
                    Map<String, Object> map = new HashMap<>();
                    map.put("dates", dates);
                    FirebaseFirestore.getInstance().collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Classes").document(id).update(map);

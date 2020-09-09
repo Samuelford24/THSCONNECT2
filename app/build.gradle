@@ -44,10 +44,14 @@ android {
         student {
             dimension 'version'
             applicationId 'com.samuelford48gmail.thsconnect.student'
+            versionCode 9
+            versionName "1.1"
         }
         teacher {
             dimension 'version'
             applicationId 'com.samuelford48gmail.thsconnect.teacher'
+            versionCode 9
+            versionName "1.1"
         }
     }
 }

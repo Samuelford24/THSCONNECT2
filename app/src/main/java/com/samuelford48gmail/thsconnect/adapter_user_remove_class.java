@@ -51,7 +51,12 @@ public class adapter_user_remove_class extends RecyclerView.Adapter<adapter_user
         holder.className.setText(data.getClassname());
         holder.teacher.setText(data.getTeacher());
         holder.rnumber.setText(data.getRoom_number());
-        holder.dates.setText(UtilMethods.convertToString(userdates));
+        if (userdates.size() > 0) {
+            holder.dates.setText(UtilMethods.convertToString(userdates));
+        } else {
+            holder.dates.setText("Error");
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
